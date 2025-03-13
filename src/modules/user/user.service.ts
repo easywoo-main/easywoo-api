@@ -1,4 +1,4 @@
-import {BadRequestException, HttpException, Injectable, NotFoundException} from '@nestjs/common';
+import {BadRequestException, HttpException, Injectable} from '@nestjs/common';
 import {UserCreateDto} from "./dto/userCreate.dto";
 import {UserRepository} from "./user.repository";
 import {Success} from "../../utils/success.utils";
@@ -18,7 +18,10 @@ export class UserService {
         return await this.userRepository.createUser(userDto);
     }
 
-    public async verifyUserPassword(userId: string, password: string, error: HttpException = new BadRequestException("Invalid password")): Promise<Success> {
+    public async verifyUserPassword(userId: string,
+                                    password: string,
+                                    error: HttpException = new BadRequestException("Invalid password")
+    ): Promise<Success> {
         const user = await this.findUserByIdWithPassword(userId);
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {

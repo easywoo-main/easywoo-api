@@ -1,7 +1,12 @@
-import {AccessToken} from "./accessToken.interface";
 
-interface Tokens extends AccessToken{
+interface Tokens extends AccessToken, RefreshToken{}
+
+interface RefreshToken {
     refreshToken: string;
 }
 
-export { Tokens };
+interface AccessToken {
+    accessToken: string;
+}
+
+export { Tokens, AccessToken, RefreshToken};
