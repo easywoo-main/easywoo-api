@@ -1,12 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { TokenService } from './token.service';
 import { LoginDto } from './dto/login.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { UserAuthDto } from './dto/userAuth.dto';
-import { AccessToken, RefreshToken, UserPayload } from '../../interfaces';
+import { UserPayload } from '../../interfaces';
 import { TokenType } from '../../enums';
 import { UserCreateDto } from '../user/dto/userCreate.dto';
+import { TokenService } from '../token/token.service';
+import { RefreshToken } from '../token/dtos/refresh.token.dto';
+import { AccessToken } from '../token/dtos/accessToken.dto';
 
 @Injectable()
 export class AuthService {
@@ -30,11 +32,13 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
+
     const isPasswordValid = await this.userService.verifyUserPassword(user.id, loginDto.password);
 
     if (!isPasswordValid) {
       throw new NotFoundException('Invalid password');
     }
+
     const tokens = await this.tokenService.generateAccessTokens(user);
 
     return {
@@ -46,8 +50,7 @@ export class AuthService {
   public async refreshToken(body: RefreshToken): Promise<AccessToken> {
     const userTokenPayload: UserPayload = await this.tokenService.verifyTokenByType(body.refreshToken, TokenType.REFRESH);
     const user: User = await this.userService.findUserById(userTokenPayload.id);
-
-    const accessToken = await this.tokenService.generateTokenByType(user, TokenType.ACCESS);
+    const { accessToken } = await this.tokenService.generateAccessTokens(user);
     return { accessToken };
   }
 }

@@ -4,7 +4,7 @@ import { UserRepository } from './user.repository';
 import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
-import { CheckExists } from '../../decorators/checkExists';
+import { CheckExists } from '../../decorators';
 
 @Injectable()
 export class UserService {
@@ -15,7 +15,9 @@ export class UserService {
     if (existingUser) {
       throw new BadRequestException('User already exists');
     }
-    return await this.userRepository.createUser(userDto);
+    const newUser = await this.userRepository.createUser(userDto);
+    // return newUser;
+    return this.findUserById(newUser.id);
   }
 
   public async verifyUserPassword(userId: string, password: string, error: HttpException = new BadRequestException('Invalid password')): Promise<Success> {

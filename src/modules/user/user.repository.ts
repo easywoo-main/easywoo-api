@@ -12,11 +12,12 @@ export class UserRepository {
   ) {}
 
   public async createUser(userDto: UserCreateDto): Promise<User> {
-    return await this.userRepository.save(userDto);
+    const newUser = this.userRepository.create(userDto);
+    return await this.userRepository.save(newUser);
   }
 
   public async findUserByIdWithPassword(id: string): Promise<User> {
-    return this.userRepository.findOneBy({ id });
+    return this.userRepository.findOne({ where: { id }, select: Object.keys(new User()) as (keyof User)[] });
   }
 
   public async findUserByEmail(email: string): Promise<User> {

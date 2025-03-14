@@ -1,8 +1,9 @@
 import { ConfigService } from '@nestjs/config';
-import {DataSourceOptions} from "typeorm";
-import * as dotenv from "dotenv";
+import { DataSourceOptions } from 'typeorm';
+import * as dotenv from 'dotenv';
 dotenv.config();
-export function getDatabaseConfig(configService: ConfigService): DataSourceOptions {
+
+export function databaseConfig(configService: ConfigService): DataSourceOptions {
   return {
     type: configService.get<any>('DATABASE_TYPE'),
     host: configService.get<string>('DATABASE_HOST'),

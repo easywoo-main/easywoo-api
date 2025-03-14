@@ -1,8 +1,9 @@
-import { Injectable, BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 import { TokenType } from '../../enums';
-import { Tokens, UserPayload } from '../../interfaces';
-import { ConfigService } from '@nestjs/config';
+import { UserPayload } from '../../interfaces';
+import { Tokens } from './dtos/tokens.dto';
 
 @Injectable()
 export class TokenService {
@@ -22,9 +23,6 @@ export class TokenService {
 
   public async generateTokenByType(data: any, type: TokenType): Promise<string> {
     data.type = type;
-    if (!this.JWT_SECRET_KEY) {
-      throw new BadRequestException('JWT secret key is not set');
-    }
 
     switch (type) {
       case TokenType.ACCESS:
@@ -71,10 +69,7 @@ export class TokenService {
     const tokenUser = {
       id: user.id,
       email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
       isVerified: user.isVerified,
-      photo: user.photo,
     } as UserPayload;
 
     const [accessToken, refreshToken] = await Promise.all([this.generateTokenByType(tokenUser, TokenType.ACCESS), this.generateTokenByType(tokenUser, TokenType.REFRESH)]);

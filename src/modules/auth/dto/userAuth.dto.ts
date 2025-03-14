@@ -1,8 +1,8 @@
 import { User } from '../../user/user.entity';
-import { Tokens } from '../../../interfaces';
+import { ApiProperty } from '@nestjs/swagger';
+import { Tokens } from '../../token/dtos/tokens.dto';
 
-export class UserAuthDto implements Tokens {
+export class UserAuthDto extends Tokens {
+  @ApiProperty({ type: () => User })
   user: User;
-  refreshToken: string;
-  accessToken: string;
 }
