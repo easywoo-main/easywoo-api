@@ -31,6 +31,14 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   picture: string;
 
+  @ApiProperty({
+    description: 'User is verified or not',
+    example: false,
+    default: false,
+  })
+  @Column({ type: 'boolean', default: false })
+  isVerified: boolean;
+
   @ApiProperty({ description: 'The date when the user was created', example: '2025-01-01T00:00:00.000Z' })
   @CreateDateColumn()
   createdAt: Date;

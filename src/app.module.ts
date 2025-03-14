@@ -5,6 +5,7 @@ import { databaseConfig } from './configs/database.config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { TokenModule } from './modules/token/token.module';
+import { QuizModule } from './modules/quiz/quiz.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TokenModule } from './modules/token/token.module';
     AuthModule,
     UserModule,
     TokenModule,
+    QuizModule,
   ],
   controllers: [],
   providers: [],
