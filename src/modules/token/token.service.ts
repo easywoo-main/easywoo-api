@@ -43,13 +43,13 @@ export class TokenService {
   }
 
   public async verifyTokenByType(token: string, type: TokenType) {
+    console.log('test2');
+
     if (!token) {
       throw new UnauthorizedException('Access denied. No access token provided.');
     }
     let data: UserPayload;
-    if (!this.JWT_SECRET_KEY) {
-      throw new BadRequestException('JWT secret key is not set');
-    }
+    console.log('test1');
 
     switch (type) {
       case TokenType.ACCESS:

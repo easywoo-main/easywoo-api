@@ -4,7 +4,8 @@ import { UserRepository } from './user.repository';
 import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
-import { CheckExists } from '../../decorators';
+import { CheckExistsDecorator } from '../../decorators';
+import { UserUpdateDto } from './dto/userUpdate.dto';
 
 @Injectable()
 export class UserService {
@@ -16,7 +17,6 @@ export class UserService {
       throw new BadRequestException('User already exists');
     }
     const newUser = await this.userRepository.createUser(userDto);
-    // return newUser;
     return this.findUserById(newUser.id);
   }
 
@@ -34,13 +34,19 @@ export class UserService {
     return this.userRepository.findUserByEmail(email);
   }
 
-  @CheckExists('User not found')
+  @CheckExistsDecorator('User not found')
   public async findUserByIdWithPassword(userId: string): Promise<User> {
     return this.userRepository.findUserByIdWithPassword(userId);
   }
 
-  @CheckExists('User not found')
+  @CheckExistsDecorator('User not found')
   public async findUserById(userId: string): Promise<User> {
     return this.userRepository.findUserById(userId);
+  }
+
+  async updateUser(userId: string, userDto: UserUpdateDto) {
+    await this.findUserById(userId);
+    await this.userRepository.updateUser(userId, userDto);
+    return this.findUserById(userId);
   }
 }
