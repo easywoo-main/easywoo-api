@@ -1,1 +1,1 @@
-export {TokenType} from './tokenType.enum';
+export { TokenType } from './tokenType.enum';

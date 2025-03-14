@@ -1,12 +1,11 @@
-
-interface Tokens extends AccessToken, RefreshToken{}
+interface Tokens extends AccessToken, RefreshToken {}
 
 interface RefreshToken {
-    refreshToken: string;
+  refreshToken: string;
 }
 
 interface AccessToken {
-    accessToken: string;
+  accessToken: string;
 }
 
-export { Tokens, AccessToken, RefreshToken};
+export { Tokens, AccessToken, RefreshToken };
