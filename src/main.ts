@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {
-  Logger,
-} from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { globalPipe } from './pipes';
+import { globalExceptionFilter } from './errorHandler';
+import { swaggerSetup } from './utils/swagger.utils';
 
 async function bootstrap() {
   const logger = new Logger();
@@ -17,6 +17,12 @@ async function bootstrap() {
 
   // Global Pipes
   app.useGlobalPipes(globalPipe);
+
+  //Global Filter
+  app.useGlobalFilters(globalExceptionFilter);
+
+  //Swagger
+  swaggerSetup(app);
 
   await app.listen(PORT);
   logger.log(`Application listening on port ${PORT}`);
