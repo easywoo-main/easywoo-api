@@ -1,6 +1,6 @@
 enum TokenType {
-    ACCESS = 'access',
-    REFRESH = 'refresh',
+  ACCESS = 'access',
+  REFRESH = 'refresh',
 }
 
-export {TokenType};
+export { TokenType };
