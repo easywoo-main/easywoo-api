@@ -1,16 +1,12 @@
 FROM node:22-alpine
-
 WORKDIR /app
 
-COPY ../package.json ../package-lock.json* ./
-RUN npm install
+COPY package.json package-lock.json ./
 
-COPY . .
+RUN npm ci
 
-COPY docker/entrypoint.sh /app/entrypoint.sh
+COPY . /app
 
-RUN chmod +x /app/entrypoint.sh
+RUN chmod +x /app/docker/entrypoint.sh
 
-EXPOSE 3000
-
-CMD ["/app/entrypoint.sh"]
+CMD ["/app/docker/entrypoint.sh"]

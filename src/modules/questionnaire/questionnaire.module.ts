@@ -4,7 +4,6 @@ import { QuestionnaireService } from './questionnaire.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import {Questionnaire} from "./questionnaire.entity";
 import {QuestionnaireRepository} from "./questionnaire.repository";
-import {TokenModule} from "../token/token.module";
 
 @Module({
   imports: [TypeOrmModule.forFeature([Questionnaire])],
