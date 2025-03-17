@@ -14,6 +14,7 @@ export class AuthGuard extends TokenGuard {
     super(reflector, tokenService);
   }
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    console.log("test")
     const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [context.getHandler(), context.getClass()]);
     if (isPublic) {
       return true;
