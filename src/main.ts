@@ -1,8 +1,8 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import {Logger} from '@nestjs/common';
 import { globalPipe } from './pipes';
-import { globalExceptionFilter } from './errorHandler';
+import { globalFilter } from './errorHandler';
 import { swaggerSetup } from './utils/swagger.utils';
 
 async function bootstrap() {
@@ -12,14 +12,14 @@ async function bootstrap() {
 
   // Global Prefix
   app.setGlobalPrefix('api/v1', {
-    exclude: ['/public'],
+    exclude: ['/public/*', '/app/*'],
   });
 
   // Global Pipes
   app.useGlobalPipes(globalPipe);
 
   //Global Filter
-  app.useGlobalFilters(globalExceptionFilter);
+  app.useGlobalFilters(globalFilter);
 
   //Swagger
   swaggerSetup(app);

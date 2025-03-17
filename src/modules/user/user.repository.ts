@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import {UserUpdateDto} from "./dto/userUpdate.dto";
+import { UserUpdateDto } from './dto/userUpdate.dto';
 
 @Injectable()
 export class UserRepository {
@@ -30,6 +30,6 @@ export class UserRepository {
   }
 
   public async updateUser(userId: string, userDto: UserUpdateDto) {
-    return  await this.userRepository.update({ id: userId }, userDto);
+    return await this.userRepository.update({ id: userId }, userDto);
   }
 }

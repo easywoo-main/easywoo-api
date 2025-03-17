@@ -58,4 +58,6 @@ export class User extends BaseEntity {
       this.password = await bcrypt.hash(this.password, SALT_ROUND);
     }
   }
+
+
 }
