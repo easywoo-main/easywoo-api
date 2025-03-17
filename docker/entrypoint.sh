@@ -1,10 +1,10 @@
 #!/bin/sh
 
-echo "Running migrations..."
-npm run migrate
+echo "Building application..."
+npm run build
 
-echo "Bulding the app..."
+echo "Running migrations..."
+npm run migration
 
 echo "Starting application..."
 exec npm run start:prod
-
