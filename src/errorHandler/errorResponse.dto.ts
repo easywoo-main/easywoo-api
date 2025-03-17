@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ErrorResponse<T = any> {
+
+export class ErrorResponse<T = any>  {
   @ApiProperty()
   statusCode: number;
 
@@ -12,4 +13,10 @@ export class ErrorResponse<T = any> {
 
   @ApiProperty({ required: false })
   additionalInfo?: T;
+
+  @ApiProperty()
+  path: string;
+
+  @ApiProperty()
+  timestamp?: string = new Date().toISOString();
 }
