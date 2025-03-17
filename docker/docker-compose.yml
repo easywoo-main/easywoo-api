@@ -39,9 +39,8 @@ services:
       pg_db:
         condition: service_healthy
     ports:
-      - ${PORT}:3000
+      - ${PORT}:${PORT}
     environment:
-      PORT: 3000
       DATABASE_HOST: pg_db
       DATABASE_PORT: 5432
     env_file:
