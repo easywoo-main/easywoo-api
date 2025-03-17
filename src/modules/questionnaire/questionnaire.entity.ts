@@ -1,6 +1,16 @@
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { QuestionsType } from '../questionsType.enum';
+import { QuestionsType } from './questionsType.enum';
+import {QuestionnaireAnswer} from "../questionnaire-answer/questionnaireAnswer.entity";
 
 @Entity({ name: 'questionnaires' })
 export class Questionnaire extends BaseEntity {
@@ -35,4 +45,7 @@ export class Questionnaire extends BaseEntity {
   @ApiProperty({ description: 'The date when the entity was deleted (if applicable)', example: '2025-01-01T00:00:00.000Z', nullable: true, required: false })
   @DeleteDateColumn({ nullable: true })
   deletedAt: Date;
+
+  @OneToMany(() => QuestionnaireAnswer, (questionnaireAnswer) => questionnaireAnswer.question, {onDelete: 'CASCADE'})
+  userAnswers: QuestionnaireAnswer[];
 }

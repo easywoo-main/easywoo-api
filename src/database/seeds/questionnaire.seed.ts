@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
-import { Quiz } from '../../modules/quiz/entities/quiz.entity';
-import { QuestionsType } from '../../modules/quiz/quiz.enum';
+import {Questionnaire} from "../../modules/questionnaire/questionnaire.entity";
+import {QuestionsType} from "../../modules/questionnaire/questionsType.enum";
 
-export async function quizSeed(dataSource: DataSource) {
-  const quizRepository = dataSource.getRepository(Quiz);
+export async function questionnaireSeed(dataSource: DataSource) {
+  const quizRepository = dataSource.getRepository(Questionnaire);
 
   await quizRepository.save([
         {

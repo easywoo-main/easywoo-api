@@ -1,11 +1,10 @@
 #!/bin/sh
 
-echo "Generating Prisma client..."
-npm run prisma:generate
+echo "Running migrations..."
+npm run migrate
 
-echo "Running Prisma migrations..."
-npm run prisma:migrate:deploy
+echo "Bulding the app..."
 
 echo "Starting application..."
-exec npm run dev
+exec npm run start:prod
 

@@ -1,22 +1,16 @@
-# Вказуємо базовий образ
 FROM node:22-alpine
 
-# Встановлюємо робочу директорію в контейнері
-WORKDIR /
+WORKDIR /app
 
-# Копіюємо package.json і package-lock.json (якщо є)
-COPY package*.json ./
-
-# Встановлюємо залежності
+COPY ../package.json ../package-lock.json* ./
 RUN npm install
 
-# Копіюємо весь проєкт
 COPY . .
 
-RUN node node_modules/.bin/prisma generate
+COPY docker/entrypoint.sh /app/entrypoint.sh
 
-# Збираємо NestJS-додаток
-RUN npm run build
+RUN chmod +x /app/entrypoint.sh
 
-# Виконуємо Prisma міграції перед запуском
-CMD npx prisma migrate deploy && node dist/main.js
+EXPOSE 3000
+
+CMD ["/app/entrypoint.sh"]

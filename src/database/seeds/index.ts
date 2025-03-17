@@ -1,14 +1,14 @@
 import { AppDataSource } from '../data-source';
-import { quizSeed } from './quiz.seed';
+import { questionnaireSeed } from './questionnaire.seed';
 
 async function main() {
-  await quizSeed(AppDataSource);
+  await questionnaireSeed(AppDataSource);
 }
 
-main()
-  .then(() => {
-    console.log('Seeding success');
-  })
-  .catch((e) => {
-    console.log('Seeding error: ', e);
-  });
+AppDataSource.initialize()
+    .then(main)
+    .then(()=>{
+        console.log('Database seeded successfully');
+    }).catch((e)=>{
+    console.log('Database connection error: ', e);
+})
