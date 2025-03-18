@@ -5,9 +5,10 @@ import { UserRepository } from './user.repository';
 import { User } from './user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TokenModule } from '../token/token.module';
+import { DatabaseModule } from '../../database/database.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), TokenModule],
+  imports: [DatabaseModule, TokenModule],
   controllers: [UserController],
   providers: [UserService, UserRepository],
   exports: [UserService],

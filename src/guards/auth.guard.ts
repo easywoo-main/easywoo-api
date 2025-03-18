@@ -14,7 +14,7 @@ export class AuthGuard extends TokenGuard {
     super(reflector, tokenService);
   }
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log("test")
+    console.log('test');
     const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [context.getHandler(), context.getClass()]);
     if (isPublic) {
       return true;
@@ -29,9 +29,10 @@ export class AuthGuard extends TokenGuard {
     const payload = request.user;
     const user = await this.userService.findUserById(payload.id);
 
-    if (!user.isVerified) {
-      throw new UnauthorizedException('Access denied. User is not verified');
-    }
+    //todo: uncomment this code when email verification is implemented
+    // if (!user.isVerified) {
+    //   throw new UnauthorizedException('Access denied. User is not verified');
+    // }
     return true;
   }
 }

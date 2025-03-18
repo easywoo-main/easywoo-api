@@ -1,19 +1,14 @@
-import {Injectable} from "@nestjs/common";
-import {QuestionnaireAnswerCreateDto} from "./dtos/questionnaireAnswerCreate.dto";
-import {QuestionnaireAnswer} from "./questionnaireAnswer.entity";
-import {Repository} from "typeorm";
-import {InjectRepository} from "@nestjs/typeorm";
-import {Questionnaire} from "../questionnaire/questionnaire.entity";
+import { Injectable } from '@nestjs/common';
+import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.dto';
+import { PrismaService } from '../../database/prisma.service';
 
 @Injectable()
 export class QuestionnaireAnswerRepository {
-    constructor(
-        @InjectRepository(QuestionnaireAnswer)
-        private readonly questionnaireAnswerRepository: Repository<QuestionnaireAnswer>
-    ) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-    public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto) {
-        const newQuestionnaireAnswerCreateDto = this.questionnaireAnswerRepository.create(questionnaireAnswerCreateDto);
-        return this.questionnaireAnswerRepository.save(questionnaireAnswerCreateDto);
-    }
+  public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto) {
+    return this.prisma.questionnaireAnswer.create({
+      data: questionnaireAnswerCreateDto,
+    });
+  }
 }
