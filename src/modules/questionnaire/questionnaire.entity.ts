@@ -1,51 +1,25 @@
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { QuestionsType } from './questionsType.enum';
-import {QuestionnaireAnswer} from "../questionnaire-answer/questionnaireAnswer.entity";
+import { Questionnaire as QuestionnairePrisma, QuestionsType } from '@prisma/client';
 
-@Entity({ name: 'questionnaires' })
-export class Questionnaire extends BaseEntity {
-  @ApiProperty({ description: 'The unique identifier of the quiz', example: '123e4567-e89b-12d3-a456-426614174000' })
-  @PrimaryGeneratedColumn('uuid')
+export class Questionnaire implements QuestionnairePrisma {
+  @ApiProperty({ description: 'Unique identifier of the questionnaire' })
   id: string;
 
-  @ApiProperty({ description: 'The step number in the quiz', example: 1 })
-  @Column({ type: 'int' })
+  @ApiProperty({ description: 'Step number in the questionnaire' })
   step: number;
 
-  @ApiProperty({ description: 'The question text', example: 'What is the capital of France?' })
-  @Column({ type: 'text' })
+  @ApiProperty({ description: 'Question text' })
   question: string;
 
-  @ApiProperty({ description: 'Possible answers to the question', example: '["Paris", "Berlin", "Madrid"]' })
-  @Column({ type: 'text', array: true })
+  @ApiProperty({ description: 'List of possible answers for the question' })
   answers: string[];
 
-  @ApiProperty({ description: 'The type of the question', enum: QuestionsType, example: QuestionsType.single })
-  @Column({ type: 'enum', enum: QuestionsType })
+  @ApiProperty({ description: 'The type of the question' })
   type: QuestionsType;
 
-  @ApiProperty({ description: 'The date when the entity was created', example: '2025-01-01T00:00:00.000Z' })
-  @CreateDateColumn()
+  @ApiProperty({ description: 'Timestamp when the questionnaire was created' })
   createdAt: Date;
 
-  @ApiProperty({ description: 'The date when the entity was last updated', example: '2025-01-01T00:00:00.000Z' })
-  @UpdateDateColumn()
+  @ApiProperty({ description: 'Timestamp when the questionnaire was last updated' })
   updatedAt: Date;
-
-  @ApiProperty({ description: 'The date when the entity was deleted (if applicable)', example: '2025-01-01T00:00:00.000Z', nullable: true, required: false })
-  @DeleteDateColumn({ nullable: true })
-  deletedAt: Date;
-
-  @OneToMany(() => QuestionnaireAnswer, (questionnaireAnswer) => questionnaireAnswer.question, {onDelete: 'CASCADE'})
-  userAnswers: QuestionnaireAnswer[];
 }

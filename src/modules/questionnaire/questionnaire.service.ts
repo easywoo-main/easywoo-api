@@ -1,12 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import {QuestionnaireRepository} from "./questionnaire.repository";
-
+import { QuestionnaireRepository } from './questionnaire.repository';
+import {QuestionnaireWithUserAnswerDto} from "./questionnaireWithUserAnswear.dto";
 @Injectable()
 export class QuestionnaireService {
+  constructor(private readonly questionnaireRepository: QuestionnaireRepository) {}
 
-    constructor(private readonly questionnaireRepository: QuestionnaireRepository) {}
+  public async getAllQuizzes(userId: string, step?: number): Promise<QuestionnaireWithUserAnswerDto[]> {
+    const questionnaires = await this.questionnaireRepository.getAllQuizzes(userId, step);
 
-    public async getAllQuizzes(step?: number) {
-        return this.questionnaireRepository.getAllQuizzes(step, "bc459c1f-e670-4bd7-a276-2398f54c4e50");
-    }
+    return questionnaires.map((questionnaire) => {
+      const { userAnswers, ...rest } = questionnaire;
+      return {
+        ...rest,
+        userAnswer: userAnswers[0],
+      };
+    });
+  }
 }

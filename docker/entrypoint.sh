@@ -1,10 +1,16 @@
 #!/bin/sh
 
-echo "Running migrations..."
-npm run migrate
+echo "Building application..."
+npm run build
 
-echo "Bulding the app..."
+echo "Generating prisma client..."
+npm run prisma:generate
+
+echo "Running migrations..."
+npm run prisma:migrate:deploy
+
+echo "Running seeds..."
+npm run seed
 
 echo "Starting application..."
 exec npm run start:prod
-
