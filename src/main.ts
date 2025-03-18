@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import {Logger} from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { globalPipe } from './pipes';
 import { globalFilter } from './errorHandler';
 import { swaggerSetup } from './utils/swagger.utils';

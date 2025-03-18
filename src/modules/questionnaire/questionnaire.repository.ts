@@ -1,22 +1,23 @@
-import {Repository} from "typeorm";
-import {Questionnaire} from "./questionnaire.entity";
-import {Injectable} from "@nestjs/common";
-import {InjectRepository} from "@nestjs/typeorm";
-
+import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../../database/prisma.service';
+import { Questionnaire } from './questionnaire.entity';
 
 @Injectable()
 export class QuestionnaireRepository {
-    constructor(
-        @InjectRepository(Questionnaire)
-        private readonly questionnaireRepository: Repository<Questionnaire>) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-    public async getAllQuizzes(step?: number, userId?: string) {
-        return this.questionnaireRepository
-            .createQueryBuilder('questionnaire')
-            .leftJoinAndSelect('questionnaire.userAnswers', 'userAnswers')
-            .leftJoinAndSelect('userAnswers.user', 'user')
-            .where(step ? 'questionnaire.step = :step' : '1=1', { step })
-            // .andWhere(userId ? 'user.id = :userId' : '1=1', { userId })
-            .getMany();
-    }
+  public async getAllQuizzes(userId: string, step?: number) {
+    return this.prisma.questionnaire.findMany({
+      where: {
+        ...(step && { step }),
+      },
+      include: {
+        userAnswers: {
+          where: {
+            userId,
+          },
+        },
+      },
+    });
+  }
 }
