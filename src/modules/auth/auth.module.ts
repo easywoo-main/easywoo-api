@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
-import { TokenModule } from '../token/token.module';
-import { JwtStrategy } from './strategy/jwt.strategy';
+import { GoogleModule } from './google/google.module';
+import { AppleModule } from './apple/apple.module';
+import { CredentialsModule } from './credentials/credentials.module';
 
 @Module({
-  imports: [UserModule, TokenModule],
-  providers: [AuthService, JwtStrategy],
-  controllers: [AuthController],
+  imports: [UserModule, GoogleModule, AppleModule, CredentialsModule],
 })
 export class AuthModule {}

@@ -14,16 +14,39 @@ datasource db {
 }
 
 model User {
-  id                  String                @id @default(uuid())
-  email               String                @unique
-  firstName           String
-  lastName            String
-  password            String
-  picture             String?
-  isVerified          Boolean               @default(false)
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
+  id         String  @id @default(uuid())
+  email      String  @unique
+  firstName  String
+  lastName   String
+  password   String
+  picture    String?
+  isVerified Boolean @default(false)
+
+  googleUserId String? @unique
+  appleUserId  String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   QuestionnaireAnswer QuestionnaireAnswer[]
+  GoogleUser          GoogleUser[]
+  AppleUser           AppleUser[]
+}
+
+model GoogleUser {
+  id            String  @id @default(uuid())
+  googleId      String  @unique
+  email         String  @unique
+  firstName     String
+  lastName      String
+  photo         String?
+  emailVerified Boolean @default(false)
+  userId        String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
 }
 
 model QuestionnaireAnswer {
@@ -38,6 +61,22 @@ model QuestionnaireAnswer {
   question Questionnaire @relation(fields: [questionId], references: [id])
 
   @@unique([questionId, userId])
+}
+
+model AppleUser {
+  id            String  @id @default(uuid())
+  appleId       String  @unique
+  email         String  @unique
+  firstName     String
+  lastName      String
+  photo         String?
+  emailVerified Boolean @default(false)
+  userId        String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
 }
 
 model Questionnaire {

@@ -23,6 +23,12 @@ export class User implements UserPrisma {
   @ApiProperty({ description: 'Status of user verification' })
   isVerified: boolean;
 
+  @ApiProperty({ description: 'Google Id' })
+  googleUserId: string;
+
+  @ApiProperty({ description: 'Apple Id' })
+  appleUserId: string;
+
   @ApiProperty({ description: 'Timestamp when the user was created' })
   createdAt: Date;
 

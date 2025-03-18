@@ -12,6 +12,8 @@ const selectWithPassword = {
   password: true,
   picture: true,
   isVerified: true,
+  googleUserId: true,
+  appleUserId: true,
   createdAt: true,
   updatedAt: true,
 };
