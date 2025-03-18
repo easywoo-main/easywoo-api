@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo "Building application..."
-npm run build
 
 echo "Generating prisma client..."
 npm run prisma:generate
@@ -11,6 +9,9 @@ npm run prisma:migrate:deploy
 
 echo "Running seeds..."
 npm run seed
+
+echo "Building application..."
+npm run build
 
 echo "Starting application..."
 exec npm run start:prod

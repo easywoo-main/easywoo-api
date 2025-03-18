@@ -9,16 +9,7 @@ export class UserCreateDto {
   })
   @IsString()
   @IsOptional()
-  firstName: string;
-
-  @ApiProperty({
-    description: 'The last name of the user',
-    type: String,
-    required: false,
-  })
-  @IsString()
-  @IsOptional()
-  lastName: string;
+  name: string;
 
   @ApiProperty({
     description: 'The email address of the user',

@@ -1,33 +1,40 @@
-import {Body, Controller, Get, Post, Req, Res, UseGuards} from '@nestjs/common';
-import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger';
-import {ErrorResponse} from "../../../errorHandler/errorResponse.dto";
-import {RefreshToken} from "../../token/dtos/refresh.token.dto";
-import {AccessToken} from "../../token/dtos/accessToken.dto";
-import {UserCreateDto} from "../../user/dto/userCreate.dto";
-import {CredentialsService} from "./credentials.service";
-import {LoginDto} from "./login.dto";
-import {UserAuthDto} from "../userAuth.dto";
+import { Body, Controller, Post } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiOkResponse, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { ErrorResponse } from '../../../errorHandler/errorResponse.dto';
+import { RefreshToken } from '../../token/dtos/refresh.token.dto';
+import { AccessToken } from '../../token/dtos/accessToken.dto';
+import { UserCreateDto } from '../../user/dto/userCreate.dto';
+import { CredentialsService } from './credentials.service';
+import { LoginDto } from './login.dto';
+import { UserAuthDto } from '../userAuth.dto';
 
+@ApiTags('Auth')
 @Controller('auth')
 export class CredentialsController {
-    constructor(private readonly credentialsService: CredentialsService) {}
+  constructor(private readonly credentialsService: CredentialsService) {}
 
-    @ApiOkResponse({ type: UserAuthDto })
-    @ApiNotFoundResponse({ type: ErrorResponse })
-    @Post('login')
-    async login(@Body() body: LoginDto) {
-        return this.credentialsService.login(body);
-    }
+  @Post('login')
+  @ApiOperation({ summary: 'User login' })
+  @ApiOkResponse({ type: UserAuthDto, description: 'Successful login' })
+  @ApiNotFoundResponse({ type: ErrorResponse, description: 'User not found' })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Invalid credentials' })
+  async login(@Body() body: LoginDto) {
+    return this.credentialsService.login(body);
+  }
 
-    @Post('refresh')
-    @ApiOkResponse({ type: UserAuthDto })
-    async refreshToken(@Body() body: RefreshToken): Promise<AccessToken> {
-        return this.credentialsService.refreshToken(body);
-    }
+  @Post('refresh')
+  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiOkResponse({ type: UserAuthDto, description: 'New access token generated' })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Invalid refresh token' })
+  async refreshToken(@Body() body: RefreshToken): Promise<AccessToken> {
+    return this.credentialsService.refreshToken(body);
+  }
 
-    @ApiOkResponse({ type: UserAuthDto })
-    @Post('register')
-    async register(@Body() body: UserCreateDto) {
-        return this.credentialsService.register(body);
-    }
+  @Post('register')
+  @ApiOperation({ summary: 'User registration' })
+  @ApiOkResponse({ type: UserAuthDto, description: 'User successfully registered' })
+  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Invalid registration data' })
+  async register(@Body() body: UserCreateDto) {
+    return this.credentialsService.register(body);
+  }
 }

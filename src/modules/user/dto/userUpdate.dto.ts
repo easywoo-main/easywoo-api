@@ -2,7 +2,7 @@ import { UserCreateDto } from './userCreate.dto';
 import { IsOptional, IsString, IsUrl } from 'class-validator';
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 
-export class UserUpdateDto extends PartialType(UserCreateDto) {
+export class UserUpdateDto extends UserCreateDto {
   @ApiProperty({
     description: 'The confirmation password for the user update',
     required: false,

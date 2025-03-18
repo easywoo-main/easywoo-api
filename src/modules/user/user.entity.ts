@@ -9,10 +9,7 @@ export class User implements UserPrisma {
   email: string;
 
   @ApiProperty({ description: "User's first name" })
-  firstName: string;
-
-  @ApiProperty({ description: "User's last name" })
-  lastName: string;
+  name: string;
 
   @ApiProperty({ description: "User's password" })
   password: string;
@@ -22,6 +19,9 @@ export class User implements UserPrisma {
 
   @ApiProperty({ description: 'Status of user verification' })
   isVerified: boolean;
+
+  @ApiProperty({ description: 'Indicates if the user has completed the quiz' })
+  hasQuizCompleted: boolean;
 
   @ApiProperty({ description: 'Google Id' })
   googleUserId: string;

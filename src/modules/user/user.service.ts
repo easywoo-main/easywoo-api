@@ -44,9 +44,9 @@ export class UserService {
     return this.userRepository.findUserById(userId);
   }
 
-  async updateUser(userId: string, userDto: UserUpdateDto) {
+  async updateUser(userId: string, updateUser: Partial<User>) {
     await this.findUserById(userId);
-    await this.userRepository.updateUser(userId, userDto);
+    await this.userRepository.updateUser(userId, updateUser);
     return this.findUserById(userId);
   }
 }

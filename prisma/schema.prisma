@@ -14,13 +14,13 @@ datasource db {
 }
 
 model User {
-  id         String  @id @default(uuid())
-  email      String  @unique
-  firstName  String
-  lastName   String
-  password   String
-  picture    String?
-  isVerified Boolean @default(false)
+  id               String  @id @default(uuid())
+  email            String  @unique
+  name             String
+  password         String
+  picture          String?
+  isVerified       Boolean @default(false)
+  hasQuizCompleted Boolean @default(false)
 
   googleUserId String? @unique
   appleUserId  String? @unique
@@ -28,9 +28,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  QuestionnaireAnswer QuestionnaireAnswer[]
-  GoogleUser          GoogleUser[]
-  AppleUser           AppleUser[]
+  questionnaireAnswer QuestionnaireAnswer[]
+  googleUser          GoogleUser?           @relation(fields: [googleUserId], references: [id])
+  appleUser           AppleUser?            @relation(fields: [appleUserId], references: [id])
 }
 
 model GoogleUser {
@@ -41,26 +41,11 @@ model GoogleUser {
   lastName      String
   photo         String?
   emailVerified Boolean @default(false)
-  userId        String? @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User? @relation(fields: [userId], references: [id])
-}
-
-model QuestionnaireAnswer {
-  id         String   @id @default(uuid())
-  answer     String[]
-  questionId String
-  userId     String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  user     User          @relation(fields: [userId], references: [id])
-  question Questionnaire @relation(fields: [questionId], references: [id])
-
-  @@unique([questionId, userId])
+  user User?
 }
 
 model AppleUser {
@@ -76,7 +61,21 @@ model AppleUser {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user User? @relation(fields: [userId], references: [id])
+  user User?
+}
+
+model QuestionnaireAnswer {
+  id         String   @id @default(uuid())
+  answer     String[]
+  questionId String
+  userId     String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User          @relation(fields: [userId], references: [id])
+  question Questionnaire @relation(fields: [questionId], references: [id])
+
+  @@unique([questionId, userId])
 }
 
 model Questionnaire {
