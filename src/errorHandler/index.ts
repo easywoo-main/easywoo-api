@@ -20,7 +20,7 @@ export class GlobalFilter implements ExceptionFilter {
   private handlers: IExceptionHandler[];
 
   constructor() {
-    this.handlers = [new HttpExceptionHandler(), new DatabaseExceptionHandler(), new DefaultExceptionHandler()];
+    this.handlers = [new DatabaseExceptionHandler(), new HttpExceptionHandler(), new DefaultExceptionHandler()];
   }
 
   catch(exception: unknown, host: ArgumentsHost): void {
@@ -29,6 +29,8 @@ export class GlobalFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     const handler = this.handlers.find((h) => h.supports(exception)) || new DefaultExceptionHandler();
+
+    console.log(handler)
     const { status, message, name, additionalInfo } = handler.handle(exception);
 
     const errorResponse: ErrorResponse = {

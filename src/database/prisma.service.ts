@@ -4,8 +4,7 @@ import { userMiddleware } from './user.middleware';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
-  async onModuleInit() {
-    console.log('Connected to database successfully');
+  public async onModuleInit() {
     this.$use(userMiddleware);
     await this.$connect();
   }

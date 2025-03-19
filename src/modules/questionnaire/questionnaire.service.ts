@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { QuestionnaireRepository } from './questionnaire.repository';
-import {QuestionnaireWithUserAnswerDto} from "./questionnaireWithUserAnswear.dto";
+import { QuestionnaireWithUserAnswerDto } from './questionnaireWithUserAnswear.dto';
 @Injectable()
 export class QuestionnaireService {
   constructor(private readonly questionnaireRepository: QuestionnaireRepository) {}

@@ -10,5 +10,6 @@ import { TokenModule } from '../token/token.module';
   imports: [DatabaseModule, UserModule, TokenModule],
   controllers: [QuestionnaireController],
   providers: [QuestionnaireService, QuestionnaireRepository],
+  exports: [QuestionnaireService],
 })
 export class QuestionnaireModule {}

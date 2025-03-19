@@ -12,7 +12,9 @@ export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   public async createUser(userDto: UserCreateDto): Promise<User> {
+    console.log("test------>>>")
     const existingUser = await this.findUserByEmail(userDto.email);
+    console.log(existingUser, userDto.email);
     if (existingUser) {
       throw new BadRequestException('User already exists');
     }
@@ -44,9 +46,8 @@ export class UserService {
     return this.userRepository.findUserById(userId);
   }
 
-  async updateUser(userId: string, userDto: UserUpdateDto) {
+  async updateUser(userId: string, updateUser: Partial<User>) {
     await this.findUserById(userId);
-    await this.userRepository.updateUser(userId, userDto);
-    return this.findUserById(userId);
+    return await this.userRepository.updateUser(userId, updateUser);
   }
 }

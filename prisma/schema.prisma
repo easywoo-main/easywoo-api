@@ -14,16 +14,50 @@ datasource db {
 }
 
 model User {
-  id                  String                @id @default(uuid())
-  email               String                @unique
-  firstName           String
-  lastName            String
-  password            String
-  picture             String?
-  isVerified          Boolean               @default(false)
-  createdAt           DateTime              @default(now())
-  updatedAt           DateTime              @updatedAt
-  QuestionnaireAnswer QuestionnaireAnswer[]
+  id               String  @id @default(uuid())
+  email            String  @unique
+  name             String
+  password         String?
+  isVerified       Boolean @default(false)
+  hasQuizCompleted Boolean @default(false)
+
+  googleUserId String? @unique
+  appleUserId  String? @unique
+
+  questionnaireAnswer QuestionnaireAnswer[]
+  googleUser          GoogleUser?           @relation(fields: [googleUserId], references: [id])
+  appleUser           AppleUser?            @relation(fields: [appleUserId], references: [id])
+}
+
+model GoogleUser {
+  id              String  @id @default(uuid())
+  googleAccountId String  @unique
+  email           String  @unique
+  firstName       String
+  lastName        String
+  picture         String?
+  emailVerified   Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User?
+}
+
+model AppleUser {
+  id            String  @id @default(uuid())
+  appleId       String  @unique
+  email         String  @unique
+  firstName     String
+  lastName      String
+  photo         String?
+  emailVerified Boolean @default(false)
+  userId        String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User?
 }
 
 model QuestionnaireAnswer {

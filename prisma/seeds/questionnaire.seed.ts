@@ -1,5 +1,4 @@
 import {PrismaClient, QuestionsType} from "@prisma/client";
-import * as path from "node:path";
 
 
 async function main(prisma: PrismaClient) {
