@@ -2,30 +2,27 @@ import { ApiProperty } from '@nestjs/swagger';
 import { User as UserPrisma } from '@prisma/client';
 
 export class User implements UserPrisma {
-  @ApiProperty({ description: 'Unique identifier of the user' })
+  @ApiProperty({ description: 'Unique identifier of the user', format: "uuid" })
   id: string;
 
-  @ApiProperty({ description: 'Email address of the user' })
+  @ApiProperty({ description: 'Email address of the user', format: "email" })
   email: string;
 
   @ApiProperty({ description: "User's first name" })
-  firstName: string;
-
-  @ApiProperty({ description: "User's last name" })
-  lastName: string;
+  name: string;
 
   @ApiProperty({ description: "User's password" })
   password: string;
 
-  @ApiProperty({ description: 'Profile picture of the user' })
-  picture: string;
-
   @ApiProperty({ description: 'Status of user verification' })
   isVerified: boolean;
 
-  @ApiProperty({ description: 'Timestamp when the user was created' })
-  createdAt: Date;
+  @ApiProperty({ description: 'Indicates if the user has completed the quiz' })
+  hasQuizCompleted: boolean;
 
-  @ApiProperty({ description: 'Timestamp when the user was last updated' })
-  updatedAt: Date;
+  @ApiProperty({ description: 'Google Id', format: "uuid" })
+  googleUserId: string;
+
+  @ApiProperty({ description: 'Apple Id', format: "uuid" })
+  appleUserId: string;
 }

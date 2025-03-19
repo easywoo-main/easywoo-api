@@ -1,17 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { LoginDto } from './dto/login.dto';
-import { User } from '../user/user.entity';
-import { UserService } from '../user/user.service';
-import { UserAuthDto } from './dto/userAuth.dto';
-import { UserPayload } from '../../interfaces';
-import { TokenType } from '../../enums';
-import { UserCreateDto } from '../user/dto/userCreate.dto';
-import { TokenService } from '../token/token.service';
-import { RefreshToken } from '../token/dtos/refresh.token.dto';
-import { AccessToken } from '../token/dtos/accessToken.dto';
+import { TokenService } from '../../token/token.service';
+import { UserService } from '../../user/user.service';
+import { UserCreateDto } from '../../user/dto/userCreate.dto';
+import { User } from '@prisma/client';
+import { RefreshToken } from '../../token/dtos/refresh.token.dto';
+import { UserPayload } from '../../../interfaces';
+import { AccessToken } from '../../token/dtos/accessToken.dto';
+import { TokenType } from '../../../enums';
+import { UserAuthDto } from '../userAuth.dto';
+import { LoginDto } from './login.dto';
 
 @Injectable()
-export class AuthService {
+export class CredentialsService {
   constructor(
     private readonly tokenService: TokenService,
     private readonly userService: UserService,

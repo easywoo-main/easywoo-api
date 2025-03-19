@@ -4,17 +4,10 @@ import { Injectable } from '@nestjs/common';
 import { UserUpdateDto } from './dto/userUpdate.dto';
 import { PrismaService } from '../../database/prisma.service';
 
-const selectWithPassword = {
-  id: true,
-  firstName: true,
-  lastName: true,
-  email: true,
-  password: true,
-  picture: true,
-  isVerified: true,
-  createdAt: true,
-  updatedAt: true,
-};
+const selectWithPassword: Record<keyof User, true> = Object.fromEntries(
+    Object.keys(new User())
+        .map((key) => [key, true])
+) as Record<keyof User, true>;
 @Injectable()
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -44,7 +37,7 @@ export class UserRepository {
     });
   }
 
-  public async updateUser(userId: string, userDto: UserUpdateDto): Promise<User> {
+  public async updateUser(userId: string, userDto: Partial<User>): Promise<User> {
     return this.prisma.user.update({
       where: { id: userId },
       data: userDto,
