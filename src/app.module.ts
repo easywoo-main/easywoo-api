@@ -6,7 +6,6 @@ import { TokenModule } from './modules/token/token.module';
 import { QuestionnaireModule } from './modules/questionnaire/questionnaire.module';
 import { QuestionnaireAnswerModule } from './modules/questionnaire-answer/questionnaire-answer.module';
 import { DatabaseModule } from './database/database.module';
-import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { CommonModule } from './common/common.module';
     TokenModule,
     QuestionnaireModule,
     QuestionnaireAnswerModule,
-    CommonModule,
   ],
   controllers: [],
   providers: [],

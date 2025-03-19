@@ -4,9 +4,6 @@ dotenv.config();
 
 export function getGoogleConfig(configService: ConfigService) {
   return {
-    clientID: configService.get<string>('GOOGLE_CLIENT_ID'),
-    clientSecret: configService.get<string>('GOOGLE_CLIENT_SECRET'),
-    callbackURL: configService.get<string>('GOOGLE_CALLBACK_URL'),
-    scope: ['profile', 'email'],
+    clientId: configService.get<string>('GOOGLE_CLIENT_ID'),
   };
 }

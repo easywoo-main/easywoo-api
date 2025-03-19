@@ -3,12 +3,13 @@ import { GoogleController } from './google.controller';
 import { GoogleService } from './google.service';
 import { TokenModule } from '../../token/token.module';
 import { UserModule } from '../../user/user.module';
-import { GoogleStrategy } from './google.strategy';
 import {GoogleClient} from "./googleClient";
+import {GoogleRepository} from "./google.repository";
+import {DatabaseModule} from "../../../database/database.module";
 
 @Module({
-  imports: [TokenModule, UserModule, GoogleClient],
+  imports: [TokenModule, UserModule, DatabaseModule],
   controllers: [GoogleController],
-  providers: [GoogleService, GoogleStrategy, GoogleClient],
+  providers: [GoogleService, GoogleClient, GoogleRepository],
 })
 export class GoogleModule {}

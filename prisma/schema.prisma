@@ -17,16 +17,12 @@ model User {
   id               String  @id @default(uuid())
   email            String  @unique
   name             String
-  password         String
-  picture          String?
+  password         String?
   isVerified       Boolean @default(false)
   hasQuizCompleted Boolean @default(false)
 
   googleUserId String? @unique
   appleUserId  String? @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
   questionnaireAnswer QuestionnaireAnswer[]
   googleUser          GoogleUser?           @relation(fields: [googleUserId], references: [id])
@@ -34,13 +30,13 @@ model User {
 }
 
 model GoogleUser {
-  id            String  @id @default(uuid())
-  googleId      String  @unique
-  email         String  @unique
-  firstName     String
-  lastName      String
-  photo         String?
-  emailVerified Boolean @default(false)
+  id              String  @id @default(uuid())
+  googleAccountId String  @unique
+  email           String  @unique
+  firstName       String
+  lastName        String
+  picture         String?
+  emailVerified   Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
