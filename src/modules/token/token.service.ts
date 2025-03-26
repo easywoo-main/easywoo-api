@@ -43,13 +43,10 @@ export class TokenService {
   }
 
   public async verifyTokenByType(token: string, type: TokenType) {
-    console.log('test2');
-
     if (!token) {
       throw new UnauthorizedException('Access denied. No access token provided.');
     }
     let data: UserPayload;
-    console.log('test1');
 
     switch (type) {
       case TokenType.ACCESS:

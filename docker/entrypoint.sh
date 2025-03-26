@@ -1,9 +1,5 @@
 #!/bin/sh
 
-echo "Очищення бази даних..."
-psql -U ${DATABASE_USERNAME} -d ${DATABASE_NAME} -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"
-echo "База даних очищена!"
-
 echo "Generating prisma client..."
 npm run prisma:generate
 

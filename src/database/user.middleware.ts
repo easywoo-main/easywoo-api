@@ -2,8 +2,8 @@ import * as bcrypt from 'bcrypt';
 import { SALT_ROUND } from '../utils/constants.utils';
 import { Prisma } from '@prisma/client';
 
-export async function userMiddleware(params: Prisma.MiddlewareParams, next:(params: Prisma.MiddlewareParams) => any) {
-  if (params.model == 'User' && params.args?.data || params.args?.where) {
+export async function userMiddleware(params: Prisma.MiddlewareParams, next: (params: Prisma.MiddlewareParams) => any) {
+  if ((params.model == 'User' && params.args?.data) || params.args?.where) {
     const data = params.args.data;
     if (data?.email) {
       data.email = data.email.toLowerCase();

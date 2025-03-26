@@ -3,10 +3,10 @@ import { UserService } from './user.service';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
 import { UserUpdateDto } from './dto/userUpdate.dto';
-import { AuthGuard } from '../../guards';
-import {ApiOkResponse, ApiUnauthorizedResponse} from "@nestjs/swagger";
-import {User} from "./user.entity";
-import {ErrorResponse} from "../../errorHandler/errorResponse.dto";
+import { ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { UserEntity } from './user.entity';
+import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
+import { AuthGuard } from '../../guard';
 
 @Controller('user')
 export class UserController {
@@ -14,7 +14,7 @@ export class UserController {
 
   @Get('me')
   @UseGuards(AuthGuard)
-  @ApiOkResponse({ description: 'User details', type: User })
+  @ApiOkResponse({ description: 'User details', type: UserEntity })
   @ApiUnauthorizedResponse({ description: 'Unauthorized', type: ErrorResponse })
   public async getMe(@UserDetails() user: UserPayload) {
     return await this.userService.findUserById(user.id);
