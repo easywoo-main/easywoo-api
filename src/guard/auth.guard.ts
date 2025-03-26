@@ -1,15 +1,15 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {ExecutionContext, Inject, Injectable, UnauthorizedException} from '@nestjs/common';
 import { TokenGuard } from './token.guard';
-import { TokenService } from '../modules/token/token.service';
 import { Reflector } from '@nestjs/core';
-import { UserService } from '../modules/user/user.service';
+import {TokenService} from "../../modules/token/token.service";
+import {UserService} from "../../modules/user/user.service";
 
 @Injectable()
 export class AuthGuard extends TokenGuard {
   constructor(
     protected readonly reflector: Reflector,
     protected readonly tokenService: TokenService,
-    private readonly userService: UserService,
+    // private readonly userService: UserService,
   ) {
     super(reflector, tokenService);
   }
@@ -26,7 +26,7 @@ export class AuthGuard extends TokenGuard {
 
     const request = context.switchToHttp().getRequest();
     const payload = request.user;
-    const user = await this.userService.findUserById(payload.id);
+    // const user = await this.userService.findUserById(payload.id);
 
     //todo: uncomment this code when email verification is implemented
     // if (!user.isVerified) {
