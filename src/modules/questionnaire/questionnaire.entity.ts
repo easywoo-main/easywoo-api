@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Questionnaire as QuestionnairePrisma, QuestionsType } from '@prisma/client';
+import { Questionnaire, QuestionsType } from '@prisma/client';
 
-export class Questionnaire implements QuestionnairePrisma {
+export class QuestionnaireEntity implements Questionnaire {
   @ApiProperty({ description: 'Unique identifier of the questionnaire' })
   id: string;
 

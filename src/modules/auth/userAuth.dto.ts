@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Tokens } from '../token/dtos/tokens.dto';
-import { User } from '../user/user.entity';
+import { UserEntity } from '../user/user.entity';
 
 export class UserAuthDto extends Tokens {
-  @ApiProperty({ type: () => User })
-  user: User;
+  @ApiProperty({ type: () => UserEntity })
+  user: UserEntity;
 }

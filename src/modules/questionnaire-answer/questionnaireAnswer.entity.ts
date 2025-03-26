@@ -1,7 +1,7 @@
-import { QuestionnaireAnswer as QuestionnaireAnswerPrisma } from '@prisma/client';
+import { QuestionnaireAnswer } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class QuestionnaireAnswer implements QuestionnaireAnswerPrisma {
+export class QuestionnaireAnswerEntity implements QuestionnaireAnswer {
   @ApiProperty({
     description: 'Unique identifier for the answer',
     example: 'b3f5c1c6-e2d1-4db7-b06f-0bfa6ad2ac9b',
@@ -10,10 +10,9 @@ export class QuestionnaireAnswer implements QuestionnaireAnswerPrisma {
 
   @ApiProperty({
     description: 'The answer provided by the user, could be an array of strings',
-    type: [String],
-    example: ['Answer 1', 'Answer 2'],
   })
-  answer: string[];
+  answerId: string;
+
 
   @ApiProperty({
     description: 'Unique identifier of the associated question',

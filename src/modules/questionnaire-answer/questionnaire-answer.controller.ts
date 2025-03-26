@@ -3,17 +3,10 @@ import { QuestionnaireAnswerService } from './questionnaire-answer.service';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
 import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.dto';
-import { AuthGuard } from '../../guards';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiUnauthorizedResponse,
-  ApiBadRequestResponse
-} from '@nestjs/swagger';
-import {ErrorResponse} from "../../errorHandler/errorResponse.dto";
-import {QuestionnaireAnswer} from "./questionnaireAnswer.entity";
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
+import { QuestionnaireAnswerEntity } from './questionnaireAnswer.entity';
+import { AuthGuard } from '../../guard/auth.guard';
 
 @ApiTags('Questionnaire Answer')
 @ApiBearerAuth()
@@ -26,7 +19,7 @@ export class QuestionnaireAnswerController {
   @ApiOperation({ summary: 'Create a new questionnaire answer' })
   @ApiResponse({
     status: 201,
-    type: QuestionnaireAnswer,
+    type: QuestionnaireAnswerEntity,
     description: 'The answer has been successfully created.',
   })
   @ApiBadRequestResponse({
@@ -37,13 +30,7 @@ export class QuestionnaireAnswerController {
     type: ErrorResponse,
     description: 'Unauthorized, invalid token or missing token.',
   })
-  public async createQuestionnaireAnswer(
-      @Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto,
-      @UserDetails() user: UserPayload,
-  ) {
-    return await this.questionnaireAnswerService.createQuestionnaireAnswer(
-        questionnaireAnswerCreateDto,
-        user.id,
-    );
+  public async createQuestionnaireAnswer(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, @UserDetails() user: UserPayload) {
+    return await this.questionnaireAnswerService.createQuestionnaireAnswer(questionnaireAnswerCreateDto, user.id);
   }
 }

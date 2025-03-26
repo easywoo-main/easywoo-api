@@ -3,18 +3,15 @@ import { UserCreateDto } from './dto/userCreate.dto';
 import { UserRepository } from './user.repository';
 import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
-import { User } from './user.entity';
+import { UserEntity } from './user.entity';
 import { CheckExistsDecorator } from '../../decorators';
-import { UserUpdateDto } from './dto/userUpdate.dto';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async createUser(userDto: UserCreateDto): Promise<User> {
-    console.log("test------>>>")
+  public async createUser(userDto: UserCreateDto): Promise<UserEntity> {
     const existingUser = await this.findUserByEmail(userDto.email);
-    console.log(existingUser, userDto.email);
     if (existingUser) {
       throw new BadRequestException('User already exists');
     }
@@ -32,21 +29,21 @@ export class UserService {
     return new Success('Password verified');
   }
 
-  public async findUserByEmail(email: string): Promise<User> {
+  public async findUserByEmail(email: string): Promise<UserEntity> {
     return this.userRepository.findUserByEmail(email);
   }
 
   @CheckExistsDecorator('User not found')
-  public async findUserByIdWithPassword(userId: string): Promise<User> {
+  public async findUserByIdWithPassword(userId: string): Promise<UserEntity> {
     return this.userRepository.findUserByIdWithPassword(userId);
   }
 
   @CheckExistsDecorator('User not found')
-  public async findUserById(userId: string): Promise<User> {
+  public async findUserById(userId: string): Promise<UserEntity> {
     return this.userRepository.findUserById(userId);
   }
 
-  async updateUser(userId: string, updateUser: Partial<User>) {
+  async updateUser(userId: string, updateUser: Partial<UserEntity>) {
     await this.findUserById(userId);
     return await this.userRepository.updateUser(userId, updateUser);
   }

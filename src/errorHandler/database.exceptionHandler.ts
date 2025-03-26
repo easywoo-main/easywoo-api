@@ -5,17 +5,16 @@ import { Prisma } from '@prisma/client';
 export class DatabaseExceptionHandler implements IExceptionHandler {
   supports(exception: unknown): boolean {
     return (
-        exception instanceof Prisma.PrismaClientKnownRequestError ||
-        exception instanceof Prisma.PrismaClientUnknownRequestError ||
-        exception instanceof Prisma.PrismaClientValidationError ||
-        exception instanceof Prisma.PrismaClientRustPanicError ||
-        exception instanceof Prisma.PrismaClientInitializationError
+      exception instanceof Prisma.PrismaClientKnownRequestError ||
+      exception instanceof Prisma.PrismaClientUnknownRequestError ||
+      exception instanceof Prisma.PrismaClientValidationError ||
+      exception instanceof Prisma.PrismaClientRustPanicError ||
+      exception instanceof Prisma.PrismaClientInitializationError
     );
   }
 
   handle(exception: Prisma.PrismaClientKnownRequestError | Error) {
     let status = HttpStatus.BAD_REQUEST;
-    console.log(exception);
     let message = exception.message;
 
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {

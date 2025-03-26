@@ -1,50 +1,41 @@
-import {Injectable, UnauthorizedException} from '@nestjs/common';
-import {GoogleClient} from "./googleClient";
-import {GoogleUser} from "./google.entity";
-import {TokenService} from "../../token/token.service";
-import {UserService} from "../../user/user.service";
-import {GoogleCreateDto} from "./dtos/googleCreate.dto";
-import {UserCreateDto} from "../../user/dto/userCreate.dto";
-import {GoogleRepository} from "./google.repository";
-import {UserAuthDto} from "../userAuth.dto";
-import {GoogleUserWithUser} from "./dtos/googleUserWithUser.dto";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { GoogleClient } from './googleClient';
+import { GoogleUser } from './google.entity';
+import { TokenService } from '../../token/token.service';
+import { UserService } from '../../user/user.service';
+import { GoogleCreateDto } from './dtos/googleCreate.dto';
+import { UserCreateDto } from '../../user/dto/userCreate.dto';
+import { GoogleRepository } from './google.repository';
+import { UserAuthDto } from '../userAuth.dto';
+import { GoogleUserWithUser } from './dtos/googleUserWithUser.dto';
 import { ConfigService } from '@nestjs/config';
-import {getGoogleConfig} from "../../../configs/google.config";
-import {GoogleCallbackDto} from "./dtos/googleCallback.dto";
-import {GoogleRedirectDto} from "./dtos/googleRedirect.dto";
+import { GoogleCallbackDto } from './dtos/googleCallback.dto';
+import { UserEntity } from '../../user/user.entity';
 
 @Injectable()
 export class GoogleService {
   constructor(
-      private readonly googleClient: GoogleClient,
-      private readonly googleRepository: GoogleRepository,
-      private readonly tokenService: TokenService,
-      private readonly userService: UserService,
-      private readonly configService: ConfigService
+    private readonly googleClient: GoogleClient,
+    private readonly googleRepository: GoogleRepository,
+    private readonly tokenService: TokenService,
+    private readonly userService: UserService,
+    private readonly configService: ConfigService,
   ) {}
 
   public async googleAuth(googleCallbackDto: GoogleCallbackDto): Promise<UserAuthDto> {
-     console.log(googleCallbackDto.idToken)
-    // const {tokens} = await this.googleClient.getToken(googleCallbackDto.authCode);
-    // this.googleClient.setCredentials(tokens);
-    const ticket = await this.googleClient.verifyIdToken({idToken: googleCallbackDto.idToken,});
+    const ticket = await this.googleClient.verifyIdToken({ idToken: googleCallbackDto.idToken });
     const payload = ticket.getPayload();
     if (!payload) {
-      throw new UnauthorizedException("Invalid token");
+      throw new UnauthorizedException('Invalid token');
     }
 
-    console.log("payload", payload)
     let googleUser = await this.findOneByEmail(payload.email!);
-    console.log("googleUser", googleUser)
-    let user, existingGoogleUser;
+    let user: UserEntity, existingGoogleUser: GoogleUser;
 
     if (googleUser) {
       ({ user, ...existingGoogleUser } = googleUser);
     }
-    console.log("existingGoogleUser", existingGoogleUser)
     let existingUser = await this.userService.findUserByEmail(payload.email!);
-
-    console.log("existingGoogleUser", existingGoogleUser)
 
     const userDto: UserCreateDto = {
       name: payload.name,
@@ -66,10 +57,7 @@ export class GoogleService {
     }
     if (!existingUser && existingGoogleUser) {
       existingUser = await this.userService.findUserById(user.id);
-      existingGoogleUser = await this.updateGoogleUser(
-          existingGoogleUser.id,
-          googleUserDto,
-      );
+      existingGoogleUser = await this.updateGoogleUser(existingGoogleUser.id, googleUserDto);
     }
     if (existingUser && !existingGoogleUser) {
       await this.createGoogleUser(googleUserDto);
@@ -79,7 +67,7 @@ export class GoogleService {
     return {
       user: existingUser,
       ...accessTokens,
-    }
+    };
   }
 
   public async createGoogleUser(googleDto: GoogleCreateDto): Promise<GoogleUser> {
