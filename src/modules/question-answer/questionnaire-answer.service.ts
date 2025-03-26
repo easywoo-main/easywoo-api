@@ -13,7 +13,7 @@ export class QuestionnaireAnswerService {
   ) {}
 
   public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, userId: string) {
-    questionnaireAnswerCreateDto.userId = userId;
+    // questionnaireAnswerCreateDto.userId = userId;
     const newQuestionnaireAnswer = this.questionnaireAnswerRepository.createQuestionnaireAnswer(questionnaireAnswerCreateDto);
     await this.checkCompletedQuestionsAnswer(userId);
     return newQuestionnaireAnswer;
@@ -21,12 +21,12 @@ export class QuestionnaireAnswerService {
 
   public async checkCompletedQuestionsAnswer(userId: string): Promise<boolean> {
     const questionnaires = await this.questionnaireService.getAllQuizzes(userId);
-    const completedQuestionnaires = questionnaires.filter((questionnaire) => questionnaire.userAnswer);
+    // const completedQuestionnaires = questionnaires.filter((questionnaire) => questionnaire.userAnswer);
 
-    const hasQuizCompleted = completedQuestionnaires.length === questionnaires.length;
+    // const hasQuizCompleted = completedQuestionnaires.length === questionnaires.length;
 
-    await this.userService.updateUser(userId, { hasQuizCompleted });
+    // await this.userService.updateUser(userId, { hasQuizCompleted });
 
-    return hasQuizCompleted;
+    return true;
   }
 }

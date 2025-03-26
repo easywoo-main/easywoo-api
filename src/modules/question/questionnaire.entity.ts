@@ -1,18 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Questionnaire, QuestionsType } from '@prisma/client';
+import { Question, QuestionsType } from '@prisma/client';
 
-export class QuestionnaireEntity implements Questionnaire {
+export class QuestionnaireEntity implements Question {
   @ApiProperty({ description: 'Unique identifier of the questionnaire' })
   id: string;
 
   @ApiProperty({ description: 'Step number in the questionnaire' })
   step: number;
 
+  @ApiProperty({ description: 'Name of the questionnaire' })
+  name: string;
+
   @ApiProperty({ description: 'Question text' })
   question: string;
 
-  @ApiProperty({ description: 'List of possible answers for the question' })
-  answers: string[];
+  // @ApiProperty({ description: 'List of possible answers for the question' })
+  // answers: string[];
 
   @ApiProperty({ description: 'The type of the question' })
   type: QuestionsType;

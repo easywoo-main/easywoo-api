@@ -24,9 +24,9 @@ model User {
   googleUserId String? @unique
   appleUserId  String? @unique
 
-  questionnaireAnswer QuestionnaireAnswer[]
-  googleUser          GoogleUser?           @relation(fields: [googleUserId], references: [id])
-  appleUser           AppleUser?            @relation(fields: [appleUserId], references: [id])
+  answers    Answer[]
+  googleUser GoogleUser? @relation(fields: [googleUserId], references: [id])
+  appleUser  AppleUser?  @relation(fields: [appleUserId], references: [id])
 }
 
 model GoogleUser {
@@ -60,29 +60,13 @@ model AppleUser {
   user User?
 }
 
-model QuestionnaireAnswer {
-  id         String @id @default(uuid())
-  answerId   String
-  questionId String
-  userId     String
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  user     User          @relation(fields: [userId], references: [id])
-  question Questionnaire @relation(fields: [questionId], references: [id])
-  answer   Answer        @relation(fields: [answerId], references: [id])
-
-  @@unique([questionId, userId])
-}
-
 enum QuestionsType {
   single
   multiple
   slider
 }
 
-model Questionnaire {
+model Question {
   id       String        @id @default(uuid())
   step     Int
   question String
@@ -92,23 +76,24 @@ model Questionnaire {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  userAnswers QuestionnaireAnswer[]
-  answer      Answer[]
+  answers Answer[]
 
   @@unique([question])
+  @@unique([name])
 }
 
 model Answer {
   id         String @id @default(uuid())
   answer     String
-  questionId String
   name       String
+  questionId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  question            Questionnaire         @relation(fields: [questionId], references: [id])
-  QuestionnaireAnswer QuestionnaireAnswer[]
+  question Question @relation(fields: [questionId], references: [id])
+  user     User[]
 
   @@unique([answer, questionId])
+  @@unique([name, questionId])
 }

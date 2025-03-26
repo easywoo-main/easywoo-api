@@ -5,8 +5,8 @@ import { UserPayload } from '../../interfaces';
 import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.dto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
-import { QuestionnaireAnswerEntity } from './questionnaireAnswer.entity';
-import { AuthGuard } from '../../guard/auth.guard';
+import { AuthGuard } from '../../guard';
+import { AnswerEntity } from './questionnaireAnswer.entity';
 
 @ApiTags('Questionnaire Answer')
 @ApiBearerAuth()
@@ -19,7 +19,7 @@ export class QuestionnaireAnswerController {
   @ApiOperation({ summary: 'Create a new questionnaire answer' })
   @ApiResponse({
     status: 201,
-    type: QuestionnaireAnswerEntity,
+    type: AnswerEntity,
     description: 'The answer has been successfully created.',
   })
   @ApiBadRequestResponse({

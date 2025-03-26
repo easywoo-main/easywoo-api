@@ -14,7 +14,7 @@ export class QuestionnaireController {
   constructor(private readonly questionnaireService: QuestionnaireService) {}
 
   @Get('/')
-  @UseGuards()
+  @UseGuards(AuthGuard)
   @ApiOkResponse({
     type: QuestionnaireEntity,
     isArray: true,

@@ -6,14 +6,18 @@ export class QuestionnaireRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   public async getAllQuizzes(userId: string, step?: number) {
-    return this.prisma.questionnaire.findMany({
+    return this.prisma.question.findMany({
       where: {
         ...(step && { step }),
       },
       include: {
-        userAnswers: {
-          where: {
-            userId,
+        answers: {
+          include: {
+            user: {
+              where: {
+                id: userId,
+              },
+            },
           },
         },
       },

@@ -4,9 +4,10 @@ import { QuestionnaireService } from './questionnaire.service';
 import { QuestionnaireRepository } from './questionnaire.repository';
 import { DatabaseModule } from '../../database/database.module';
 import { UserModule } from '../user/user.module';
+import { TokenModule } from '../token/token.module';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, TokenModule],
   controllers: [QuestionnaireController],
   providers: [QuestionnaireService, QuestionnaireRepository],
   exports: [QuestionnaireService],
