@@ -28,14 +28,14 @@ services:
       - 8088:8080
     networks:
       - backend
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    restart: always
-    ports:
-      - "11434:11434"
-    volumes:
-      - ollama_data:/root/.ollama
+#  ollama:
+#    image: ollama/ollama
+#    container_name: ollama
+#    restart: always
+#    ports:
+#      - "11434:11434"
+#    volumes:
+#      - ollama_data:/root/.ollama
 
   app:
     build:
@@ -63,4 +63,4 @@ networks:
 
 volumes:
   pg_data:
-  ollama_data:
+#  ollama_data:

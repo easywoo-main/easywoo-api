@@ -8,7 +8,7 @@ import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { QuestionEntity } from './question.entity';
 import { AuthGuard } from '../../guard/auth.guard';
 
-@Controller('questionnaire')
+@Controller('question')
 @ApiTags('Questionnaire')
 export class QuestionController {
   constructor(private readonly questionnaireService: QuestionService) {}
