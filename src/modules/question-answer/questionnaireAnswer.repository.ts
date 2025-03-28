@@ -6,5 +6,33 @@ import { PrismaService } from '../../database/prisma.service';
 export class QuestionnaireAnswerRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto) {}
+  public async createQuestionnaireAnswer(answerId: string, userId: string) {
+    return this.prisma.answer.update({
+      where: {
+        id: answerId,
+      },
+      data: {
+        users: {
+          connect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
+
+  public async disconnectQuestionnaireAnswer(answerId: string, userId: string) {
+    return this.prisma.answer.update({
+      where: {
+        id: answerId,
+      },
+      data: {
+        users: {
+          disconnect: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
 }

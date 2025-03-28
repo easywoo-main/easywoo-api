@@ -3,10 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { TokenModule } from './modules/token/token.module';
-import { QuestionnaireModule } from './modules/questionnaire/questionnaire.module';
-import { QuestionnaireAnswerModule } from './modules/questionnaire-answer/questionnaire-answer.module';
 import { DatabaseModule } from './database/database.module';
 import { ReportModule } from './modules/report/report.module';
+import { QuestionModule } from './modules/question/question.module';
+import { QuestionnaireAnswerModule } from './modules/question-answer/questionnaire-answer.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { ReportModule } from './modules/report/report.module';
     AuthModule,
     UserModule,
     TokenModule,
-    QuestionnaireModule,
+    QuestionModule,
     QuestionnaireAnswerModule,
     ReportModule,
   ],
