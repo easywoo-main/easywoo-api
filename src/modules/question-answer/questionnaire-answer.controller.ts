@@ -31,6 +31,6 @@ export class QuestionnaireAnswerController {
     description: 'Unauthorized, invalid token or missing token.',
   })
   public async createQuestionnaireAnswer(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, @UserDetails() user: UserPayload) {
-    return await this.questionnaireAnswerService.createQuestionnaireAnswer(questionnaireAnswerCreateDto, user.id);
+    return await this.questionnaireAnswerService.createQuestionnaireAnswer({ ...questionnaireAnswerCreateDto, userId: user.id });
   }
 }

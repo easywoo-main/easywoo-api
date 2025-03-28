@@ -82,17 +82,31 @@ model Question {
   @@unique([name])
 }
 
+model Sentence {
+  id       String @id @default(uuid())
+  sentence String
+
+  condition Json
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([sentence])
+}
+
 model Answer {
   id         String @id @default(uuid())
   answer     String
   name       String
   questionId String
 
+  evaluation Json?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   question Question @relation(fields: [questionId], references: [id])
-  user     User[]
+  users    User[]
 
   @@unique([answer, questionId])
   @@unique([name, questionId])

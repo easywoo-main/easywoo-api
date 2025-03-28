@@ -28,6 +28,14 @@ services:
       - 8088:8080
     networks:
       - backend
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
 
   app:
     build:
@@ -38,6 +46,8 @@ services:
     depends_on:
       pg_db:
         condition: service_healthy
+#      ollama:
+
     ports:
       - ${PORT}:${PORT}
     environment:
@@ -53,3 +63,4 @@ networks:
 
 volumes:
   pg_data:
+  ollama_data:
