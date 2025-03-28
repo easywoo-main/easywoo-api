@@ -1,7 +1,7 @@
 import { QuestionnaireDto } from '../dtos/questionnaire.dto';
 import { Question } from '@prisma/client';
 
-function createQuestionnaireDto(questions: Question[]): QuestionnaireDto {
+function createQuestionDto(questions: Question[]): QuestionnaireDto {
   const dto: QuestionnaireDto = {};
 
   questions.forEach((question) => {
