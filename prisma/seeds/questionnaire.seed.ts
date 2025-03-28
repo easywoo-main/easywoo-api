@@ -95,7 +95,7 @@ async function main(prisma: PrismaClient) {
       step: 7,
       question: 'How socially active are you?',
       answers: [
-        { answer: 'Not active', name: 'notActive',evaluation: { 'opportunity.wrong_use_SM': 15 } },
+        { answer: 'Not active', name: 'notActive', evaluation: { 'opportunity.wrong_use_SM': 15 } },
         { answer: 'Somewhat active', name: 'somewhatActive', evaluation: { 'opportunity.wrong_use_SM': 10 } },
         { answer: 'Active', name: 'active', evaluation: { 'opportunity.wrong_use_SM': 10 } },
         { answer: 'Very active', name: 'veryActive', evaluation: { 'opportunity.wrong_use_SM': 15 } },
@@ -109,9 +109,9 @@ async function main(prisma: PrismaClient) {
       question: 'How confident are you in social situations?',
       answers: [
         { answer: 'Not at all', name: 'notAtAll' },
-        { answer: 'Just trying', name: 'justTrying', evaluation: {"opportunity.wrong_use_SM": 5} },
-        { answer: 'I am okay with it', name: 'okayWithIt', evaluation: {'opportunity.wrong_use_SM': 3} },
-        { answer: 'Confident', name: 'confident', evaluation: {"opportunity.wrong_use_SM": 5} },
+        { answer: 'Just trying', name: 'justTrying', evaluation: { 'opportunity.wrong_use_SM': 5 } },
+        { answer: 'I am okay with it', name: 'okayWithIt', evaluation: { 'opportunity.wrong_use_SM': 3 } },
+        { answer: 'Confident', name: 'confident', evaluation: { 'opportunity.wrong_use_SM': 5 } },
         { answer: 'Very confident', name: 'veryConfident' },
       ],
       name: 'confidenceInSocialMedia',
@@ -235,7 +235,7 @@ async function main(prisma: PrismaClient) {
       question: 'We are here to help you achieve your goals. Select all that apply.',
       answers: [
         { answer: 'Find relationship I match with', name: 'findRelationship' },
-        { answer: 'Learn how to attract the people I like', name: 'learnAttractPeople', evaluation: {"opportunity.wrong_use_SM": 15} },
+        { answer: 'Learn how to attract the people I like', name: 'learnAttractPeople', evaluation: { 'opportunity.wrong_use_SM': 15 } },
         { answer: 'Improve social life', name: 'improveSocialLife' },
         { answer: 'Find new friends', name: 'findNewFriends' },
         { answer: 'Start a family', name: 'startFamily' },

@@ -8,10 +8,21 @@ import { EmotionalBaggageModule } from './emotional-baggage/emotional-baggage.mo
 import { IntroModule } from './intro/intro.module';
 import { FinalConsiderationsModule } from './final-considerations/final-considerations.module';
 import { QuestionModule } from '../question/question.module';
+import { EvaluatorModule } from './evaluator/evaluator.module';
 
 @Module({
   providers: [ReportService],
   exports: [ReportService],
-  imports: [UserIntroductionModule, RelationshipGoalsModule, TargetAudienceModule, EmotionalBaggageModule, FinalConsiderationsModule, DeepDiveModule, IntroModule, QuestionModule],
+  imports: [
+    UserIntroductionModule,
+    RelationshipGoalsModule,
+    TargetAudienceModule,
+    EmotionalBaggageModule,
+    FinalConsiderationsModule,
+    DeepDiveModule,
+    IntroModule,
+    QuestionModule,
+    EvaluatorModule,
+  ],
 })
 export class ReportModule {}

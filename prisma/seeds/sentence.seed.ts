@@ -111,7 +111,10 @@ async function main(prisma: PrismaClient) {
 
   for (const sentenceEntity of sentences) {
     await prisma.sentence.create({
-      data: { sentenceEntity },
+      data: {
+        condition: sentenceEntity.condition,
+        sentence: sentenceEntity.result,
+      } ,
     });
   }
 }
