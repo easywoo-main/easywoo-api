@@ -8,13 +8,16 @@ export class QuestionnaireService {
   public async getAllQuizzes(userId: string, step?: number) {
     const questionnaires = await this.questionnaireRepository.getAllQuizzes(userId, step);
 
-    return questionnaires;
-    // return questionnaires.map((questionnaire) => {
-    //   const { ...rest } = questionnaire;
-    //   return {
-    //     ...rest,
-    //     // userAnswer: userAnswers[0],
-    //   };
-    // });
+    return questionnaires.map(({ answers, ...question }) => {
+      return {
+        ...question,
+        answers: answers.map(({ user, ...answer }) => {
+          return {
+            isAnswered: !!user[0],
+            ...answer,
+          };
+        }),
+      };
+    });
   }
 }
