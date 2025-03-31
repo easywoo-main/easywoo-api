@@ -7,16 +7,18 @@ import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTag
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { QuestionEntity } from './question.entity';
 import { AuthGuard } from '../../guard/auth.guard';
+import {QuestionWithStepDto} from "./dtos/questionWithStep.dto";
 
 @Controller('question')
 @ApiTags('Questionnaire')
 export class QuestionController {
   constructor(private readonly questionnaireService: QuestionService) {}
 
+
   @Get('/')
   @UseGuards(AuthGuard)
   @ApiOkResponse({
-    type: QuestionEntity,
+    type: QuestionWithStepDto,
     isArray: true,
   })
   @ApiBadRequestResponse({
@@ -27,7 +29,7 @@ export class QuestionController {
     type: ErrorResponse,
     description: 'Unauthorized, invalid or missing authentication token.',
   })
-  public async getAllQuizzes(@UserDetails() user: UserPayload, @Query() questionnaireQuery: QuestionnaireQuery) {
-    return this.questionnaireService.getAllQuestions(user.id, questionnaireQuery.step);
+  public async getQuestionByStep(@UserDetails() user: UserPayload, @Query() questionnaireQuery: QuestionnaireQuery) {
+    return this.questionnaireService.getQuestionByStep(user.id, questionnaireQuery.step);
   }
 }
