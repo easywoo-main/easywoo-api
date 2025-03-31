@@ -3,8 +3,8 @@ import { GenerateReportSectionInterface } from '../generateReportSection.interfa
 import { QuestionnaireDto } from '../../question/dtos/questionnaire.dto';
 
 @Injectable()
-export class DeepDiveService implements GenerateReportSectionInterface {
-  name: string;
+export class EmotionalBaggageService implements GenerateReportSectionInterface {
+  name: string = "What about the baggage?";
   generateReportSection(questionnaire: QuestionnaireDto): string {
     return 'test';
   }
