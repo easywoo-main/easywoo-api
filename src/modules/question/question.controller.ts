@@ -3,10 +3,11 @@ import { QuestionService } from './question.service';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
 import { QuestionnaireQuery } from './dtos/questionnaire.query';
-import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { QuestionEntity } from './question.entity';
 import { AuthGuard } from '../../guard/auth.guard';
+import { QuestionWithStepDto } from './dtos/questionWithStep.dto';
 
 @Controller('question')
 @ApiTags('Questionnaire')
@@ -16,7 +17,7 @@ export class QuestionController {
   @Get('/')
   @UseGuards(AuthGuard)
   @ApiOkResponse({
-    type: QuestionEntity,
+    type: QuestionWithStepDto,
     isArray: true,
   })
   @ApiBadRequestResponse({
@@ -27,7 +28,8 @@ export class QuestionController {
     type: ErrorResponse,
     description: 'Unauthorized, invalid or missing authentication token.',
   })
-  public async getAllQuizzes(@UserDetails() user: UserPayload, @Query() questionnaireQuery: QuestionnaireQuery) {
-    return this.questionnaireService.getAllQuestions(user.id, questionnaireQuery.step);
+  @ApiBearerAuth()
+  public async getQuestionByStep(@UserDetails() user: UserPayload, @Query() questionnaireQuery: QuestionnaireQuery) {
+    return this.questionnaireService.getQuestionByStep(user.id, questionnaireQuery.step);
   }
 }

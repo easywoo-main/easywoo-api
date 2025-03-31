@@ -114,7 +114,7 @@ async function main(prisma: PrismaClient) {
       data: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.result,
-      } ,
+      },
     });
   }
 }

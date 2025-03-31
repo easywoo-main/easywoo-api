@@ -4,8 +4,11 @@ import { QuestionnaireDto } from '../../question/dtos/questionnaire.dto';
 
 @Injectable()
 export class RelationshipGoalsService implements GenerateReportSectionInterface {
-  name: string;
+  name: string = 'Clearing up your relationship goals';
   generateReportSection(questionnaire: QuestionnaireDto): string {
-    throw new MethodNotAllowedException('Method not implemented.');
+    return 'test';
+  }
+  getName(): string {
+    return this.name;
   }
 }

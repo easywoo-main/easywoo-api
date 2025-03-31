@@ -6,6 +6,9 @@ import { QuestionnaireDto } from '../../question/dtos/questionnaire.dto';
 export class EmotionalBaggageService implements GenerateReportSectionInterface {
   name: string;
   generateReportSection(questionnaire: QuestionnaireDto): string {
-    throw new MethodNotAllowedException('Method not implemented.');
+    return 'test';
+  }
+  getName(): string {
+    return this.name;
   }
 }

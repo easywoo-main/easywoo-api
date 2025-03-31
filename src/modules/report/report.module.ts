@@ -9,6 +9,9 @@ import { IntroModule } from './intro/intro.module';
 import { FinalConsiderationsModule } from './final-considerations/final-considerations.module';
 import { QuestionModule } from '../question/question.module';
 import { EvaluatorModule } from './evaluator/evaluator.module';
+import { ReportController } from './report.controller';
+import { TokenModule } from '../token/token.module';
+import { UserModule } from '../user/user.module';
 
 @Module({
   providers: [ReportService],
@@ -23,6 +26,9 @@ import { EvaluatorModule } from './evaluator/evaluator.module';
     IntroModule,
     QuestionModule,
     EvaluatorModule,
+    TokenModule,
+    UserModule,
   ],
+  controllers: [ReportController],
 })
 export class ReportModule {}
