@@ -41,13 +41,13 @@ export class QuestionnaireAnswerRepository {
       where: {
         id: answerId,
       },
-      include:{
+      include: {
         users: {
           where: {
             id: userId,
           },
         },
-      }
+      },
     });
   }
 }

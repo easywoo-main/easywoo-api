@@ -1,5 +1,4 @@
-import {QuestionDto} from "./question.dto";
-
+import { QuestionDto } from './question.dto';
 
 export class QuestionWithStepDto {
   count: number;

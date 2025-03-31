@@ -4,8 +4,11 @@ import { QuestionnaireDto } from '../../question/dtos/questionnaire.dto';
 
 @Injectable()
 export class TargetAudienceService implements GenerateReportSectionInterface {
-  name: string;
+  name: string = 'Who are you aiming to woo?';
   generateReportSection(questionnaire: QuestionnaireDto): string {
-    throw new MethodNotAllowedException('Method not implemented.');
+    return 'test';
+  }
+  getName(): string {
+    return this.name;
   }
 }

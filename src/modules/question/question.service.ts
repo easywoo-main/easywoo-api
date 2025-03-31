@@ -1,8 +1,8 @@
-import {BadRequestException, Injectable} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { QuestionRepository } from './question.repository';
 import { QuestionDto } from './dtos/question.dto';
 import { QuestionMapper } from './question.mapper';
-import {QuestionWithStepDto} from "./dtos/questionWithStep.dto";
+import { QuestionWithStepDto } from './dtos/questionWithStep.dto';
 
 @Injectable()
 export class QuestionService {
@@ -21,18 +21,16 @@ export class QuestionService {
     return this.questionMapper.toDto(question);
   }
 
-    public async getQuestionByStep(userId: string, step: number) {
-      const questions = await this.getAllQuestions(userId);
+  public async getQuestionByStep(userId: string, step: number) {
+    const questions = await this.getAllQuestions(userId);
 
-
-      const existingQuestion =  new QuestionWithStepDto()
-      existingQuestion.count = questions.length;
-      if (step > questions.length) {
-        throw new BadRequestException("Step is greater than the number of questions");
-      }
-      step--;
-      existingQuestion.question = questions[step];
-      return existingQuestion;
-
+    const existingQuestion = new QuestionWithStepDto();
+    existingQuestion.count = questions.length;
+    if (step > questions.length) {
+      throw new BadRequestException('Step is greater than the number of questions');
     }
+    step--;
+    existingQuestion.question = questions[step];
+    return existingQuestion;
+  }
 }

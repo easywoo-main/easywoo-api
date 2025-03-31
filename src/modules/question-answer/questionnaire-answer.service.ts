@@ -1,11 +1,11 @@
-import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { QuestionnaireAnswerRepository } from './questionnaireAnswer.repository';
 import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.dto';
 import { UserService } from '../user/user.service';
 import { QuestionService } from '../question/question.service';
 import { QuestionDto } from '../question/dtos/question.dto';
 import { QuestionsType } from '@prisma/client';
-import {CheckExistsDecorator} from "../../decorators";
+import { CheckExistsDecorator } from '../../decorators';
 
 @Injectable()
 export class QuestionnaireAnswerService {
