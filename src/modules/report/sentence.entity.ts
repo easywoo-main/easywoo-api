@@ -1,10 +1,11 @@
-import { Sentence } from '@prisma/client';
+import { Sentence, SentenceType } from '@prisma/client';
 import { JsonValue } from '@prisma/client/runtime/library';
 
 export class SentenceEntity implements Sentence {
   id: string;
   sentence: string;
   condition: JsonValue;
+  type: SentenceType;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,46 +1,88 @@
 import { Injectable } from '@nestjs/common';
-import { SentenceEntity } from '../sentence.entity';
-import { JsonValue } from '@prisma/client/runtime/library';
+import { Condition } from './condition.dto';
 
 @Injectable()
 export class EvaluatorService {
-  public checkCondition(condition: JsonValue, questionnaire): boolean {
-    if (Array.isArray(condition)) {
-      if (condition.some((cond) => cond['AND'] || cond['OR'])) {
-        for (const subCondition of condition) {
-          if (subCondition['AND']) {
-            if (!this.checkCondition(subCondition['AND'], questionnaire)) {
-              return false;
-            }
-          } else if (subCondition['OR']) {
-            if (this.checkCondition(subCondition['OR'], questionnaire)) {
-              return true;
-            }
-          } else {
-            if (!this.checkSimpleCondition(subCondition, questionnaire)) {
-              return false;
-            }
-          }
-        }
-        return true;
-      }
-      return condition.every((subCondition) => this.checkSimpleCondition(subCondition, questionnaire));
+  public checkCondition(expression: Condition, data: any): boolean {
+    console.log('expression', expression, data['personType']['romantic']);
+
+    if (Array.isArray(expression)) {
+      return expression.every((item) => this.checkCondition(item, data));
     }
-    return this.checkSimpleCondition(condition, questionnaire);
+
+    if (typeof expression === 'object') {
+      const operator = Object.keys(expression)[0];
+
+      if (operator === 'AND') {
+        if (Array.isArray(expression['AND'])) {
+          return expression['AND'].every((item) => this.checkCondition(item, data));
+        }
+        return Object.entries(expression['AND']).every(([key, value]) => this.checkNestedValue(key, value, data));
+      }
+
+      if (operator === 'OR') {
+        if (Array.isArray(expression['OR'])) {
+          return expression['OR'].some((item) => this.checkCondition(item, data));
+        }
+        return Object.entries(expression['OR']).some(([key, value]) => this.checkNestedValue(key, value, data));
+      }
+
+      if (operator === 'GTE') {
+        const key = Object.keys(expression['GTE'])[0];
+        return data[key] >= expression['GTE'][key];
+      }
+
+      if (operator === 'GT') {
+        const key = Object.keys(expression['GT'])[0];
+        return data[key] > expression['GT'][key];
+      }
+
+      if (operator === 'LTE') {
+        const key = Object.keys(expression['LTE'])[0];
+        return data[key] <= expression['LTE'][key];
+      }
+
+      if (operator === 'LT') {
+        const key = Object.keys(expression['LT'])[0];
+        return data[key] < expression['LT'][key];
+      }
+
+      if (operator === 'EQUALS') {
+        const key = Object.keys(expression['EQUALS'])[0];
+        return data[key] === expression['EQUALS'][key];
+      }
+
+      if (operator === 'IN') {
+        const key = Object.keys(expression['IN'])[0];
+        return Array.isArray(expression['IN']) && expression['IN'].includes(data[key]);
+      }
+
+      if (operator === 'NOTIN') {
+        const key = Object.keys(expression['NOTIN'])[0];
+        return Array.isArray(expression['NOTIN']) && !expression['NOTIN'].includes(data[key]);
+      }
+
+      const key = Object.keys(expression)[0];
+      if (expression[key] !== undefined) {
+        return this.checkNestedValue(key, expression[key], data);
+      }
+    }
+
+    return false;
   }
 
-  private checkSimpleCondition(condition: any, questionnaire): boolean {
-    const [key, value] = Object.entries(condition)[0];
-    const keys = key.split('.');
+  private checkNestedValue(key: string, value: any, data: any): boolean {
+    const subKeys = key.split('.');
+    let currentValue = data;
 
-    let obj = questionnaire;
-    for (const k of keys) {
-      if (obj[k] === undefined) {
+    for (const subKey of subKeys) {
+      if (currentValue && currentValue[subKey] !== undefined) {
+        currentValue = currentValue[subKey];
+      } else {
         return false;
       }
-      obj = obj[k];
     }
 
-    return obj === value;
+    return currentValue === value;
   }
 }

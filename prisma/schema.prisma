@@ -70,8 +70,9 @@ model Question {
   id       String        @id @default(uuid())
   step     Int
   question String
-  type     QuestionsType
   name     String
+  type     QuestionsType
+
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -79,19 +80,30 @@ model Question {
   answers Answer[]
 
   @@unique([question])
+  @@unique([step])
   @@unique([name])
 }
 
 model Sentence {
   id       String @id @default(uuid())
   sentence String
-
+  type     SentenceType
   condition Json
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([sentence])
+}
+
+enum SentenceType {
+  Intro
+  UserIntroduction
+  TargetAudience
+  RelationshipGoals
+  FinalConsiderations
+  EmotionalBaggage
+  DeepDive
 }
 
 model Answer {
