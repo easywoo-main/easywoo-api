@@ -24,8 +24,8 @@ const REPORT_SECTIONS = [
     type: SentenceType.FinalConsiderations,
   },
   {
-    name: "EasySocial",
-    type: SentenceType.EasySocial
+    name: 'EasySocial',
+    type: SentenceType.EasySocial,
   },
   {
     name: 'What about the baggage?',
