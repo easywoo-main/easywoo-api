@@ -4,7 +4,7 @@ const SALT_ROUND = 10;
 
 const REPORT_SECTIONS = [
   {
-    name: 'Scratching beneath the surface',
+    name: 'Let’s look at you',
     type: SentenceType.UserIntroduction,
   },
   {
@@ -12,19 +12,23 @@ const REPORT_SECTIONS = [
     type: SentenceType.DeepDive,
   },
   {
-    name: 'Scratching beneath the surface',
+    name: 'Who are you aiming to woo?',
     type: SentenceType.TargetAudience,
   },
   {
-    name: 'Scratching beneath the surface',
+    name: 'Clearing up your relationship goals',
     type: SentenceType.RelationshipGoals,
   },
   {
-    name: 'Scratching beneath the surface',
+    name: 'Last but not least…',
     type: SentenceType.FinalConsiderations,
   },
   {
-    name: 'Scratching beneath the surface',
+    name: "EasySocial",
+    type: SentenceType.EasySocial
+  },
+  {
+    name: 'What about the baggage?',
     type: SentenceType.EmotionalBaggage,
   },
 ];

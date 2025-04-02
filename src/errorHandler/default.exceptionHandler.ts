@@ -7,6 +7,7 @@ export class DefaultExceptionHandler implements IExceptionHandler {
   }
 
   handle(exception: Error) {
+    console.log(exception);
     return {
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       message: exception.message || 'Internal server error',

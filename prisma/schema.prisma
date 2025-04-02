@@ -104,6 +104,7 @@ enum SentenceType {
   FinalConsiderations
   EmotionalBaggage
   DeepDive
+  EasySocial
 }
 
 model Answer {

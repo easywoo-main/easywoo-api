@@ -895,7 +895,7 @@ async function main(prisma: PrismaClient) {
     await prisma.question.upsert({
       where: { question: question.question },
       create: {
-        step: index,
+        step: index + 1,
         question: question.question,
         name: question.name,
         type: question.type,
@@ -903,11 +903,12 @@ async function main(prisma: PrismaClient) {
           create: question.answers.map((answer) => ({
             answer: answer.answer,
             name: answer.name,
+            evaluation: answer.evaluation,
           })),
         },
       },
       update: {
-        step: index,
+        step: index + 1,
         question: question.question,
         name: question.name,
         type: question.type,

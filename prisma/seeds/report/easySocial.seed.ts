@@ -1,5 +1,5 @@
 import { PrismaClient, SentenceType } from '@prisma/client';
-import { Condition } from '../../../src/modules/report/modules/evaluator/condition.dto';
+import { Condition } from '../../../src/modules/report/dto/condition.dto';
 
 async function main(prisma: PrismaClient) {
   const sentences: {
@@ -38,39 +38,39 @@ async function main(prisma: PrismaClient) {
       },
     },
     {
-      sentence: 'You mention that your social life may need improvement. \n' +
-          'If you feel that your social life is limited at the moment because of a change in your current circumstances, follow our practical advice and links. \n' +
-          'If the difficulties lie in the fact that people that you associate with are on a different path to your own, don\'t allow this to deter you from moving towards your own path. Let us help you establish new connections based on your current interests and needs, without the fear of missing out. \n' +
-          'However, should this be a situation that you have always found yourself in then maybe you have difficulty venturing outside your comfort zone.  Take a look at our recommendations on how to start your journey to a new lifestyle outside your norm. We can recommend new interests and new groups that can intrigue you and maybe in due time establish a new close circle of \'going out friends\'',
+      sentence:
+        'You mention that your social life may need improvement. \n' +
+        'If you feel that your social life is limited at the moment because of a change in your current circumstances, follow our practical advice and links. \n' +
+        "If the difficulties lie in the fact that people that you associate with are on a different path to your own, don't allow this to deter you from moving towards your own path. Let us help you establish new connections based on your current interests and needs, without the fear of missing out. \n" +
+        "However, should this be a situation that you have always found yourself in then maybe you have difficulty venturing outside your comfort zone.  Take a look at our recommendations on how to start your journey to a new lifestyle outside your norm. We can recommend new interests and new groups that can intrigue you and maybe in due time establish a new close circle of 'going out friends'",
       condition: {
         GTE: { 'opportunity.no_social_life': 15 },
         'biggestChallenges.communicationProblems': false,
         'biggestChallenges.shy': false,
       },
     },
-      {
-          sentence: "Not having a social life that fulfills one's particular needs can cause loneliness which in turn can be stressful, disheartening and a source of unhappiness. Where does your difficulty lie? Is it because of your current circumstances or is it something that you have always found yourself in? Although you seem to be an amicable character, you find it hard to assert yourself in social situations.\n" +
-              "How do you see yourself in relation to the people around you?\n" +
-              "Do you find it difficult to converse freely with others? Are you lacking conversation material? Do you trust yourself to speak your mind? If the problem lies in your own difficulty to connect or not having enough social skills to do so, don't worry. We can help you in this practically through our links, although it may be a good idea to explore this notion further.",
-          condition: {
-              GTE: {"opportunity.no_social_life": 15},
-              'biggestChallenges.notHappyWithSocialLife': true,
-              'personType.shy': true,
-              'personType.communicationProblems': true,
-          },
+    {
+      sentence:
+        "Not having a social life that fulfills one's particular needs can cause loneliness which in turn can be stressful, disheartening and a source of unhappiness. Where does your difficulty lie? Is it because of your current circumstances or is it something that you have always found yourself in? Although you seem to be an amicable character, you find it hard to assert yourself in social situations.\n" +
+        'How do you see yourself in relation to the people around you?\n' +
+        "Do you find it difficult to converse freely with others? Are you lacking conversation material? Do you trust yourself to speak your mind? If the problem lies in your own difficulty to connect or not having enough social skills to do so, don't worry. We can help you in this practically through our links, although it may be a good idea to explore this notion further.",
+      condition: {
+        GTE: { 'opportunity.no_social_life': 15 },
+        'biggestChallenges.notHappyWithSocialLife': true,
+        'personType.shy': true,
+        'personType.communicationProblems': true,
       },
-      {
-          sentence: "",
-            condition: {
-              AND: [
-
-              ],
-                GTE: {"opportunity.mate_hungs_out": 15, },
-                'biggestChallenges.notHappyWithSocialLife': true,
-                'personType.shy': false,
-                'personType.communicationProblems': false,
-            },
-      }
+    },
+    {
+      sentence: '',
+      condition: {
+        AND: [],
+        GTE: { 'opportunity.mate_hungs_out': 15 },
+        'biggestChallenges.notHappyWithSocialLife': true,
+        'personType.shy': false,
+        'personType.communicationProblems': false,
+      },
+    },
   ];
 
   for (const sentenceEntity of sentences) {
@@ -92,4 +92,4 @@ async function main(prisma: PrismaClient) {
   }
 }
 
-export { main as reportSeed };
+export { main as easySocialSeed };
