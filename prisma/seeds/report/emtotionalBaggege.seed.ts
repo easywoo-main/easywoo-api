@@ -89,7 +89,7 @@ async function main(prisma: PrismaClient) {
       },
     },
   ];
-
+  console.log("test EmotionalBaggage")
   for (const sentenceEntity of sentences) {
     await prisma.sentence.upsert({
       where: {
@@ -98,7 +98,7 @@ async function main(prisma: PrismaClient) {
       update: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.RelationshipGoals,
+        type: SentenceType.EmotionalBaggage,
       },
       create: {
         condition: sentenceEntity.condition,

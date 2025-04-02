@@ -27,7 +27,7 @@ async function main(prisma: PrismaClient) {
     },
     {
       condition: {
-        'personType.romantic': true
+        'personType.romantic': true,
       },
       sentence: 'You connect with life primarily with feelings rather than logic.',
     },

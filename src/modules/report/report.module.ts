@@ -11,12 +11,7 @@ import { SentenceModule } from './modules/sentence/sentence.module';
 @Module({
   providers: [ReportService, EvaluatorService],
   exports: [ReportService],
-  imports: [
-    QuestionModule,
-    TokenModule,
-    UserModule,
-    SentenceModule
-  ],
+  imports: [QuestionModule, TokenModule, UserModule, SentenceModule],
   controllers: [ReportController],
 })
 export class ReportModule {}

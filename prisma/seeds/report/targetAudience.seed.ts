@@ -63,12 +63,12 @@ async function main(prisma: PrismaClient) {
       update: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.TargetAudience,
+        type: SentenceType.EasySocial,
       },
       create: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.TargetAudience,
+        type: SentenceType.EasySocial,
       },
     });
   }

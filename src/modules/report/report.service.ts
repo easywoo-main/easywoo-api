@@ -10,13 +10,11 @@ import { Condition } from './dto/condition.dto';
 
 @Injectable()
 export class ReportService {
-
   constructor(
     private readonly questionnaireService: QuestionService,
     private readonly sentenceService: SentenceService,
     private readonly evaluatorService: EvaluatorService,
-  ) {
-  }
+  ) {}
   public async generateReport(userId: string): Promise<ReportDto[]> {
     const questions = await this.questionnaireService.getAllQuestions(userId);
 
@@ -38,6 +36,8 @@ export class ReportService {
       }
     }
 
+    console.log('questionnaire', questionnaire);
+
     return await Promise.all(
       REPORT_SECTIONS.map(async (generateReportSectionInterface) => {
         return {
@@ -50,6 +50,7 @@ export class ReportService {
 
   private async generateReportSection(questionnaire: QuestionnaireDto, sentenceType: SentenceType): Promise<string> {
     const sentences = await this.sentenceService.getAllSentencesByType(sentenceType);
+    console.log('sentenceType', sentenceType, sentences.length);
     let results = '';
     for (const sentence of sentences) {
       if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {

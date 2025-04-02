@@ -6,7 +6,7 @@ export class EvaluatorService {
   public checkCondition(condition: Condition, obj: any): boolean {
     if (condition.AND) {
       if (Array.isArray(condition.AND)) {
-        return condition.AND.every(subCondition => this.checkCondition(subCondition, obj));
+        return condition.AND.every((subCondition) => this.checkCondition(subCondition, obj));
       } else {
         return Object.entries(condition.AND).every(([key, value]) => this.checkConditionForKey(key, value, obj));
       }
@@ -14,14 +14,17 @@ export class EvaluatorService {
 
     if (condition.OR) {
       if (Array.isArray(condition.OR)) {
-        return condition.OR.some(subCondition => this.checkCondition(subCondition, obj));
+        return condition.OR.some((subCondition) => this.checkCondition(subCondition, obj));
       } else {
         return Object.entries(condition.OR).some(([key, value]) => this.checkConditionForKey(key, value, obj));
       }
     }
 
     if (condition.GTE) {
+      console.log('condition.GTE', condition.GTE);
+
       return Object.entries(condition.GTE).every(([key, value]) => {
+        console.log('key', key);
         const objValue = this.getValueByKey(key, obj);
         return objValue >= value;
       });
