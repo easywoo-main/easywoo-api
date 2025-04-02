@@ -8,9 +8,7 @@ export class GoogleRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   public async findOneByEmail(email: string) {
-    console.log('email', email);
-    console.log('this.prisma', this.prisma);
-    const s = this.prisma.googleUser.findUnique({
+    return this.prisma.googleUser.findUnique({
       where: {
         email,
       },
@@ -18,8 +16,6 @@ export class GoogleRepository {
         user: true,
       },
     });
-    console.log('s', s);
-    return s;
   }
 
   public async updateGoogleUser(id: string, googleDto: Partial<GoogleUser>) {

@@ -89,7 +89,6 @@ async function main(prisma: PrismaClient) {
       },
     },
   ];
-  console.log("test EmotionalBaggage")
   for (const sentenceEntity of sentences) {
     await prisma.sentence.upsert({
       where: {

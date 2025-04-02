@@ -21,10 +21,7 @@ export class EvaluatorService {
     }
 
     if (condition.GTE) {
-      console.log('condition.GTE', condition.GTE);
-
       return Object.entries(condition.GTE).every(([key, value]) => {
-        console.log('key', key);
         const objValue = this.getValueByKey(key, obj);
         return objValue >= value;
       });
