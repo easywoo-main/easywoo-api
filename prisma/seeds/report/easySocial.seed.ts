@@ -1,5 +1,5 @@
 import { PrismaClient, SentenceType } from '@prisma/client';
-import { Condition } from '../../../src/modules/report/modules/evaluator/condition.dto';
+import { Condition } from '../../../src/modules/report/dto/condition.dto';
 
 async function main(prisma: PrismaClient) {
   const sentences: {
@@ -21,21 +21,21 @@ async function main(prisma: PrismaClient) {
           {
             OR: {
               'biggestChallenges.communicationProblems': true,
-              'biggestChallenges.shy': true,
-            },
+              'biggestChallenges.shy': true
+            }
           },
           {
             'personType.wellReadIntellectual': true,
-            'personType.reserved': true,
+            'personType.reserved': true
           },
           {
             OR: {
               'personType.humorous': false,
-              'personType.passionate': false,
-            },
-          },
-        ],
-      },
+              'personType.passionate': false
+            }
+          }
+        ]
+      }
     },
     {
       sentence: 'You mention that your social life may need improvement. \n' +
@@ -92,4 +92,4 @@ async function main(prisma: PrismaClient) {
   }
 }
 
-export { main as reportSeed };
+export { main as easySocialSeed };

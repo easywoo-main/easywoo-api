@@ -19,7 +19,6 @@ export class GoogleService {
     private readonly googleRepository: GoogleRepository,
     private readonly tokenService: TokenService,
     private readonly userService: UserService,
-    private readonly configService: ConfigService,
   ) {}
 
   public async googleAuth(googleCallbackDto: GoogleCallbackDto): Promise<UserAuthDto> {
