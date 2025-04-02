@@ -8,7 +8,7 @@ import { swaggerSetup } from './utils/swagger.utils';
 async function bootstrap() {
   const logger = new Logger();
   const PORT = process.env.PORT || 8080;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule,  { logger: ['log', 'error', 'warn'] });
 
   // Global Prefix
   app.setGlobalPrefix('api/v1', {

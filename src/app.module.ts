@@ -7,6 +7,8 @@ import { DatabaseModule } from './database/database.module';
 import { ReportModule } from './modules/report/report.module';
 import { QuestionModule } from './modules/question/question.module';
 import { QuestionnaireAnswerModule } from './modules/question-answer/questionnaire-answer.module';
+import { StorageModule } from './modules/storage/storage.module';
+import { EmailModule } from './modules/email/email.module';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { QuestionnaireAnswerModule } from './modules/question-answer/questionnai
     QuestionModule,
     QuestionnaireAnswerModule,
     ReportModule,
+    StorageModule,
+    EmailModule,
   ],
   controllers: [],
   providers: [],

@@ -28,6 +28,21 @@ services:
       - 8088:8080
     networks:
       - backend
+
+  localstack:
+    image: localstack/localstack
+    container_name: localstack-main
+    ports:
+      - "4566:4566"  # Порт для доступу до сервісів LocalStack
+    environment:
+      - SERVICES=s3,ses  # Додаємо ses до списку сервісів
+      - DEFAULT_REGION=us-east-1
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"  # Для доступу до Docker зсередини контейнера
+      - "./initLocalstack.sh:/etc/localstack/init/ready.d/initLocalstack.sh"  # Монтуємо скрипт
+    networks:
+      - backend
+
   app:
     build:
       context: ../
@@ -37,7 +52,6 @@ services:
     depends_on:
       pg_db:
         condition: service_healthy
-
     ports:
       - ${PORT}:${PORT}
     environment:
@@ -48,6 +62,7 @@ services:
       - ../.env
     networks:
       - backend
+
 networks:
   backend:
 
