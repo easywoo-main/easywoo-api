@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class EmailClient extends SESClient {
-  constructor(configService: ConfigService) {
+  constructor(private readonly configService: ConfigService) {
     super();
   }
 }

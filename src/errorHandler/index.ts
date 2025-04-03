@@ -18,8 +18,9 @@ export interface IExceptionHandler {
 @Catch()
 export class GlobalFilter implements ExceptionFilter {
   private handlers: IExceptionHandler[];
+  private readonly logger = new Logger(GlobalFilter.name);
 
-  constructor(private readonly logger: Logger) {
+  constructor() {
     this.handlers = [new DatabaseExceptionHandler(), new HttpExceptionHandler(), new DefaultExceptionHandler()];
   }
 
@@ -45,4 +46,4 @@ export class GlobalFilter implements ExceptionFilter {
   }
 }
 
-export const globalFilter = new GlobalFilter(new Logger(GlobalFilter.name));
+export const globalFilter = new GlobalFilter();

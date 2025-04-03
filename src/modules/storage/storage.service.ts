@@ -1,13 +1,15 @@
 import {Upload} from "@aws-sdk/lib-storage";
 import { Injectable } from '@nestjs/common';
 import { StorageClient } from '../../configs/storage.config';
+import { CompleteMultipartUploadCommandOutput } from '@aws-sdk/client-s3';
+import {File} from "./file.type"
 
 @Injectable()
 export class StorageService {
 
   constructor(private readonly storageClient: StorageClient) {}
 
-  public async uploadFile(file:any, folderPath: string = "", userId?: string) {
+  public async uploadFile(file: File, folderPath: string = "", userId?: string): Promise<CompleteMultipartUploadCommandOutput> {
     const key = folderPath.endsWith("/") ? folderPath : `${folderPath}/`;
     const fileName: string = file.originalname.startsWith("/") ? file.originalname.slice(1) : file.originalname;
 
@@ -22,10 +24,12 @@ export class StorageService {
       params: uploadParams,
     });
 
-    upload.on("httpUploadProgress", (progress) => {});
+    upload.on("httpUploadProgress", (progress) => {
+      console.log(`Upload progress: ${progress.loaded} bytes`);
+    });
 
 
-    return await upload.done();
+    return upload.done();
   }
 
   public async getAllFiles(folderPath: string): Promise<string[]> {

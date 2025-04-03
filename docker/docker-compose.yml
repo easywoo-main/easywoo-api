@@ -33,15 +33,30 @@ services:
     image: localstack/localstack
     container_name: localstack-main
     ports:
-      - "4566:4566"  # Порт для доступу до сервісів LocalStack
+      - "4566:4566"
     environment:
-      - SERVICES=s3,ses  # Додаємо ses до списку сервісів
+      - SERVICES=s3,ses
       - DEFAULT_REGION=us-east-1
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"  # Для доступу до Docker зсередини контейнера
       - "./initLocalstack.sh:/etc/localstack/init/ready.d/initLocalstack.sh"  # Монтуємо скрипт
     networks:
       - backend
+
+#  minio:
+#    image: minio/minio
+#    restart: always
+#    volumes:
+#      - minio-data:/data
+#    container_name: minio
+#    ports:
+#      - "9002:9002"
+#      - "9001:9001"
+#    environment:
+#      MINIO_ROOT_USER: minioadmin
+#      MINIO_ROOT_PASSWORD: minioadmin
+#    command: server /data --console-address ":9001"
+#
 
   app:
     build:
@@ -68,3 +83,4 @@ networks:
 
 volumes:
   pg_data:
+  minio-data:

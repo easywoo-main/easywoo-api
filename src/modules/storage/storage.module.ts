@@ -3,6 +3,7 @@ import { StorageService } from './storage.service';
 import { StorageClient } from '../../configs/storage.config';
 
 @Module({
-  providers: [StorageService, StorageClient]
+  providers: [StorageService, StorageClient],
+  exports: [StorageService],
 })
 export class StorageModule {}
