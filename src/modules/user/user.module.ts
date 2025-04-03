@@ -3,9 +3,10 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repository';
 import { TokenModule } from '../token/token.module';
+import { StorageModule } from '../storage/storage.module';
 
 @Module({
-  imports: [TokenModule],
+  imports: [TokenModule, StorageModule],
   controllers: [UserController],
   providers: [UserService, UserRepository],
   exports: [UserService],

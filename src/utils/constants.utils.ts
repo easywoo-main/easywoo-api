@@ -2,6 +2,10 @@ import { SentenceType } from '@prisma/client';
 
 const SALT_ROUND = 10;
 
+const MAX_FILE_SIZE = 1024 * 1024 * 10; // 10MB
+const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "application/pdf"];
+
+
 const REPORT_SECTIONS = [
   {
     name: 'Let’s look at you',
@@ -20,17 +24,17 @@ const REPORT_SECTIONS = [
     type: SentenceType.RelationshipGoals,
   },
   {
-    name: 'Last but not least…',
-    type: SentenceType.FinalConsiderations,
-  },
-  {
-    name: "EasySocial",
-    type: SentenceType.EasySocial
-  },
-  {
     name: 'What about the baggage?',
     type: SentenceType.EmotionalBaggage,
   },
+  {
+    name: 'EasySocial',
+    type: SentenceType.EasySocial,
+  },
+  {
+    name: 'Last but not least…',
+    type: SentenceType.FinalConsiderations,
+  },
 ];
 
-export { SALT_ROUND, REPORT_SECTIONS };
+export { SALT_ROUND, REPORT_SECTIONS, MAX_FILE_SIZE, ALLOWED_FILE_TYPES };

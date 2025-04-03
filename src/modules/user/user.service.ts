@@ -5,10 +5,14 @@ import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './user.entity';
 import { CheckExistsDecorator } from '../../decorators';
+import { StorageService } from '../storage/storage.service';
+import { userAvatarPath } from '../../utils/storage.constants';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository,
+              private readonly storageService: StorageService) {
+  }
 
   public async createUser(userDto: UserCreateDto): Promise<UserEntity> {
     const existingUser = await this.findUserByEmail(userDto.email);
@@ -43,8 +47,11 @@ export class UserService {
     return this.userRepository.findUserById(userId);
   }
 
-  async updateUser(userId: string, updateUser: Partial<UserEntity>) {
+  async updateUser(userId: string, updateUser: Partial<UserEntity>, file?: Express.Multer.File) {
     await this.findUserById(userId);
+    if (file) {
+      await this.storageService.uploadFile(file, userAvatarPath(userId), userId);
+    }
     return await this.userRepository.updateUser(userId, updateUser);
   }
 }

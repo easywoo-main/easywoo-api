@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Put, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
@@ -7,6 +7,8 @@ import { ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/s
 import { UserEntity } from './user.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
+import { PhotoInterceptor } from '../../interceptor/photo.interceptor';
+import { File } from "../storage/file.type";
 
 @Controller('user')
 export class UserController {
@@ -25,7 +27,9 @@ export class UserController {
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'User updated successfully', type: UserEntity })
   @UseGuards(AuthGuard)
-  public async updateMe(@UserDetails() user: UserPayload, @Body() userDto: UserUpdateDto) {
-    return await this.userService.updateUser(user.id, userDto);
+  @UseInterceptors(PhotoInterceptor())
+  public async updateMe(@UserDetails() user: UserPayload, @Body() userDto: UserUpdateDto, @UploadedFile() file?: File
+  ) {
+    return await this.userService.updateUser(user.id, userDto, file);
   }
 }
