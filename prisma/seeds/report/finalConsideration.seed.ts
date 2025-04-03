@@ -1,5 +1,5 @@
 import { PrismaClient, SentenceType } from '@prisma/client';
-import { Condition } from '../../../src/modules/report/dto/condition.dto';
+import { Condition } from '../../../src/modules/report/modules/evaluator/condition.dto';
 
 async function main(prisma: PrismaClient) {
   const sentences: {
@@ -9,14 +9,14 @@ async function main(prisma: PrismaClient) {
     {
       sentence:
         'Your belief that you are too “old” to get what you want or find your ideal partner, can cause you to lose hope and become demotivated.\n' +
-        '                Don’t let your fears and limiting beliefs overwhelm you.\n' +
-        '                Our belief system plays a major role on how we perceive ourselves and consequently how others perceive us. Thus, when your limiting beliefs are tied up with something you cannot change, in this instance your age, you can end up feeling powerless.\n' +
-        '                This ultimately creates an emotional paralysis that can kill your motivation and your drive to conquer life.\n' +
-        '                The most common limiting beliefs that keep us stuck and block us from creating what we desire are:\n' +
-        '                All the good ones are taken.\n' +
-        "                I am past the age of finding a good match. I'll end up all alone.\n" +
-        '                I’m not good enough.”\n' +
-        '                Don’t allow them to interfere with your life.',
+        'Don’t let your fears and limiting beliefs overwhelm you.\n' +
+        'Our belief system plays a major role on how we perceive ourselves and consequently how others perceive us. Thus, when your limiting beliefs are tied up with something you cannot change, in this instance your age, you can end up feeling powerless.\n' +
+        'This ultimately creates an emotional paralysis that can kill your motivation and your drive to conquer life.\n' +
+        'The most common limiting beliefs that keep us stuck and block us from creating what we desire are:\n' +
+        'All the good ones are taken.\n' +
+        "I am past the age of finding a good match. I'll end up all alone.\n" +
+        'I’m not good enough.”\n' +
+        'Don’t allow them to interfere with your life.',
       condition: {
         GTE: { 'self_improvement.time_management': 15 },
       },
@@ -104,12 +104,12 @@ async function main(prisma: PrismaClient) {
       update: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.FinalConsiderations,
+        type: SentenceType.FINAL_CONSIDERATIONS,
       },
       create: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.FinalConsiderations,
+        type: SentenceType.FINAL_CONSIDERATIONS,
       },
     });
   }

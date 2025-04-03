@@ -1,5 +1,5 @@
 import { PrismaClient, SentenceType } from '@prisma/client';
-import { Condition } from '../../../src/modules/report/dto/condition.dto';
+import { Condition } from '../../../src/modules/report/modules/evaluator/condition.dto';
 
 async function main(prisma: PrismaClient) {
   const sentences: {
@@ -130,12 +130,12 @@ async function main(prisma: PrismaClient) {
       update: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.DeepDive,
+        type: SentenceType.DEEP_DIVE,
       },
       create: {
         condition: sentenceEntity.condition,
         sentence: sentenceEntity.sentence,
-        type: SentenceType.DeepDive,
+        type: SentenceType.DEEP_DIVE,
       },
     });
   }

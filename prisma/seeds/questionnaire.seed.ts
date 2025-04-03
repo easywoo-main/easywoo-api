@@ -11,7 +11,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Non-binary', name: 'nonBinary' },
       ],
       name: 'gender',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 2,
@@ -24,7 +24,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Other', name: 'other' },
       ],
       name: 'sexualOrientation',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 3,
@@ -37,7 +37,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Other', name: 'other' },
       ],
       name: 'ethnicity',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       question: 'Your body type',
@@ -51,7 +51,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Overweight', name: 'overweight' },
       ],
       name: 'bodyType',
-      type: QuestionsType.multiple,
+      type: QuestionsType.MULTIPLE,
     },
     {
       step: 4,
@@ -68,7 +68,7 @@ async function main(prisma: PrismaClient) {
         { answer: '60+', name: '60+' },
       ],
       name: 'age',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 5,
@@ -80,7 +80,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Separated / Divorced / Widower', name: 'divorced' },
       ],
       name: 'relationshipStatus',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 6,
@@ -90,7 +90,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'No', name: 'no' },
       ],
       name: 'children',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 7,
@@ -111,7 +111,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Hooked', name: 'hooked' },
       ],
       name: 'socialActivity',
-      type: QuestionsType.slider,
+      type: QuestionsType.SLIDER,
     },
     {
       step: 8,
@@ -133,7 +133,7 @@ async function main(prisma: PrismaClient) {
         }, //not_familiar
       ],
       name: 'confidenceInSocialMedia',
-      type: QuestionsType.slider,
+      type: QuestionsType.SLIDER,
     },
     {
       step: 9,
@@ -168,7 +168,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'College', name: 'college' },
       ],
       name: 'socialize', //social_at
-      type: QuestionsType.multiple,
+      type: QuestionsType.MULTIPLE,
     },
     {
       step: 10,
@@ -183,7 +183,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'In a relationship but want to meet other people', name: 'inARelationship' },
       ],
       name: 'mateRelationship', // relationship
-      type: QuestionsType.multiple,
+      type: QuestionsType.MULTIPLE,
     },
     {
       step: 11,
@@ -311,7 +311,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Have tattoos', name: 'haveTattoos' },
       ],
       name: 'personType', //persona
-      type: QuestionsType.multiple,
+      type: QuestionsType.MULTIPLE,
     },
     {
       step: 12,
@@ -501,7 +501,7 @@ async function main(prisma: PrismaClient) {
       ],
 
       name: 'biggestChallenges', // pain_points
-      type: QuestionsType.multiple,
+      type: QuestionsType.MULTIPLE,
     },
     {
       step: 14,
@@ -567,7 +567,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Get out of the friend zone', name: 'getOutFriendZone' },
       ],
       name: 'goals', //motivation_goals
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 15,
@@ -580,7 +580,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'No', name: 'no', evaluation: { 'awareness_objectives.wrong_choice_partner': 5 } },
       ],
       name: 'timeFrame',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       question: 'How important is appearance to you?',
@@ -607,7 +607,7 @@ async function main(prisma: PrismaClient) {
         },
       ],
       name: 'appearance', //look_importance
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       step: 17,
@@ -624,7 +624,7 @@ async function main(prisma: PrismaClient) {
         { answer: '60+', name: '60+' },
       ],
       name: 'mateAge',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       question: 'Is ethnicity important to you? Select all that apply.',
@@ -637,7 +637,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Other', name: 'other' },
       ],
       name: 'mateEthnicity',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
     {
       question: 'Is body type important to you? Select all that apply.',
@@ -651,7 +651,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Overweight', name: 'overweight', evaluation: { 'self_improvement.sexuality_problems': 3 } },
       ],
       name: 'mateBodyType', //mate_build
-      type: QuestionsType.multiple,
+    type: QuestionsType.MULTIPLE,
     },
     {
       question: 'What type of mate are you looking for? Select all that apply.',
@@ -867,7 +867,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Hair color', name: 'hairColor', evaluation: { 'awareness_objectives.wrong_choice_partner': 3 } },
       ],
       name: 'mateType',
-      type: QuestionsType.multiple,
+      type: QuestionsType.MULTIPLE,
     },
     {
       question: 'What is the preferred star sign of your mate?',
@@ -887,7 +887,7 @@ async function main(prisma: PrismaClient) {
         { answer: 'Pisces', name: 'pisces' },
       ],
       name: 'starSign',
-      type: QuestionsType.single,
+      type: QuestionsType.SINGLE,
     },
   ];
 

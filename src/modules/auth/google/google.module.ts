@@ -3,9 +3,9 @@ import { GoogleController } from './google.controller';
 import { GoogleService } from './google.service';
 import { TokenModule } from '../../token/token.module';
 import { UserModule } from '../../user/user.module';
-import { GoogleClient } from './googleClient';
 import { GoogleRepository } from './google.repository';
 import { DatabaseModule } from '../../../database/database.module';
+import { GoogleClient } from '../../../configs/google.config';
 
 @Module({
   imports: [DatabaseModule, TokenModule, UserModule],

@@ -61,9 +61,9 @@ model AppleUser {
 }
 
 enum QuestionsType {
-  single
-  multiple
-  slider
+  SINGLE
+  MULTIPLE
+  SLIDER
 }
 
 model Question {
@@ -97,14 +97,14 @@ model Sentence {
 }
 
 enum SentenceType {
-  Intro
-  UserIntroduction
-  TargetAudience
-  RelationshipGoals
-  FinalConsiderations
-  EmotionalBaggage
-  DeepDive
-  EasySocial
+  INTRO
+  USER_INTRODUCTION
+  TARGET_AUDIENCE
+  RELATIONSHIP_GOALS
+  FINAL_CONSIDERATIONS
+  EMOTIONAL_BAGGAGE
+  DEEP_DIVE
+  EASY_SOCIAL
 }
 
 model Answer {
@@ -123,4 +123,26 @@ model Answer {
 
   @@unique([answer, questionId])
   @@unique([name, questionId])
+}
+
+
+model Post {
+  id          String   @id @default(uuid())
+  title       String
+  type        PostType
+  status      PostStatus
+
+
+
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum PostType {
+  JOB_LISTING
+}
+
+enum PostStatus {
+  PUBLISH
 }
