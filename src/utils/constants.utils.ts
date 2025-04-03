@@ -20,16 +20,16 @@ const REPORT_SECTIONS = [
     type: SentenceType.RelationshipGoals,
   },
   {
-    name: 'Last but not least…',
-    type: SentenceType.FinalConsiderations,
-  },
-  {
-    name: "EasySocial",
-    type: SentenceType.EasySocial
-  },
-  {
     name: 'What about the baggage?',
     type: SentenceType.EmotionalBaggage,
+  },
+  {
+    name: 'EasySocial',
+    type: SentenceType.EasySocial,
+  },
+  {
+    name: 'Last but not least…',
+    type: SentenceType.FinalConsiderations,
   },
 ];
 
