@@ -49,8 +49,8 @@ export class ReportService {
         };
       }),
     );
-    
-    const carePlan: CarePlanDto = await this.carePlanService.generateReportSection(questionnaire);
+
+    const carePlan: CarePlanDto[] = await this.carePlanService.generateReportSection(questionnaire);
 
     return {
       reportSection,

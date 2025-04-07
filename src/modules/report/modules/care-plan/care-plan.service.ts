@@ -14,18 +14,18 @@ export class CarePlanService {
     private readonly evaluatorService: EvaluatorService,
     private readonly postService: PostService,
   ) {}
-  
-  public async generateReportSection(questionnaire: QuestionnaireDto): Promise<CarePlanDto> {
+
+  public async generateReportSection(questionnaire: QuestionnaireDto): Promise<CarePlanDto[]> {
     const sentences = await this.sentenceService.getAllSentencesByType(SentenceType.CARE_PLAN);
     const results: CarePlanDto[] = [];
     for (const sentence of sentences) {
       if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {
         results.push({
           sentence: sentence.sentence,
-          posts: await this.postService.findRandomPostByFilter(sentence.dbFindManyArgs as Prisma.PostFindManyArgs),
+          posts: await this.postService.findRandomPostByFilter(JSON.parse(sentence.dbFindManyArgs as string) as Prisma.PostFindManyArgs),
         });
       }
     }
-    return undefined;
+    return results;
   }
 }

@@ -8,6 +8,7 @@ export class PostService {
   constructor(private readonly postRepository: PostRepository) { }
 
   public async findRandomPostByFilter(filter: Prisma.PostFindManyArgs): Promise<PostEntity[]> {
+    console.log('filter typeof', typeof filter);
     return this.postRepository.findRandomPostByFilter(filter);
   }
 }
