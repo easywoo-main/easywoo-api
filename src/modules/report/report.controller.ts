@@ -13,8 +13,8 @@ export class ReportController {
   @Post()
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  @ApiOkResponse({ description: 'Report generated successfully', type: [ReportDto] })
-  public async generateReport(@UserDetails() user: UserPayload): Promise<ReportDto[]> {
+  @ApiOkResponse({ description: 'Report generated successfully', type: ReportDto})
+  public async generateReport(@UserDetails() user: UserPayload): Promise<ReportDto> {
     return this.reportService.generateReport(user.id);
   }
 }

@@ -1,9 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ReportSectionDto } from './reportSection.dto';
+import { CarePlanDto } from './carePlan.dto';
 
 export class ReportDto {
-  @ApiProperty({ description: 'The name of the report' })
-  name: string;
+  @ApiProperty({ type: [ReportSectionDto], description: 'List of report sections' })
+  reportSection: ReportSectionDto[];
 
-  @ApiProperty({ description: 'The description of the report' })
-  content: string;
+  @ApiProperty({ type: [CarePlanDto], description: 'List of care plans' })
+  carePlan: CarePlanDto[];
 }
