@@ -12,9 +12,9 @@ export class UserService {
 
   public async createUser(userDto: UserCreateDto): Promise<UserEntity> {
     const existingUser = await this.findUserByEmail(userDto.email);
-    // if (existingUser) {
-    //   throw new BadRequestException('User already exists');
-    // }
+    if (existingUser) {
+      throw new BadRequestException('User already exists');
+    }
     const newUser = await this.userRepository.createUser(userDto);
     return this.findUserById(newUser.id);
   }
