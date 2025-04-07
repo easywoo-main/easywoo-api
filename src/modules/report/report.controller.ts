@@ -10,8 +10,8 @@ import { ReportDto } from './dto/report.dto';
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
-  @UseGuards(AuthGuard)
   @Post()
+  @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'Report generated successfully', type: [ReportDto] })
   public async generateReport(@UserDetails() user: UserPayload): Promise<ReportDto[]> {

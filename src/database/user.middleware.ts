@@ -19,15 +19,5 @@ export async function userMiddleware(params: Prisma.MiddlewareParams, next: (par
 
   const result = await next(params);
 
-  if (params?.model === 'User' && params?.args?.select?.password !== true) {
-    if (Array.isArray(result)) {
-      result?.forEach((user) => {
-        delete user?.password;
-      });
-    } else {
-      delete result?.password;
-    }
-  }
-
   return result;
 }

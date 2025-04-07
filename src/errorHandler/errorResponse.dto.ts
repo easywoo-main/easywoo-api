@@ -1,21 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ErrorResponse<T = any> {
-  @ApiProperty()
+  @ApiProperty({ description: 'HTTP status code of the error response' })
   statusCode: number;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'Error message describing the error' })
   message: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'Name of the error' })
   name: string;
 
   @ApiProperty({ required: false })
   additionalInfo?: T;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'Path where the error occurred' })
   path: string;
 
-  @ApiProperty()
+  @ApiProperty({ description: 'Timestamp when the error occurred' })
   timestamp?: string = new Date().toISOString();
 }

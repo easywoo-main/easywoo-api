@@ -1,0 +1,1 @@
+export {PostSeed} from './post.seed';

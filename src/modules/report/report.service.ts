@@ -3,10 +3,10 @@ import { QuestionService } from '../question/question.service';
 import { QuestionnaireDto } from '../question/dtos/questionnaire.dto';
 import { ReportDto } from './dto/report.dto';
 import { SentenceType } from '@prisma/client';
-import { REPORT_SECTIONS } from '../../utils/constants.utils';
-import { EvaluatorService } from './evaluator.service';
 import { SentenceService } from './modules/sentence/sentence.service';
-import { Condition } from './dto/condition.dto';
+import { Condition } from './modules/evaluator/condition.dto';
+import { EvaluatorService } from './modules/evaluator/evaluator.service';
+import { REPORT_SECTIONS } from './utils/reportSections.untils';
 
 @Injectable()
 export class ReportService {
@@ -36,13 +36,11 @@ export class ReportService {
       }
     }
 
-    console.log('questionnaire', questionnaire);
-
     return await Promise.all(
-      REPORT_SECTIONS.map(async (generateReportSectionInterface) => {
+      REPORT_SECTIONS.map(async (reportSection): Promise<ReportDto> => {
         return {
-          name: generateReportSectionInterface.name,
-          content: await this.generateReportSection(questionnaire, generateReportSectionInterface.type),
+          name: reportSection.name,
+          content: await this.generateReportSection(questionnaire, reportSection.type),
         };
       }),
     );
@@ -50,7 +48,6 @@ export class ReportService {
 
   private async generateReportSection(questionnaire: QuestionnaireDto, sentenceType: SentenceType): Promise<string> {
     const sentences = await this.sentenceService.getAllSentencesByType(sentenceType);
-    console.log('sentenceType', sentenceType, sentences.length);
     let results = '';
     for (const sentence of sentences) {
       if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {

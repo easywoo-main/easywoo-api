@@ -1,0 +1,193 @@
+term_id;name;slug
+368;FORTUNE-TELLING;fortune-telling-n
+367;Learning;learning-n
+366;"Food &amp; Drink";food-drink
+365;"Music &amp; Dance";music-dance-n
+364;Meditation;meditation-n
+361;Creative/Craft;creative-craft-n
+360;"Outdoor &amp; Adventure";outdoor-adventure
+362;Volunteer;volunteer-n
+363;"Holidays &amp; Travelling";travelling-n
+355;Physical - Active;physical-active-n
+352;London, UK;london
+351;pll_646b3a0f17940;pll_646b3a0f17940
+347;pll_63da420d452df;pll_63da420d452df
+336;Mental health;mental-health-2
+335;pll_638f32ad029c6;pll_638f32ad029c6
+334;pll_638f32ad029bd;pll_638f32ad029bd
+333;pll_638f32ad029ac;pll_638f32ad029ac
+332;first date;first-date
+329;pll_63808e30ae0d1;pll_63808e30ae0d1
+331;dress;dress
+328;pll_637f327c62456;pll_637f327c62456
+327;pll_637e20a58e6ef;pll_637e20a58e6ef
+325;pll_63764783f2647;pll_63764783f2647
+324;pll_63735d29a663f;pll_63735d29a663f
+323;pll_636d13e7abf74;pll_636d13e7abf74
+321;pages-menu;pages-menu
+322;pages-menu-greek;pages-menu-greek
+319;pll_636a12c718a0b;pll_636a12c718a0b
+317;Relationship tips;relationship-tips
+316;pll_636515313a036;pll_636515313a036
+315;pll_6363a85335c81;pll_6363a85335c81
+314;pll_63623c5865d52;pll_63623c5865d52
+313;Main Menu Greek;main-menu-greek
+312;pll_635a8a2026545;pll_635a8a2026545
+389;Clubs;clubs-n
+377;"HEALTH &amp; WELLNESS";health-wellness-n
+369;BEAUTY;beauty-n
+370;"Stylists &amp; Image Consultants";stylists-image-consultants-n
+371;Tattoo Artists;tattoo-artists-n
+372;Hair Salons;hair-salons-n
+373;Makeup Salons;makeup-salons-n
+374;Eyebrow salons / Eyelash salons;eyebrow-salons-eyelash-salons-n
+375;Nail Salons;nail-salons-n
+376;SOCIAL MEDIA CONSULTATION;social-media-consultants-n
+306;pll_63594149dc7db;pll_63594149dc7db
+307;pll_635941968b5af;pll_635941968b5af
+308;pll_635a2ea43bab9;pll_635a2ea43bab9
+309;pll_635a314550378;pll_635a314550378
+311;pll_635a88e89a224;pll_635a88e89a224
+305;pll_635940be90993;pll_635940be90993
+304;pll_63594096a9db7;pll_63594096a9db7
+300;pll_635932d445f67;pll_635932d445f67
+330;style;style
+310;pll_635a75bdd9357;pll_635a75bdd9357
+299;pll_635932d445f61;pll_635932d445f61
+388;Cafes;cafes-n
+382;Dermatologists;dermatologists-n
+383;Plastic surgeons;plastic-surgeons-n
+384;Cosmetic dentistry;cosmetic-dentistry-n
+386;VENUES;venues-n
+387;Bars/Pubs;bars-pubs-n
+298;pll_635932d445f5a;pll_635932d445f5a
+397;"Self Esteem &amp; Confidence";self-esteem-confidence-n
+392;Coming out;coming-out-n
+393;Sexual identity;relationships-n
+428;Relationships;relationships-n-lgbtq-community
+396;PERSONAL DEVELOPMENT;personal-development-n
+390;Restaurants;restaurants-n
+73;Limassol, CY;limassol
+74;Larnaca, CY;larnaca
+75;Paphos, CY;paphos
+76;Famagusta, CY;famagusta
+430;Law Of Attraction;law-of-attraction-n
+271;js;js
+426;Anger Management;anger-management
+427;LGBTQ+ COMMUNITY;lgbtq-community
+270;comments;comments
+269;disable;disable
+266;message;message
+265;sample;sample
+267;php;php
+268;everywhere;everywhere
+264;after_paragraph;after_paragraph
+195;Article;article
+273;main menu 2;main-menu-2
+263;text;text
+429;Family;family-n
+424;"Dieticians &amp; Nutritionists";dieticians-nutritionists-n
+354;"ACTIVITIES &amp; HOBBIES";activities-hobbies-n
+414;Physiotherapists;physiotherapists-n
+337;pll_63bfb1da2e0c9;pll_63bfb1da2e0c9
+275;"Tips &amp; Tricks";tips-and-tricks
+276;"Styling &amp; Appearance";styling-and-appearance
+277;English;en
+279;pll_635932cb50999;pll_635932cb50999
+280;Ελληνικά;el
+284;pll_635932d445ef4;pll_635932d445ef4
+285;pll_635932d445f03;pll_635932d445f03
+286;pll_635932d445f0b;pll_635932d445f0b
+287;pll_635932d445f12;pll_635932d445f12
+288;pll_635932d445f19;pll_635932d445f19
+289;pll_635932d445f22;pll_635932d445f22
+290;pll_635932d445f28;pll_635932d445f28
+292;pll_635932d445f35;pll_635932d445f35
+293;pll_635932d445f3c;pll_635932d445f3c
+294;pll_635932d445f42;pll_635932d445f42
+295;pll_635932d445f48;pll_635932d445f48
+296;pll_635932d445f4e;pll_635932d445f4e
+297;pll_635932d445f54;pll_635932d445f54
+72;Nicosia, CY;nicosia
+71;Primary Menu;primary-menu
+70;Listing Search Menu;listing-search-menu
+69;Footer Social Networks;footer-social-networks
+64;Wireless;wireless-internet
+63;Variable Subscription;variable-subscription
+61;subscription;subscription
+58;Smoking Area;smoking-area
+56;resume_package_subscription;resume_package_subscription
+55;resume_package;resume_package
+53;Reservations;reservations
+52;Popular;popular
+51;Parking;parking
+77;listar-child;listar-child
+45;job_package_subscription;job_package_subscription
+44;job_package;job_package
+43;"Hot Deals &amp; Things to Do";hot-deals-things-to-do
+41;Family Friendly;family-friendly
+425;Weight Management;weight-management-personal-development-n
+38;booking;booking
+37;Balcony;balcony
+36;Alcohol;alcohol
+35;Accessibility;accessibility
+34;Accepts Credit Cards;accepts-credit-cards
+33;vacation;vacation
+32;tricks;tricks
+31;tour;tour
+30;tips;tips
+29;food;food
+28;culture;culture
+27;city;city
+26;Travelling;travelling
+25;Test;test
+24;Relax;relax
+23;Local;local
+22;Gastronomy;gastronomy
+21;Entertainment;entertainment
+20;Internship;internship
+19;Freelance;freelance
+18;Temporary;temporary
+17;Part Time;part-time
+16;Full Time;full-time
+15;Uncategorized;uncategorized
+400;Time Management;time-management-n
+401;Communication Skills;communication-skills-n
+398;Friend Zone;friend-zone-n
+399;"Comfort Zone &amp; Goal Setting";comfort-zone-n
+380;Sex therapy;sex-therapy-n
+381;Fertility;fertility-clinics-n
+379;Masseurs;masseurs-n
+14;rated-5;rated-5
+13;rated-4;rated-4
+12;rated-3;rated-3
+11;rated-2;rated-2
+10;rated-1;rated-1
+7;exclude-from-catalog;exclude-from-catalog
+8;featured;featured
+9;outofstock;outofstock
+6;exclude-from-search;exclude-from-search
+5;external;external
+4;variable;variable
+3;grouped;grouped
+2;simple;simple
+402;Dating Advice;flirting-advice-n
+403;Breaking Up Advice;breaking-up-advice-n
+404;Toxic Relationships Handling;toxic-relationships-handling-n
+405;Commitment Issues;commitment-issues-n
+406;Stress Management;stress-management-n
+407;Career Development;career-development-n
+408;Financial Management;financial-management-n
+409;Sexuality;sexuality-n
+416;MENTAL HEALTH PROFESSIONALS;mental-health-professionals-n
+422;Life Coaches;life-coaches-n
+415;Alternative Therapies;alternative-therapies
+423;"Psychotherapists &amp; Counselors";psychotherapists-counselors-n
+421;Psychologists;psychologists-n-mental-health-professionals-n
+431;FERTILITY;fertility-n
+432;mobile footer;mobile-footer
+433;Athens, GR;athens-gr
+434;Berlin, DE;berlin-de
+435;Rome, IT;rome-it
+436;Paris, FR;paris-fr
+437;site_wide_footer;site_wide_footer

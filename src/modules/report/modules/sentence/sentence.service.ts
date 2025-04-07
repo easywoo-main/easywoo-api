@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { SentenceType } from '@prisma/client';
-import { SentenceEntity } from '../../sentence.entity';
+import { SentenceEntity } from './sentence.entity';
 import { SentenceRepository } from './sentence.repository';
 
 @Injectable()
