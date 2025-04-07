@@ -4,6 +4,4 @@ import { PrismaService } from '../../../../database/prisma.service';
 @Injectable()
 export class CarePlanRepository {
   constructor(private readonly prisma: PrismaService) {}
-
-
 }

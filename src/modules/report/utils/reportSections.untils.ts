@@ -1,6 +1,6 @@
 import { SentenceType } from '@prisma/client';
 
-export const REPORT_SECTIONS: {name: string, type: keyof typeof SentenceType}[] = [
+export const REPORT_SECTIONS: { name: string; type: keyof typeof SentenceType }[] = [
   {
     name: 'Let’s look at you',
     type: SentenceType.USER_INTRODUCTION,

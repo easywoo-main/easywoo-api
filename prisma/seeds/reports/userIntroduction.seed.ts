@@ -8,21 +8,21 @@ async function main(prisma: PrismaClient) {
   }[] = [
     {
       condition: {
-        'personType.sensitive': true
+        'personType.sensitive': true,
       },
       sentence: 'You are a sensitive person and can be emotional, especially when in a relationship. Be careful you don’t get too intense.',
     },
     {
       condition: {
         'personType.reserved': true,
-        OR: [{ 'personType.humorous': true }, { 'personType.sociable': true }]
+        OR: [{ 'personType.humorous': true }, { 'personType.sociable': true }],
       },
       sentence: 'You tend to be reserved. If this is because of shyness or lack of confidence check our recommendations.',
     },
     {
       condition: {
         'personType.reserved': true,
-        'personType.sociable': true
+        'personType.sociable': true,
       },
       sentence:
         'You tend to be rather self-aware. You have a need for lots of time alone, does this allow you to socialise enough? You take more time thinking than acting. You make for an incredible friend, as you are loyal and stable. If being reserved is a personality trait, then you should embrace it with pride! But if it hides shyness or lack of confidence then you should look at our recommendations.',
@@ -38,7 +38,7 @@ async function main(prisma: PrismaClient) {
         'personType.sensitive': true,
         'personType.reserved': true,
         'personType.shy': true,
-        'biggestChallenges.notHappyWithSocialLife': true
+        'biggestChallenges.notHappyWithSocialLife': true,
       },
       sentence: 'You are shy and sensitive. You may be a Highly Sensitive Person ( HSP). This may encourage retreating from events or gatherings.',
     },
@@ -47,7 +47,7 @@ async function main(prisma: PrismaClient) {
         'personType.humorous': true,
         'personType.sociable': true,
         'biggestChallenges.endUpInFriendZone': false,
-        'biggestChallenges.confidenceIssues': false
+        'biggestChallenges.confidenceIssues': false,
       },
       sentence: 'Your outgoing personality is one of your strong points.',
     },
@@ -56,7 +56,7 @@ async function main(prisma: PrismaClient) {
         'personType.humorous': true,
         'personType.sociable': true,
         'biggestChallenges.endUpInFriendZone': true,
-        'biggestChallenges.confidenceIssues': false
+        'biggestChallenges.confidenceIssues': false,
       },
       sentence: 'You are sociable and humorous. Careful not to overuse instead of bringing out the erotic you.',
     },
@@ -64,7 +64,7 @@ async function main(prisma: PrismaClient) {
       condition: {
         'personType.humorous': true,
         'personType.sociable': true,
-        'biggestChallenges.confidenceIssues': true
+        'biggestChallenges.confidenceIssues': true,
       },
       sentence: 'You have an outgoing personality. You may tend to be a people pleaser.',
     },
@@ -72,35 +72,35 @@ async function main(prisma: PrismaClient) {
       condition: {
         'personType.ambitious': true,
         'personType.sociable': true,
-        'biggestChallenges.busyToDate': true
+        'biggestChallenges.busyToDate': true,
       },
       sentence: 'You know how to achieve targets but may forget to live in the moment.',
     },
     {
       condition: {
         'personType.adventurous': true,
-        'personType.independent': true
+        'personType.independent': true,
       },
       sentence: 'You like to try new experiences and to push yourself out of your comfort zone. You place high value on independence.',
     },
     {
       condition: {
         'personType.adventurous': true,
-        'personType.independent': false
+        'personType.independent': false,
       },
       sentence: 'You like to try new experiences and to push yourself out of your comfort zone.',
     },
     {
       condition: {
         'mateType.adventurous': true,
-        OR: [{ 'mateType.reserved': true }, { 'mateType.prudent': true }]
+        OR: [{ 'mateType.reserved': true }, { 'mateType.prudent': true }],
       },
       sentence: 'You want to break out of your “box”.',
     },
     {
       condition: {
         'personType.ambitious': false,
-        'personType.passionate': true
+        'personType.passionate': true,
       },
       sentence: 'You don’t call yourself ambitious but you will be once you find your true calling. Check our links.',
     },
@@ -108,7 +108,7 @@ async function main(prisma: PrismaClient) {
       condition: {
         'personType.ambitious': true,
         'personType.passionate': true,
-        OR: [{ 'personType.shy': false }, { 'personType.sensitive': false }]
+        OR: [{ 'personType.shy': false }, { 'personType.sensitive': false }],
       },
       sentence: 'You are growth oriented and not afraid to get out of your comfort zone. These are attractive traits.',
     },
@@ -116,14 +116,14 @@ async function main(prisma: PrismaClient) {
       condition: {
         'personType.ambitious': true,
         'personType.passionate': true,
-        OR: [{ 'personType.shy': true }, { 'personType.sensitive': true }]
+        OR: [{ 'personType.shy': true }, { 'personType.sensitive': true }],
       },
       sentence: 'You are persistent and don’t mind difficulties as long as you develop.',
     },
     {
       condition: {
         'personType.ambitious': true,
-        'biggestChallenges.notHappyWithSocialLife': true
+        'biggestChallenges.notHappyWithSocialLife': true,
       },
       sentence:
         'You like to be surrounded by successful people in the areas of success that matter to you. Try to get socially involved with what you are good at e.g: job, hobby or social group.',
@@ -131,7 +131,7 @@ async function main(prisma: PrismaClient) {
     {
       condition: {
         'personType.ambitious': true,
-        'biggestChallenges.notHappyWithSocialLife': false
+        'biggestChallenges.notHappyWithSocialLife': false,
       },
       sentence:
         'You like to be surrounded by successful people in the areas of success that matter to you. Try to get socially involved with what you are good at e.g: job, hobby or social group. To beat your lack of time choose activities that are easy to join.',
@@ -159,7 +159,6 @@ async function main(prisma: PrismaClient) {
 
 export { main as userIntroductionSeed };
 
-
 import { Seeder } from '../main/seeder.interface';
 
 export class UserIntroductionSeed extends Seeder {
@@ -170,21 +169,21 @@ export class UserIntroductionSeed extends Seeder {
     }[] = [
       {
         condition: {
-          'personType.sensitive': true
+          'personType.sensitive': true,
         },
         sentence: 'You are a sensitive person and can be emotional, especially when in a relationship. Be careful you don’t get too intense.',
       },
       {
         condition: {
           'personType.reserved': true,
-          OR: [{ 'personType.humorous': true }, { 'personType.sociable': true }]
+          OR: [{ 'personType.humorous': true }, { 'personType.sociable': true }],
         },
         sentence: 'You tend to be reserved. If this is because of shyness or lack of confidence check our recommendations.',
       },
       {
         condition: {
           'personType.reserved': true,
-          'personType.sociable': true
+          'personType.sociable': true,
         },
         sentence:
           'You tend to be rather self-aware. You have a need for lots of time alone, does this allow you to socialise enough? You take more time thinking than acting. You make for an incredible friend, as you are loyal and stable. If being reserved is a personality trait, then you should embrace it with pride! But if it hides shyness or lack of confidence then you should look at our recommendations.',
@@ -200,7 +199,7 @@ export class UserIntroductionSeed extends Seeder {
           'personType.sensitive': true,
           'personType.reserved': true,
           'personType.shy': true,
-          'biggestChallenges.notHappyWithSocialLife': true
+          'biggestChallenges.notHappyWithSocialLife': true,
         },
         sentence: 'You are shy and sensitive. You may be a Highly Sensitive Person ( HSP). This may encourage retreating from events or gatherings.',
       },
@@ -209,7 +208,7 @@ export class UserIntroductionSeed extends Seeder {
           'personType.humorous': true,
           'personType.sociable': true,
           'biggestChallenges.endUpInFriendZone': false,
-          'biggestChallenges.confidenceIssues': false
+          'biggestChallenges.confidenceIssues': false,
         },
         sentence: 'Your outgoing personality is one of your strong points.',
       },
@@ -218,7 +217,7 @@ export class UserIntroductionSeed extends Seeder {
           'personType.humorous': true,
           'personType.sociable': true,
           'biggestChallenges.endUpInFriendZone': true,
-          'biggestChallenges.confidenceIssues': false
+          'biggestChallenges.confidenceIssues': false,
         },
         sentence: 'You are sociable and humorous. Careful not to overuse instead of bringing out the erotic you.',
       },
@@ -226,7 +225,7 @@ export class UserIntroductionSeed extends Seeder {
         condition: {
           'personType.humorous': true,
           'personType.sociable': true,
-          'biggestChallenges.confidenceIssues': true
+          'biggestChallenges.confidenceIssues': true,
         },
         sentence: 'You have an outgoing personality. You may tend to be a people pleaser.',
       },
@@ -234,35 +233,35 @@ export class UserIntroductionSeed extends Seeder {
         condition: {
           'personType.ambitious': true,
           'personType.sociable': true,
-          'biggestChallenges.busyToDate': true
+          'biggestChallenges.busyToDate': true,
         },
         sentence: 'You know how to achieve targets but may forget to live in the moment.',
       },
       {
         condition: {
           'personType.adventurous': true,
-          'personType.independent': true
+          'personType.independent': true,
         },
         sentence: 'You like to try new experiences and to push yourself out of your comfort zone. You place high value on independence.',
       },
       {
         condition: {
           'personType.adventurous': true,
-          'personType.independent': false
+          'personType.independent': false,
         },
         sentence: 'You like to try new experiences and to push yourself out of your comfort zone.',
       },
       {
         condition: {
           'mateType.adventurous': true,
-          OR: [{ 'mateType.reserved': true }, { 'mateType.prudent': true }]
+          OR: [{ 'mateType.reserved': true }, { 'mateType.prudent': true }],
         },
         sentence: 'You want to break out of your “box”.',
       },
       {
         condition: {
           'personType.ambitious': false,
-          'personType.passionate': true
+          'personType.passionate': true,
         },
         sentence: 'You don’t call yourself ambitious but you will be once you find your true calling. Check our links.',
       },
@@ -270,7 +269,7 @@ export class UserIntroductionSeed extends Seeder {
         condition: {
           'personType.ambitious': true,
           'personType.passionate': true,
-          OR: [{ 'personType.shy': false }, { 'personType.sensitive': false }]
+          OR: [{ 'personType.shy': false }, { 'personType.sensitive': false }],
         },
         sentence: 'You are growth oriented and not afraid to get out of your comfort zone. These are attractive traits.',
       },
@@ -278,14 +277,14 @@ export class UserIntroductionSeed extends Seeder {
         condition: {
           'personType.ambitious': true,
           'personType.passionate': true,
-          OR: [{ 'personType.shy': true }, { 'personType.sensitive': true }]
+          OR: [{ 'personType.shy': true }, { 'personType.sensitive': true }],
         },
         sentence: 'You are persistent and don’t mind difficulties as long as you develop.',
       },
       {
         condition: {
           'personType.ambitious': true,
-          'biggestChallenges.notHappyWithSocialLife': true
+          'biggestChallenges.notHappyWithSocialLife': true,
         },
         sentence:
           'You like to be surrounded by successful people in the areas of success that matter to you. Try to get socially involved with what you are good at e.g: job, hobby or social group.',
@@ -293,7 +292,7 @@ export class UserIntroductionSeed extends Seeder {
       {
         condition: {
           'personType.ambitious': true,
-          'biggestChallenges.notHappyWithSocialLife': false
+          'biggestChallenges.notHappyWithSocialLife': false,
         },
         sentence:
           'You like to be surrounded by successful people in the areas of success that matter to you. Try to get socially involved with what you are good at e.g: job, hobby or social group. To beat your lack of time choose activities that are easy to join.',

@@ -15,7 +15,7 @@ export class AnswerEntity implements Answer {
   @ApiProperty({ description: 'ID of the related question', format: 'uuid' })
   questionId: string;
 
-  @ApiProperty({ description: 'Evaluation data in JSON format'})
+  @ApiProperty({ description: 'Evaluation data in JSON format' })
   evaluation: JsonValue;
 
   @ApiProperty({ description: 'Date when the answer was created' })

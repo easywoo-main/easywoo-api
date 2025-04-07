@@ -3,7 +3,7 @@ import { Condition } from '../../../src/modules/report/modules/evaluator/conditi
 import { Seeder } from '../main/seeder.interface';
 
 export class TargetAudienceSeed extends Seeder {
-  async seed(prisma: PrismaClient): Promise<void>  {
+  async seed(prisma: PrismaClient): Promise<void> {
     const sentences: {
       condition: Condition;
       sentence: string;
