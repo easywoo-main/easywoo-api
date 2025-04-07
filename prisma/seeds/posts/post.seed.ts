@@ -32,40 +32,39 @@ export class PostSeed extends Seeder {
       });
     };
 
-      const postFilePath = path.join(__dirname, 'post.data.csv');
-      const tagPostFilePath = path.join(__dirname, 'tagPost.data.csv');
-      const tagFilePath = path.join(__dirname, '../tags/tag.data.csv');
+    const postFilePath = path.join(__dirname, 'post.data.csv');
+    const tagPostFilePath = path.join(__dirname, 'tagPost.data.csv');
+    const tagFilePath = path.join(__dirname, '../tags/tag.data.csv');
 
-      posts.push(...await readCsv<Post>(postFilePath, ';'));
-      tagPosts.push(...await readCsv<TagPost>(tagPostFilePath, ';'));
-      tags.push(...await readCsv(tagFilePath, ';'));
+    posts.push(...(await readCsv<Post>(postFilePath, ';')));
+    tagPosts.push(...(await readCsv<TagPost>(tagPostFilePath, ';')));
+    tags.push(...(await readCsv(tagFilePath, ';')));
 
-
-      for (const post of posts.filter((post) => post.post_type === 'job_listing' && post.post_status === 'publish')) {
-        const tagsIds: string[] = [];
-        for (const tagPost of tagPosts) {
-          if (post.ID === tagPost.object_id) {
-            const tag = tags.find((t) => t.term_id === tagPost.term_taxonomy_id);
-            if (tag) {
-              const { slug } = tag;
-              const tagRecord = await prisma.tag.findUnique({ where: { slug } });
-              if (tagRecord) {
-                tagsIds.push(tagRecord.id);
-              }
+    for (const post of posts.filter((post) => post.post_type === 'job_listing' && post.post_status === 'publish')) {
+      const tagsIds: string[] = [];
+      for (const tagPost of tagPosts) {
+        if (post.ID === tagPost.object_id) {
+          const tag = tags.find((t) => t.term_id === tagPost.term_taxonomy_id);
+          if (tag) {
+            const { slug } = tag;
+            const tagRecord = await prisma.tag.findUnique({ where: { slug } });
+            if (tagRecord) {
+              tagsIds.push(tagRecord.id);
             }
           }
         }
-
-        await prisma.post.create({
-          data:{
-            title: post.post_title,
-            content: post.post_content,
-            status: PostStatus.PUBLISH,
-            type: PostType.JOB_LISTING,
-            tags: { connect: tagsIds.map((tagId) => ({ id: tagId })) },
-        }});
       }
 
+      await prisma.post.create({
+        data: {
+          title: post.post_title,
+          content: post.post_content,
+          status: PostStatus.PUBLISH,
+          type: PostType.JOB_LISTING,
+          tags: { connect: tagsIds.map((tagId) => ({ id: tagId })) },
+        },
+      });
+    }
   }
 }
 

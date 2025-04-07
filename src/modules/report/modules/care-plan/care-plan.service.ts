@@ -3,22 +3,29 @@ import { QuestionnaireDto } from '../../../question/dtos/questionnaire.dto';
 import { SentenceService } from '../sentence/sentence.service';
 import { EvaluatorService } from '../evaluator/evaluator.service';
 import { Condition } from '../evaluator/condition.dto';
-import { SentenceType } from '@prisma/client';
+import { SentenceType, Prisma } from '@prisma/client';
+import { CarePlanDto } from '../../dto/carePlan.dto';
+import { PostService } from '../../../post/post.service';
 
 @Injectable()
 export class CarePlanService {
   constructor(
     private readonly sentenceService: SentenceService,
-    private readonly evaluatorService: EvaluatorService) {
-  }
-  async generateReportSection(questionnaire: QuestionnaireDto) {
+    private readonly evaluatorService: EvaluatorService,
+    private readonly postService: PostService,
+  ) {}
+  
+  public async generateReportSection(questionnaire: QuestionnaireDto): Promise<CarePlanDto> {
     const sentences = await this.sentenceService.getAllSentencesByType(SentenceType.CARE_PLAN);
-    const results: string  = [];
+    const results: CarePlanDto[] = [];
     for (const sentence of sentences) {
       if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {
-
+        results.push({
+          sentence: sentence.sentence,
+          posts: await this.postService.findRandomPostByFilter(sentence.dbFindManyArgs as Prisma.PostFindManyArgs),
+        });
       }
     }
-    return results;
+    return undefined;
   }
 }

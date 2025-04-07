@@ -7,5 +7,3 @@ export class ReportSectionDto {
   @ApiProperty({ description: 'The description of the report' })
   content: string;
 }
-
-

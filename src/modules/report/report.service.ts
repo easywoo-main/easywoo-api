@@ -8,6 +8,8 @@ import { Condition } from './modules/evaluator/condition.dto';
 import { EvaluatorService } from './modules/evaluator/evaluator.service';
 import { REPORT_SECTIONS } from './utils/reportSections.untils';
 import { CarePlanService } from './modules/care-plan/care-plan.service';
+import { CarePlanDto } from './dto/carePlan.dto';
+import { ReportSectionDto } from './dto/reportSection.dto';
 
 @Injectable()
 export class ReportService {
@@ -18,7 +20,7 @@ export class ReportService {
 
     private readonly carePlanService: CarePlanService,
   ) {}
-  public async generateReport(userId: string): Promise<ReportDto[]> {
+  public async generateReport(userId: string): Promise<ReportDto> {
     const questions = await this.questionnaireService.getAllQuestions(userId);
 
     const questionnaire: QuestionnaireDto = new QuestionnaireDto();
@@ -39,15 +41,21 @@ export class ReportService {
       }
     }
 
-    const report = await Promise.all(
-      REPORT_SECTIONS.map(async (reportSection): Promise<ReportDto> => {
+    const reportSection: ReportSectionDto[] = await Promise.all(
+      REPORT_SECTIONS.map(async (reportSection): Promise<ReportSectionDto> => {
         return {
           name: reportSection.name,
           content: await this.generateReportSection(questionnaire, reportSection.type),
         };
       }),
     );
-    report.push(await this.carePlanService.generateReportSection(questionnaire));
+    
+    const carePlan: CarePlanDto = await this.carePlanService.generateReportSection(questionnaire);
+
+    return {
+      reportSection,
+      carePlan,
+    };
   }
 
   private async generateReportSection(questionnaire: QuestionnaireDto, sentenceType: SentenceType): Promise<string> {

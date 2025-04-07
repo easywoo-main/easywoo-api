@@ -1,6 +1,6 @@
-
+import { PostEntity } from '../../post/post.entity';
 
 export class CarePlanDto {
-
-  posts: Posts[]
+  sentence: string;
+  posts: PostEntity[];
 }
