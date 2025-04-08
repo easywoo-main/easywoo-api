@@ -5,7 +5,7 @@ import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class PostService {
-  constructor(private readonly postRepository: PostRepository) { }
+  constructor(private readonly postRepository: PostRepository) {}
 
   public async findRandomPostByFilter(filter: Prisma.PostFindManyArgs): Promise<PostEntity[]> {
     console.log('filter typeof', typeof filter);

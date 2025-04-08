@@ -5,7 +5,6 @@ import { UserService } from '../user/user.service';
 import { QuestionService } from '../question/question.service';
 import { QuestionDto } from '../question/dtos/question.dto';
 import { QuestionsType } from '@prisma/client';
-import { CheckExistsDecorator } from '../../decorators';
 
 @Injectable()
 export class QuestionnaireAnswerService {
@@ -13,7 +12,8 @@ export class QuestionnaireAnswerService {
     private readonly questionnaireAnswerRepository: QuestionnaireAnswerRepository,
     private readonly questionnaireService: QuestionService,
     private readonly userService: UserService,
-  ) {}
+  ) {
+  }
 
   public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto) {
     const question: QuestionDto = await this.questionnaireService.getOneQuestion(questionnaireAnswerCreateDto.questionId, questionnaireAnswerCreateDto.userId);
@@ -40,5 +40,13 @@ export class QuestionnaireAnswerService {
     await this.userService.updateUser(userId, { hasQuizCompleted });
 
     return hasQuizCompleted;
+  }
+
+  public async createBulkQuestionnaireAnswer(questionnaireAnswerCreateDtos: QuestionnaireAnswerCreateDto[], userId: string){
+    return Promise.all(
+      questionnaireAnswerCreateDtos.map(async (questionnaireAnswerCreateDto) =>
+        this.createQuestionnaireAnswer({ ...questionnaireAnswerCreateDto, userId })
+      )
+    );
   }
 }

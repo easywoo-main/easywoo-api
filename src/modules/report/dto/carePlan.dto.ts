@@ -4,7 +4,7 @@ import { PostEntity } from '../../post/post.entity';
 export class CarePlanDto {
   @ApiProperty({
     description: 'A sentence describing the care plan',
-    })
+  })
   sentence: string;
 
   @ApiProperty({

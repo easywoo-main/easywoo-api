@@ -79,7 +79,6 @@ model Question {
   answers Answer[]
 
   @@unique([question])
-  @@unique([step])
   @@unique([name])
 }
 

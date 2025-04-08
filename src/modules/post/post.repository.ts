@@ -19,7 +19,7 @@ export class PostRepository {
     return await this.prisma.post.findMany({
       take: 5,
       where: filter.where,
-      skip: random
+      skip: random,
     });
   }
 }
