@@ -83,7 +83,7 @@ model Question {
 }
 
 model Sentence {
-  id       String @id @default(uuid())
+  id       String       @id @default(uuid())
   sentence String
   type     SentenceType
 
@@ -126,12 +126,12 @@ model Answer {
   @@unique([name, questionId])
 }
 
-model Post {
-  id          String   @id @default(uuid())
-  title       String
-  type        PostType
-  status      PostStatus
-  content     String
+model Course {
+  id      String       @id @default(uuid())
+  title   String
+  type    CourseType
+  status  CourseStatus
+  content String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -139,23 +139,23 @@ model Post {
   tags Tag[]
 }
 
-enum PostType {
+enum CourseType {
   JOB_LISTING
 }
 
-enum PostStatus {
+enum CourseStatus {
   PUBLISH
 }
 
 model Tag {
-  id    String @id @default(uuid())
-  name  String
-  slug  String
+  id   String @id @default(uuid())
+  name String
+  slug String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  posts Post[]
+  courses Course[]
 
   @@unique([name])
   @@unique([slug])

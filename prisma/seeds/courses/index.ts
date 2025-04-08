@@ -1,1 +1,1 @@
-export { PostSeed } from './post.seed';
+export { CourseSeed } from './courseSeed';

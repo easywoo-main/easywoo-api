@@ -7,7 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { ReportModule } from './modules/report/report.module';
 import { QuestionModule } from './modules/question/question.module';
 import { QuestionnaireAnswerModule } from './modules/question-answer/questionnaire-answer.module';
-import { PostModule } from './modules/post/post.module';
+import { CourseModule } from './modules/course/course.module';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { PostModule } from './modules/post/post.module';
     QuestionModule,
     QuestionnaireAnswerModule,
     ReportModule,
-    PostModule,
+    CourseModule,
   ],
   controllers: [],
   providers: [],

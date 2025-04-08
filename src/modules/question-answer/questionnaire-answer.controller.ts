@@ -6,7 +6,8 @@ import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.d
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiBadRequestResponse, ApiBody } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
-import { AnswerEntity } from './questionnaireAnswer.entity';
+import { Success } from '../../utils/success.utils';
+import { ReportDto } from '../report/dto/report.dto';
 
 @ApiTags('Questionnaire Answer')
 @ApiBearerAuth()
@@ -19,7 +20,7 @@ export class QuestionnaireAnswerController {
   @ApiOperation({ summary: 'Create a new questionnaire answer' })
   @ApiResponse({
     status: 201,
-    type: AnswerEntity,
+    type: ReportDto,
     description: 'The answer has been successfully created.',
   })
   @ApiBadRequestResponse({
@@ -34,7 +35,7 @@ export class QuestionnaireAnswerController {
     type: ErrorResponse,
     description: 'Unauthorized, invalid token or missing token.',
   })
-  public async createBulkQuestionnaireAnswer(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto[], @UserDetails() user: UserPayload) {
-    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswer(questionnaireAnswerCreateDto, user.id);
+  public async createBulkQuestionnaireAnswerAndGenerateReport(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto[], @UserDetails() user: UserPayload): Promise<ReportDto> {
+    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDto, user.id);
   }
 }

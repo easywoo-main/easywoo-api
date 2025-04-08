@@ -1,9 +1,9 @@
 import { Module, Post } from '@nestjs/common';
-import { PostService } from './post.service';
-import { PostRepository } from './post.repository';
+import { CourseService } from './course.service';
+import { CourseRepository } from './course.repository';
 
 @Module({
-  providers: [PostService, PostRepository],
-  exports: [PostService],
+  providers: [CourseService, CourseRepository],
+  exports: [CourseService],
 })
-export class PostModule {}
+export class CourseModule {}

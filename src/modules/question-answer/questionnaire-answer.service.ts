@@ -5,6 +5,9 @@ import { UserService } from '../user/user.service';
 import { QuestionService } from '../question/question.service';
 import { QuestionDto } from '../question/dtos/question.dto';
 import { QuestionsType } from '@prisma/client';
+import { ReportService } from '../report/report.service';
+import { ReportDto } from '../report/dto/report.dto';
+import { QuestionnaireDto } from '../question/dtos/questionnaire.dto';
 
 @Injectable()
 export class QuestionnaireAnswerService {
@@ -12,6 +15,7 @@ export class QuestionnaireAnswerService {
     private readonly questionnaireAnswerRepository: QuestionnaireAnswerRepository,
     private readonly questionnaireService: QuestionService,
     private readonly userService: UserService,
+    private readonly reportService: ReportService
   ) {
   }
 
@@ -42,11 +46,13 @@ export class QuestionnaireAnswerService {
     return hasQuizCompleted;
   }
 
-  public async createBulkQuestionnaireAnswer(questionnaireAnswerCreateDtos: QuestionnaireAnswerCreateDto[], userId: string){
-    return Promise.all(
-      questionnaireAnswerCreateDtos.map(async (questionnaireAnswerCreateDto) =>
-        this.createQuestionnaireAnswer({ ...questionnaireAnswerCreateDto, userId })
+  public async createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDtos: QuestionnaireAnswerCreateDto[], userId: string): Promise<ReportDto>{
+     await Promise.all(
+      questionnaireAnswerCreateDtos.map(async (questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto): Promise<QuestionDto> =>
+       await this.createQuestionnaireAnswer({ ...questionnaireAnswerCreateDto, userId })
       )
     );
+
+     return this.reportService.generateReport(userId);
   }
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { PostEntity } from '../../post/post.entity';
+import { CourseEntity } from '../../course/course.entity';
 
 export class CarePlanDto {
   @ApiProperty({
@@ -8,8 +8,8 @@ export class CarePlanDto {
   sentence: string;
 
   @ApiProperty({
-    description: 'An array of related posts',
-    type: [PostEntity],
+    description: 'An array of related courses',
+    type: [CourseEntity],
   })
-  posts: PostEntity[];
+  posts: CourseEntity[];
 }

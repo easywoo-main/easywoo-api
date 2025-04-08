@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { PostRepository } from './post.repository';
-import { PostEntity } from './post.entity';
+import { CourseRepository } from './course.repository';
+import { CourseEntity } from './course.entity';
 import { Prisma } from '.prisma/client';
 
 @Injectable()
-export class PostService {
-  constructor(private readonly postRepository: PostRepository) {}
+export class CourseService {
+  constructor(private readonly postRepository: CourseRepository) {}
 
-  public async findRandomPostByFilter(filter: Prisma.PostFindManyArgs): Promise<PostEntity[]> {
-    console.log('filter typeof', typeof filter);
-    return this.postRepository.findRandomPostByFilter(filter);
+  public async findRandomPostByFilter(filter: Prisma.CourseFindManyArgs): Promise<CourseEntity[]> {
+    return this.postRepository.findRandomCourseByFilter(filter);
   }
 }

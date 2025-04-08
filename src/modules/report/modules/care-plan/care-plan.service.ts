@@ -5,14 +5,14 @@ import { EvaluatorService } from '../evaluator/evaluator.service';
 import { Condition } from '../evaluator/condition.dto';
 import { SentenceType, Prisma } from '@prisma/client';
 import { CarePlanDto } from '../../dto/carePlan.dto';
-import { PostService } from '../../../post/post.service';
+import { CourseService } from '../../../course/course.service';
 
 @Injectable()
 export class CarePlanService {
   constructor(
     private readonly sentenceService: SentenceService,
     private readonly evaluatorService: EvaluatorService,
-    private readonly postService: PostService,
+    private readonly postService: CourseService,
   ) {}
 
   public async generateReportSection(questionnaire: QuestionnaireDto): Promise<CarePlanDto[]> {
@@ -22,7 +22,7 @@ export class CarePlanService {
       if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {
         results.push({
           sentence: sentence.sentence,
-          posts: await this.postService.findRandomPostByFilter(JSON.parse(sentence.dbFindManyArgs as string) as Prisma.PostFindManyArgs),
+          posts: await this.postService.findRandomPostByFilter(JSON.parse(sentence.dbFindManyArgs as string) as Prisma.CourseFindManyArgs),
         });
       }
     }

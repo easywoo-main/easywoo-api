@@ -6,7 +6,6 @@ import { QuestionnaireQuery } from './dtos/questionnaire.query';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
-import { QuestionWithStepDto } from './dtos/questionWithStep.dto';
 import { QuestionResponseDto } from './dtos/questionResponse.dto';
 
 @Controller('question')

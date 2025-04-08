@@ -25,7 +25,6 @@ export class QuestionService {
 
   public async getQuestionByStep(step: number): Promise<QuestionResponseDto[]> {
     const questions = await this.questionnaireRepository.getAllQuestions(step);
-    console.log(questions);
     return questions.map(this.questionMapper.toResponseDto)
   }
 }
