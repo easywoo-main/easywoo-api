@@ -32,7 +32,7 @@ export class PostSeed extends Seeder {
       });
     };
 
-    const postFilePath = path.join(__dirname, 'post.data.csv');
+    const postFilePath = path.join(__dirname, 'course.data.csv');
     const tagPostFilePath = path.join(__dirname, 'tagPost.data.csv');
     const tagFilePath = path.join(__dirname, '../tags/tag.data.csv');
 
