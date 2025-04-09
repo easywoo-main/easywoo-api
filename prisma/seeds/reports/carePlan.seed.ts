@@ -1,4 +1,4 @@
-import { PostType, PrismaClient, SentenceType } from '@prisma/client';
+import { CourseType, PrismaClient, SentenceType } from '@prisma/client';
 import { Seeder } from '../main/seeder.interface';
 import { Condition } from '../../../src/modules/report/modules/evaluator/condition.dto';
 import { Prisma } from '.prisma/client';
@@ -8,7 +8,7 @@ export class CarePlanSeed extends Seeder {
     const sentences: {
       condition: Condition;
       sentence: string;
-      dbFindManyArgs: Prisma.PostFindManyArgs; //Prisma.PostWhereInput
+      dbFindManyArgs: Prisma.CourseFindManyArgs;
     }[] = [
       {
         sentence:
@@ -22,7 +22,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'self-esteem-confidence-n',
@@ -41,7 +41,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'mental-health-2' }, { slug: 'self-esteem-confidence-n' }],
@@ -60,7 +60,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'self-esteem-confidence-n' }, { slug: 'mental-health-2' }],
@@ -80,7 +80,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'stress-management-2' }, { slug: 'time-management-n' }],
@@ -97,7 +97,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'comfort-zone-n' }],
@@ -114,7 +114,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'food-drink' }, { slug: 'physical-active-n' }, { slug: 'travelling-n' }, { slug: 'comfort-zone-n' }],
@@ -136,7 +136,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'volunteer-n' }],
@@ -153,7 +153,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'comfort-zone-n' }, { slug: 'law-of-attraction-n' }, { slug: 'mental-health-professionals-n' }, { slug: 'self-esteem-confidence-n' }],
@@ -170,7 +170,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'communication-skills-n',
@@ -187,7 +187,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [
@@ -210,7 +210,7 @@ export class CarePlanSeed extends Seeder {
         condition: {},
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [
@@ -234,7 +234,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'comfort-zone-n' }, { slug: 'stress-management-n' }, { slug: 'venues-n' }],
@@ -250,7 +250,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'flirting-advice-n' }],
@@ -266,7 +266,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'flirting-advice-n',
@@ -292,7 +292,7 @@ export class CarePlanSeed extends Seeder {
         condition: {},
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'volunteer-n' }, { slug: 'venues-n' }],
@@ -310,7 +310,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'coming-out-n' }, { slug: 'relationships-n-lgbtq-community' }, { slug: 'mental-health-professionals-n' }, { slug: 'comfort-zone-n' }],
@@ -325,7 +325,7 @@ export class CarePlanSeed extends Seeder {
         condition: {},
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {},
             },
@@ -341,7 +341,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'coming-out-n' }, { slug: 'relationships-n' }, { slug: 'mental-health-professionals-n' }, { slug: 'sexuality-n' }],
@@ -358,7 +358,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'relationships-n-lgbtq-community',
@@ -375,7 +375,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'family-n',
@@ -392,7 +392,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'flirting-advice-n',
@@ -412,7 +412,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [
@@ -435,7 +435,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [
@@ -457,7 +457,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }],
@@ -471,7 +471,7 @@ export class CarePlanSeed extends Seeder {
         condition: {},
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {},
             },
@@ -486,7 +486,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'anger-management' }, { slug: 'breaking-up-advice-n' }, { slug: 'toxic-relationships-handling-n' }],
@@ -508,7 +508,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'commitment-issues-n',
@@ -525,7 +525,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'communication-skills-n' }, { slug: 'venues-n' }, { slug: 'commitment-issues-n' }, { slug: 'law-of-attraction-n' }],
@@ -547,7 +547,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [
@@ -569,7 +569,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'travelling-n' }, { slug: 'music-dance-n' }, { slug: 'outdoor-adventure' }, { slug: 'volunteer-n' }],
@@ -585,7 +585,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'beauty-n' }, { slug: 'self-esteem-confidence-n' }, { slug: 'plastic-surgeons-n' }, { slug: 'dermatologists-n' }],
@@ -603,7 +603,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'venues-n' }, { slug: 'volunteer-n' }],
@@ -621,7 +621,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'activities-hobbies-n' }, { slug: 'venues-n' }, { slug: 'volunteer-n' }],
@@ -638,7 +638,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'sexuality-n' }, { slug: 'sex-therapy-n' }],
@@ -654,7 +654,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'flirting-advice-n' }, { slug: 'law-of-attraction-n' }, { slug: 'social-media-consultants-n' }, { slug: 'stylists-image-consultants-n' }],
@@ -671,7 +671,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'social-media-consultants-n',
@@ -687,7 +687,7 @@ export class CarePlanSeed extends Seeder {
         condition: { GTE: { 'self_improvement.time_management': 15 } },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'life-coaches-n' }, { slug: 'stress-management-n' }, { slug: 'time-management-n' }],
@@ -703,7 +703,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'financial-management-n' }, { slug: 'stress-management-n' }],
@@ -720,7 +720,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'career-development-n' }, { slug: 'comfort-zone-n' }, { slug: 'life-coaches-n' }, { slug: 'stress-management-n' }, { slug: 'time-management-n' }],
@@ -737,7 +737,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [
@@ -760,7 +760,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 slug: 'financial-management-n',
@@ -778,7 +778,7 @@ export class CarePlanSeed extends Seeder {
         },
         dbFindManyArgs: {
           where: {
-            type: PostType.JOB_LISTING,
+            type: CourseType.JOB_LISTING,
             tags: {
               some: {
                 OR: [{ slug: 'life-coaches-n' }, { slug: 'psychologists-n-mental-health-professionals-n' }, { slug: 'psychotherapists-counselors-n' }, { slug: 'relationships-n' }],

@@ -5,6 +5,6 @@ export class QuestionWithStepDto {
   @ApiProperty({ description: 'Total number of questions' })
   count: number;
 
-  @ApiProperty({ description: 'Question details' })
-  question: QuestionDto;
+  @ApiProperty({ description: 'Question details', type: [QuestionDto] })
+  questions: QuestionDto[];
 }

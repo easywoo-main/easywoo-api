@@ -3,6 +3,6 @@ import { QuestionEntity } from '../question.entity';
 import { AnswerDto } from '../../question-answer/dtos/answer.dto';
 
 export class QuestionDto extends QuestionEntity {
-  @ApiProperty({ description: 'List of answers' })
+  @ApiProperty({ description: 'List of answers', type: [AnswerDto] })
   answers: AnswerDto[];
 }

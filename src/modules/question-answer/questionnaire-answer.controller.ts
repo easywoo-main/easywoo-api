@@ -3,10 +3,11 @@ import { QuestionnaireAnswerService } from './questionnaire-answer.service';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
 import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.dto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiBadRequestResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiUnauthorizedResponse, ApiBadRequestResponse, ApiBody } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
-import { AnswerEntity } from './questionnaireAnswer.entity';
+import { Success } from '../../utils/success.utils';
+import { ReportDto } from '../report/dto/report.dto';
 
 @ApiTags('Questionnaire Answer')
 @ApiBearerAuth()
@@ -19,18 +20,22 @@ export class QuestionnaireAnswerController {
   @ApiOperation({ summary: 'Create a new questionnaire answer' })
   @ApiResponse({
     status: 201,
-    type: AnswerEntity,
+    type: ReportDto,
     description: 'The answer has been successfully created.',
   })
   @ApiBadRequestResponse({
     type: ErrorResponse,
     description: 'Bad request, validation errors or invalid data.',
   })
+  @ApiBody({
+    description: 'The questionnaire answer to create',
+    type: [QuestionnaireAnswerCreateDto],
+  })
   @ApiUnauthorizedResponse({
     type: ErrorResponse,
     description: 'Unauthorized, invalid token or missing token.',
   })
-  public async createQuestionnaireAnswer(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, @UserDetails() user: UserPayload) {
-    return await this.questionnaireAnswerService.createQuestionnaireAnswer({ ...questionnaireAnswerCreateDto, userId: user.id });
+  public async createBulkQuestionnaireAnswerAndGenerateReport(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto[], @UserDetails() user: UserPayload): Promise<ReportDto> {
+    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDto, user.id);
   }
 }

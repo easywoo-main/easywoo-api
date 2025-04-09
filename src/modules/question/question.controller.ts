@@ -6,7 +6,7 @@ import { QuestionnaireQuery } from './dtos/questionnaire.query';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
-import { QuestionWithStepDto } from './dtos/questionWithStep.dto';
+import { QuestionResponseDto } from './dtos/questionResponse.dto';
 
 @Controller('question')
 @ApiTags('Questionnaire')
@@ -16,7 +16,7 @@ export class QuestionController {
   @Get('/')
   @UseGuards(AuthGuard)
   @ApiOkResponse({
-    type: QuestionWithStepDto,
+    type: [QuestionResponseDto],
     description: 'Returns the question for the given step.',
   })
   @ApiBadRequestResponse({
@@ -29,6 +29,6 @@ export class QuestionController {
   })
   @ApiBearerAuth()
   public async getQuestionByStep(@UserDetails() user: UserPayload, @Query() questionnaireQuery: QuestionnaireQuery) {
-    return this.questionnaireService.getQuestionByStep(user.id, questionnaireQuery.step);
+    return this.questionnaireService.getQuestionByStep(questionnaireQuery.step);
   }
 }

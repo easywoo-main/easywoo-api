@@ -1,12 +1,12 @@
-import { PostStatus, PostType, PrismaClient } from '@prisma/client';
+import { CourseStatus, CourseType, PrismaClient } from '@prisma/client';
 import { Seeder } from '../main/seeder.interface';
 import * as fs from 'fs';
 import * as csv from 'csv-parser';
 import * as path from 'node:path';
 
-export class PostSeed extends Seeder {
+export class CourseSeed extends Seeder {
   async seed(prisma: PrismaClient): Promise<void> {
-    if ((await prisma.post.findMany()).length > 0) {
+    if ((await prisma.course.findMany()).length > 0) {
       return;
     }
 
@@ -32,7 +32,7 @@ export class PostSeed extends Seeder {
       });
     };
 
-    const postFilePath = path.join(__dirname, 'post.data.csv');
+    const postFilePath = path.join(__dirname, 'course.data.csv');
     const tagPostFilePath = path.join(__dirname, 'tagPost.data.csv');
     const tagFilePath = path.join(__dirname, '../tags/tag.data.csv');
 
@@ -55,12 +55,12 @@ export class PostSeed extends Seeder {
         }
       }
 
-      await prisma.post.create({
+      await prisma.course.create({
         data: {
           title: post.post_title,
           content: post.post_content,
-          status: PostStatus.PUBLISH,
-          type: PostType.JOB_LISTING,
+          status: CourseStatus.PUBLISH,
+          type: CourseType.JOB_LISTING,
           tags: { connect: tagsIds.map((tagId) => ({ id: tagId })) },
         },
       });
@@ -98,8 +98,4 @@ interface TagPost {
   object_id: string;
   term_taxonomy_id: string;
   term_order: string;
-}
-
-interface MergedData extends Post {
-  tagsIds?: string[];
 }
