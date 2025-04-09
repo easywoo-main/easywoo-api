@@ -1,9 +1,12 @@
+import { Injectable } from '@nestjs/common';
+import { OAuth2Client } from 'google-auth-library';
 import { ConfigService } from '@nestjs/config';
-import * as dotenv from 'dotenv';
-dotenv.config();
 
-export function getGoogleConfig(configService: ConfigService) {
-  return {
-    clientId: configService.get<string>('GOOGLE_CLIENT_ID'),
-  };
+@Injectable()
+export class GoogleClient extends OAuth2Client {
+  constructor(private readonly configService: ConfigService) {
+    super({
+      clientId: configService.get<string>('GOOGLE_CLIENT_ID'),
+    });
+  }
 }

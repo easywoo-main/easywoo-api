@@ -1,4 +1,4 @@
-import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { ErrorResponse } from './errorResponse.dto';
 import { HttpExceptionHandler } from './http.exceptionHandler';
@@ -19,18 +19,19 @@ export interface IExceptionHandler {
 export class GlobalFilter implements ExceptionFilter {
   private handlers: IExceptionHandler[];
 
-  constructor() {
+  constructor(private readonly logger: Logger) {
     this.handlers = [new DatabaseExceptionHandler(), new HttpExceptionHandler(), new DefaultExceptionHandler()];
   }
 
   catch(exception: unknown, host: ArgumentsHost): void {
+    console.log(exception);
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
     const handler = this.handlers.find((h) => h.supports(exception)) || new DefaultExceptionHandler();
 
-    console.log(handler);
+    this.logger.error(`Exception: ${exception}`, exception as Error);
     const { status, message, name, additionalInfo } = handler.handle(exception);
 
     const errorResponse: ErrorResponse = {
@@ -45,4 +46,4 @@ export class GlobalFilter implements ExceptionFilter {
   }
 }
 
-export const globalFilter = new GlobalFilter();
+export const globalFilter = new GlobalFilter(new Logger(GlobalFilter.name));

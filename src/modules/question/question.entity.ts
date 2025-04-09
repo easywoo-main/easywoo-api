@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Question, QuestionsType } from '@prisma/client';
 
 export class QuestionEntity implements Question {
-  @ApiProperty({ description: 'Unique identifier of the questionnaire' })
+  @ApiProperty({ description: 'Unique identifier of the questionnaire', format: 'uuid' })
   id: string;
 
   @ApiProperty({ description: 'Step number in the questionnaire' })
@@ -14,7 +14,7 @@ export class QuestionEntity implements Question {
   @ApiProperty({ description: 'Question text' })
   question: string;
 
-  @ApiProperty({ description: 'The type of the question' })
+  @ApiProperty({ description: 'The type of the question', enum: QuestionsType })
   type: QuestionsType;
 
   @ApiProperty({ description: 'Timestamp when the questionnaire was created' })

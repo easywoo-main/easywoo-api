@@ -5,10 +5,10 @@ import { PrismaService } from '../../database/prisma.service';
 export class QuestionRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async getAllQuizzes(userId: string, step?: number) {
+  public async getAllQuestionsByStep(userId: string, step?: number) {
     return this.prisma.question.findMany({
       where: {
-        ...(step && { step }),
+        ...(step && {step})
       },
       include: {
         answers: {
@@ -21,6 +21,17 @@ export class QuestionRepository {
           },
         },
       },
+    });
+  }
+
+  public async getAllQuestions(step?: number) {
+    return this.prisma.question.findMany({
+      where: {
+        ...(step && {step})
+      },
+      include: {
+        answers: true
+      }
     });
   }
 

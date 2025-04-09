@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { GoogleClient } from './googleClient';
 import { GoogleUser } from './google.entity';
 import { TokenService } from '../../token/token.service';
 import { UserService } from '../../user/user.service';
@@ -8,9 +7,9 @@ import { UserCreateDto } from '../../user/dto/userCreate.dto';
 import { GoogleRepository } from './google.repository';
 import { UserAuthDto } from '../userAuth.dto';
 import { GoogleUserWithUser } from './dtos/googleUserWithUser.dto';
-import { ConfigService } from '@nestjs/config';
 import { GoogleCallbackDto } from './dtos/googleCallback.dto';
 import { UserEntity } from '../../user/user.entity';
+import { GoogleClient } from '../../../configs/google.config';
 
 @Injectable()
 export class GoogleService {
@@ -19,7 +18,6 @@ export class GoogleService {
     private readonly googleRepository: GoogleRepository,
     private readonly tokenService: TokenService,
     private readonly userService: UserService,
-    private readonly configService: ConfigService,
   ) {}
 
   public async googleAuth(googleCallbackDto: GoogleCallbackDto): Promise<UserAuthDto> {

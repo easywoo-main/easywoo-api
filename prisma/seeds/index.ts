@@ -1,15 +1,5 @@
-import { questionnaireSeed } from './questionnaire.seed';
-import { PrismaClient } from '@prisma/client';
-import { userSeed } from './user.seed';
-import { sentenceSeed } from './sentence.seed';
-
-const prisma = new PrismaClient();
-prisma.$connect();
-(async function main() {
-  await questionnaireSeed(prisma);
-  await sentenceSeed(prisma);
-  await userSeed(prisma);
-  console.log('Seeding completed');
-})();
-
-prisma.$disconnect();
+export * from './questionnaires';
+export * from './tags';
+export * from './courses';
+export * from './reports';
+export * from './users';

@@ -35,4 +35,19 @@ export class QuestionnaireAnswerRepository {
       },
     });
   }
+
+  public async findAnswerById(answerId: string, userId: string) {
+    return this.prisma.answer.findUnique({
+      where: {
+        id: answerId,
+      },
+      include: {
+        users: {
+          where: {
+            id: userId,
+          },
+        },
+      },
+    });
+  }
 }

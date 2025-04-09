@@ -15,7 +15,7 @@ export class DatabaseExceptionHandler implements IExceptionHandler {
 
   handle(exception: Prisma.PrismaClientKnownRequestError | Error) {
     let status = HttpStatus.BAD_REQUEST;
-    let message = exception.message;
+    let message = exception.message || 'Database error';
 
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
@@ -38,9 +38,6 @@ export class DatabaseExceptionHandler implements IExceptionHandler {
           status = HttpStatus.CONFLICT;
           message = 'Foreign key constraint failed.';
           break;
-        default:
-          status = HttpStatus.INTERNAL_SERVER_ERROR;
-          message = 'Database error.';
       }
     }
 

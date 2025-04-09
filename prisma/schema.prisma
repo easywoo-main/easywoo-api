@@ -61,17 +61,17 @@ model AppleUser {
 }
 
 enum QuestionsType {
-  single
-  multiple
-  slider
+  SINGLE
+  MULTIPLE
+  SLIDER
 }
 
 model Question {
   id       String        @id @default(uuid())
   step     Int
   question String
-  type     QuestionsType
   name     String
+  type     QuestionsType
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -83,15 +83,29 @@ model Question {
 }
 
 model Sentence {
-  id       String @id @default(uuid())
+  id       String       @id @default(uuid())
   sentence String
+  type     SentenceType
 
-  condition Json
+  condition      Json
+  dbFindManyArgs Json?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@unique([sentence])
+}
+
+enum SentenceType {
+  INTRO
+  USER_INTRODUCTION
+  TARGET_AUDIENCE
+  RELATIONSHIP_GOALS
+  FINAL_CONSIDERATIONS
+  EMOTIONAL_BAGGAGE
+  DEEP_DIVE
+  EASY_SOCIAL
+  CARE_PLAN
 }
 
 model Answer {
@@ -110,4 +124,39 @@ model Answer {
 
   @@unique([answer, questionId])
   @@unique([name, questionId])
+}
+
+model Course {
+  id      String       @id @default(uuid())
+  title   String
+  type    CourseType
+  status  CourseStatus
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tags Tag[]
+}
+
+enum CourseType {
+  JOB_LISTING
+}
+
+enum CourseStatus {
+  PUBLISH
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String
+  slug String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  courses Course[]
+
+  @@unique([name])
+  @@unique([slug])
 }
