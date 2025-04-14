@@ -4,7 +4,7 @@ import { UserRepository } from './user.repository';
 import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './user.entity';
-import { CheckExistsDecorator } from '../../decorators';
+import { CheckExists } from '../../decorators';
 
 @Injectable()
 export class UserService {
@@ -33,12 +33,12 @@ export class UserService {
     return this.userRepository.findUserByEmail(email);
   }
 
-  @CheckExistsDecorator('User not found')
+  @CheckExists('User not found')
   public async findUserByIdWithPassword(userId: string): Promise<UserEntity> {
     return this.userRepository.findUserByIdWithPassword(userId);
   }
 
-  @CheckExistsDecorator('User not found')
+  @CheckExists('User not found')
   public async findUserById(userId: string): Promise<UserEntity> {
     return this.userRepository.findUserById(userId);
   }

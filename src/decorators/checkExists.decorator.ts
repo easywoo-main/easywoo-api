@@ -2,7 +2,7 @@ import { HttpException, NotFoundException } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-export function CheckExistsDecorator(error?: string | HttpException) {
+export function CheckExists(error?: string | HttpException) {
   return function (target: any, key: string, descriptor: PropertyDescriptor) {
     const originalMethod = descriptor.value;
 
