@@ -8,6 +8,10 @@ import { ReportModule } from './modules/report/report.module';
 import { QuestionModule } from './modules/question/question.module';
 import { QuestionnaireAnswerModule } from './modules/question-answer/questionnaire-answer.module';
 import { CourseModule } from './modules/course/course.module';
+import { ChatModule } from './modules/chat/chat.module';
+import { ChatMessageModule } from './modules/chat-message/chat-message.module';
+import { MessageChoiceService } from './modules/message-choice/message-choice.service';
+import { MessageChoiceModule } from './modules/message-choice/message-choice.module';
 
 @Module({
   imports: [
@@ -22,6 +26,9 @@ import { CourseModule } from './modules/course/course.module';
     QuestionnaireAnswerModule,
     ReportModule,
     CourseModule,
+    ChatModule,
+    ChatMessageModule,
+    MessageChoiceModule,
   ],
   controllers: [],
   providers: [],

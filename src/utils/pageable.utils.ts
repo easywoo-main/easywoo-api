@@ -1,28 +1,29 @@
+export class PageRequestArgs {
+  pageNumber?: number = 1;
+  pageSize?: number = 200;
+  sortBy?: Record<string, 'desc' | 'asc'> = { id: 'desc' };
+  skip?: number = this.pageNumber * this.pageSize - this.pageSize;
+  search?: string = "";
+}
+
 export class PageRequest {
   readonly pageNumber?: number;
   readonly pageSize: number;
   readonly sortBy?: Record<string, 'desc' | 'asc'>;
-  readonly skip?: number;
-  readonly search?: string;
+  readonly skip: number;
+  readonly search: string;
 
-  constructor({
-    pageNumber = 1,
-    pageSize = 200,
-    sortBy = { id: 'desc' },
-    skip = pageNumber * pageSize - pageSize,
-    search = '',
-  }: {
-    pageNumber?: number;
-    pageSize?: number;
-    sortBy?: Record<string, 'desc' | 'asc'>;
-    skip?: number;
-    search?: string;
-  }) {
-    this.pageNumber = pageNumber;
-    this.pageSize = pageSize;
-    this.sortBy = sortBy;
-    this.skip = skip;
-    this.search = search;
+  constructor(
+    pageRequestArgs: PageRequestArgs,
+  ) {
+    this.pageNumber = pageRequestArgs.pageNumber;
+    this.pageSize = pageRequestArgs.pageSize;
+    this.sortBy = pageRequestArgs.sortBy;
+    this.skip = pageRequestArgs.skip;
+    this.search = pageRequestArgs.search;
+  }
+  toPageResponse<T>(content: T[], count: number): PageResponse<T> {
+    return new PageResponse<T>(this, content, count);
   }
 }
 export class PageResponse<T> {

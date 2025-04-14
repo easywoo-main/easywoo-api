@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
@@ -21,7 +21,7 @@ export class UserController {
     return await this.userService.findUserById(user.id);
   }
 
-  @Put('me')
+  @Patch('me')
   @ApiBearerAuth()
   @ApiOkResponse({ description: 'User updated successfully', type: UserEntity })
   @UseGuards(AuthGuard)

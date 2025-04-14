@@ -27,6 +27,7 @@ model User {
   answers    Answer[]
   googleUser GoogleUser? @relation(fields: [googleUserId], references: [id])
   appleUser  AppleUser?  @relation(fields: [appleUserId], references: [id])
+  courses    Course[]
 }
 
 model GoogleUser {
@@ -137,6 +138,8 @@ model Course {
   updatedAt DateTime @updatedAt
 
   tags Tag[]
+
+  users User[]
 }
 
 enum CourseType {
@@ -159,4 +162,64 @@ model Tag {
 
   @@unique([name])
   @@unique([slug])
+}
+
+enum MessageType {
+  TEXT
+  FILE //IMAGE, FILE
+
+  //QUESTION
+  QUESTION_MULTIPLE
+  QUESTION_SINGLE
+  QUESTION_CHELENGES
+}
+
+model ChatMessage {
+  id   String      @id @default(uuid())
+  name String
+  type MessageType
+
+  nextMessageId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  nextMessage  ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id])
+  prevMessages ChatMessage[] @relation("MessageToNext")
+
+  nextChoices MessageChoice[] @relation("MessageToPrev")
+  prevChoices MessageChoice[] @relation("MessageToNext")
+  Chat        Chat?
+}
+
+enum ChoiceType {
+  SINGLE
+  SLIDER
+}
+
+model MessageChoice {
+  id   String     @id @default(uuid())
+  name String
+  type ChoiceType
+
+  prevMessageId String
+  nextMessageId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  nextMessage ChatMessage? @relation("MessageToNext", fields: [nextMessageId], references: [id])
+  prevMessage ChatMessage  @relation("MessageToPrev", fields: [prevMessageId], references: [id])
+}
+
+model Chat {
+  id   String @id @default(uuid())
+  name String
+
+  startMessageId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  startMessage ChatMessage? @relation(fields: [startMessageId], references: [id])
 }
