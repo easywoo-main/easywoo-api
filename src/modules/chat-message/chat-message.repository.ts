@@ -19,7 +19,8 @@ export class ChatMessageRepository {
     return this.prisma.chatMessage.findUnique({
       where: { id },
       include: {
-        nextChoices: true
+        nextChoices: true,
+        nextMessage: true,
       }
     });
   }

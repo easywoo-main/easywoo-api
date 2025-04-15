@@ -22,7 +22,7 @@ export class CarePlanService {
       if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {
         results.push({
           sentence: sentence.sentence,
-          posts: await this.postService.findRandomPostByFilter(JSON.parse(sentence.dbFindManyArgs as string) as Prisma.CourseFindManyArgs),
+          course: await this.postService.findRandomPostByFilter(JSON.parse(sentence.dbFindManyArgs as string) as Prisma.CourseFindManyArgs),
         });
       }
     }

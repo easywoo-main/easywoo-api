@@ -10,6 +10,7 @@ import { REPORT_SECTIONS } from './utils/reportSections.untils';
 import { CarePlanService } from './modules/care-plan/care-plan.service';
 import { CarePlanDto } from './dto/carePlan.dto';
 import { ReportSectionDto } from './dto/reportSection.dto';
+import { PdfService } from './modules/pdf/pdf.service';
 
 @Injectable()
 export class ReportService {
@@ -17,7 +18,7 @@ export class ReportService {
     private readonly questionnaireService: QuestionService,
     private readonly sentenceService: SentenceService,
     private readonly evaluatorService: EvaluatorService,
-
+    private readonly pdfService: PdfService,
     private readonly carePlanService: CarePlanService,
   ) {}
   public async generateReport(userId: string): Promise<ReportDto> {
@@ -50,11 +51,15 @@ export class ReportService {
       }),
     );
 
-    const carePlan: CarePlanDto[] = await this.carePlanService.generateReportSection(questionnaire);
+    const [carePlan, file] = await Promise.all([
+      this.carePlanService.generateReportSection(questionnaire),
+      this.pdfService.generatePdfReport(reportSection),
+    ]);
 
     return {
       reportSection,
       carePlan,
+      file
     };
   }
 

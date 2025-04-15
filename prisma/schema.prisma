@@ -166,7 +166,6 @@ model Tag {
 
 enum MessageType {
   TEXT
-  FILE //IMAGE, FILE
 
   //QUESTION
   QUESTION_MULTIPLE
@@ -175,9 +174,10 @@ enum MessageType {
 }
 
 model ChatMessage {
-  id   String      @id @default(uuid())
-  name String
-  type MessageType
+  id    String      @id @default(uuid())
+  name  String?
+  type  MessageType
+  files String[]
 
   nextMessageId String?
 
@@ -194,13 +194,14 @@ model ChatMessage {
 
 enum ChoiceType {
   SINGLE
-  SLIDER
+  MULTIPLE_SLIDER
 }
 
 model MessageChoice {
-  id   String     @id @default(uuid())
-  name String
-  type ChoiceType
+  id      String     @id @default(uuid())
+  name    String
+  type    ChoiceType
+  timeout Int        @default(0)
 
   prevMessageId String
   nextMessageId String?
