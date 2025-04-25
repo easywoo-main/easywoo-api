@@ -16,7 +16,7 @@ export class QuestionnaireAnswerController {
   constructor(private readonly questionnaireAnswerService: QuestionnaireAnswerService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Create a new questionnaire answer' })
   @ApiResponse({
     status: 201,
@@ -35,7 +35,7 @@ export class QuestionnaireAnswerController {
     type: ErrorResponse,
     description: 'Unauthorized, invalid token or missing token.',
   })
-  public async createBulkQuestionnaireAnswerAndGenerateReport(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto[], @UserDetails() user: UserPayload): Promise<ReportDto> {
-    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDto, user.id);
+  public async createBulkQuestionnaireAnswerAndGenerateReport(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto[]): Promise<ReportDto> {
+    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDto);
   }
 }

@@ -15,5 +15,4 @@ export class QuestionnaireAnswerCreateDto {
   })
   answerIds: string[];
 
-  userId: string;
 }

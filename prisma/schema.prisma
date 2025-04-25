@@ -24,10 +24,11 @@ model User {
   googleUserId String? @unique
   appleUserId  String? @unique
 
-  answers    Answer[]
-  googleUser GoogleUser? @relation(fields: [googleUserId], references: [id])
-  appleUser  AppleUser?  @relation(fields: [appleUserId], references: [id])
-  courses    Course[]
+  googleUser   GoogleUser?    @relation(fields: [googleUserId], references: [id])
+  appleUser    AppleUser?     @relation(fields: [appleUserId], references: [id])
+  chats        Chat[]
+  Subscription Subscription[]
+  UserAnswer   UserAnswer[]
 }
 
 model GoogleUser {
@@ -59,6 +60,40 @@ model AppleUser {
   updatedAt DateTime @updatedAt
 
   user User?
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  userId    String
+  chatId    String
+  plan      String
+  status    SubscriptionStatus @default(ACTIVE)
+  startDate DateTime           @default(now())
+  endDate   DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chat Chat @relation(fields: [chatId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserAnswer {
+  id       String  @id @default(uuid())
+  answerId String
+  userId   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User?  @relation(fields: [userId], references: [id])
+  answer Answer @relation(fields: [answerId], references: [id])
 }
 
 enum QuestionsType {
@@ -120,8 +155,8 @@ model Answer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  question Question @relation(fields: [questionId], references: [id])
-  users    User[]
+  question   Question     @relation(fields: [questionId], references: [id])
+  UserAnswer UserAnswer[]
 
   @@unique([answer, questionId])
   @@unique([name, questionId])
@@ -138,8 +173,6 @@ model Course {
   updatedAt DateTime @updatedAt
 
   tags Tag[]
-
-  users User[]
 }
 
 enum CourseType {
@@ -166,18 +199,23 @@ model Tag {
 
 enum MessageType {
   TEXT
-  FILE //IMAGE, FILE
+  FILE
+  CHELENGE
 
   //QUESTION
-  QUESTION_MULTIPLE
   QUESTION_SINGLE
-  QUESTION_CHELENGES
+  QUESTION_TEXT_FIELD
+  QUESTION_SLIDERS
 }
 
 model ChatMessage {
-  id   String      @id @default(uuid())
-  name String
-  type MessageType
+  id      String      @id @default(uuid())
+  name    String?
+  type    MessageType
+  files   String[]
+  timeout Int?        @default(0)
+
+  sliderProps SliderProp[]
 
   nextMessageId String?
 
@@ -189,18 +227,29 @@ model ChatMessage {
 
   nextChoices MessageChoice[] @relation("MessageToPrev")
   prevChoices MessageChoice[] @relation("MessageToNext")
-  Chat        Chat?
+  chat        Chat?
 }
 
-enum ChoiceType {
-  SINGLE
-  SLIDER
+enum SliderPropType {
+  NEGATIVE
+  POSITIVE
+}
+
+model SliderProp {
+  id        String         @id @default(uuid())
+  name      String
+  type      SliderPropType
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  chatMessage   ChatMessage @relation(fields: [chatMessageId], references: [id])
+  chatMessageId String
 }
 
 model MessageChoice {
-  id   String     @id @default(uuid())
-  name String
-  type ChoiceType
+  id   String  @id @default(uuid())
+  name String?
+  file String?
 
   prevMessageId String
   nextMessageId String?
@@ -222,4 +271,7 @@ model Chat {
   updatedAt DateTime @updatedAt
 
   startMessage ChatMessage? @relation(fields: [startMessageId], references: [id])
+
+  subscriptions Subscription[]
+  users         User[]
 }

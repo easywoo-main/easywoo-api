@@ -6,10 +6,11 @@ import { UserModule } from '../user/user.module';
 import { TokenModule } from '../token/token.module';
 import { QuestionModule } from '../question/question.module';
 import { ReportModule } from '../report/report.module';
+import { UserAnswerRepository } from './user-answer.repository';
 
 @Module({
   imports: [QuestionModule, UserModule, TokenModule, ReportModule],
   controllers: [QuestionnaireAnswerController],
-  providers: [QuestionnaireAnswerService, QuestionnaireAnswerRepository, ],
+  providers: [QuestionnaireAnswerService, QuestionnaireAnswerRepository,UserAnswerRepository],
 })
 export class QuestionnaireAnswerModule {}

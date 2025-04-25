@@ -8,6 +8,7 @@ const logger: Logger = new Logger();
 
 (async function main() {
   try {
+
     await prisma.$connect();
     logger.log('Seeding started');
 
