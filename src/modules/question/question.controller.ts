@@ -14,7 +14,6 @@ export class QuestionController {
   constructor(private readonly questionnaireService: QuestionService) {}
 
   @Get('/')
-  @UseGuards(AuthGuard)
   @ApiOkResponse({
     type: [QuestionResponseDto],
     description: 'Returns the question for the given step.',
@@ -28,7 +27,7 @@ export class QuestionController {
     description: 'Unauthorized, invalid or missing authentication token.',
   })
   @ApiBearerAuth()
-  public async getQuestionByStep(@UserDetails() user: UserPayload, @Query() questionnaireQuery: QuestionnaireQuery) {
+  public async getQuestionByStep(@Query() questionnaireQuery: QuestionnaireQuery) {
     return this.questionnaireService.getQuestionByStep(questionnaireQuery.step);
   }
 }

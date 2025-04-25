@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, UseInterceptors } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { PageRequest } from '../../utils/pageable.utils';
+import { PageRequest, PageRequestArgs } from '../../utils/pageable.utils';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -20,8 +20,8 @@ export class ChatController {
   }
 
   @Get()
-  public async findAllChats(@Query() pageRequest: PageRequest) {
-    return this.chatService.findAllChat(pageRequest);
+  public async findAllChats(@Query() pageRequest: PageRequestArgs) {
+    return this.chatService.findAllChat(new PageRequest(pageRequest));
   }
 
   @Post()

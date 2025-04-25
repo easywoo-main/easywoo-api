@@ -9,9 +9,15 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 export class ChatMessageRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async createChatMessage(data: CreateChatMessageDto): Promise<ChatMessageEntity> {
+  public async createChatMessage({prevMessageId, chatId, sliderProps, ...data}: CreateChatMessageDto): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.create({
-      data,
+      data: {
+        ...data,
+        ...(sliderProps && {sliderProps: {create: sliderProps}}),
+        ...(chatId && {chat: {connect: {id: chatId}}}),
+        ...(prevMessageId && {prevMessages: {connect: {id: prevMessageId}}}),
+      },
+
     });
   }
 
@@ -19,16 +25,22 @@ export class ChatMessageRepository {
     return this.prisma.chatMessage.findUnique({
       where: { id },
       include: {
-        nextChoices: true
+        nextChoices: true,
+        nextMessage: true,
       }
     });
   }
 
-  public async updateChatMessage(id: string, data: Partial<UpdateChatMessageDto>): Promise<ChatMessageEntity> {
+  public async updateChatMessage(id: string, {prevMessageId, chatId, sliderProps,nextMessageId, ...data}: Partial<UpdateChatMessageDto>): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.update({
       where: { id },
-      data,
-    });
+      data: {
+        ...data,
+        ...(sliderProps && { sliderProps: { create: sliderProps } }),
+        ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
+        ...(chatId && { chat: { connect: { id: chatId } } }),
+        ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } }),
+      }});
   }
 
   public async deleteChatMessage(id: string): Promise<ChatMessageEntity> {

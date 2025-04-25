@@ -11,5 +11,6 @@ export class CarePlanDto {
     description: 'An array of related courses',
     type: [CourseEntity],
   })
-  posts: CourseEntity[];
+
+  course: CourseEntity[];
 }

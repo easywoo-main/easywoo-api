@@ -9,4 +9,9 @@ export class ChatMessageWithRelationsDto extends ChatMessageEntity {
     type: [MessageChoiceEntity],
   })
   nextChoices?: MessageChoiceEntity[]
+
+  @ApiPropertyOptional({
+    description: 'The next message related to this message',
+  })
+  nextMessage?: ChatMessageEntity;
 }

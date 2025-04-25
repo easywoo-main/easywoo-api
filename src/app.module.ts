@@ -12,6 +12,8 @@ import { ChatModule } from './modules/chat/chat.module';
 import { ChatMessageModule } from './modules/chat-message/chat-message.module';
 import { MessageChoiceService } from './modules/message-choice/message-choice.service';
 import { MessageChoiceModule } from './modules/message-choice/message-choice.module';
+import { SubscriptionModule } from './modules/subscription/subscription.module';
+import { StorageModule } from './modules/storage/storage.module';
 
 @Module({
   imports: [
@@ -29,6 +31,8 @@ import { MessageChoiceModule } from './modules/message-choice/message-choice.mod
     ChatModule,
     ChatMessageModule,
     MessageChoiceModule,
+    SubscriptionModule,
+    StorageModule,
   ],
   controllers: [],
   providers: [],

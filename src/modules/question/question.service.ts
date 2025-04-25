@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { QuestionRepository } from './question.repository';
 import { QuestionDto } from './dtos/question.dto';
 import { QuestionMapper } from './question.mapper';
-import { QuestionWithStepDto } from './dtos/questionWithStep.dto';
 import { QuestionResponseDto } from './dtos/questionResponse.dto';
+import { QuestionEntity } from './question.entity';
 
 @Injectable()
 export class QuestionService {
@@ -13,14 +13,9 @@ export class QuestionService {
   ) {
   }
 
-  public async getAllQuestions(userId: string, step?: number): Promise<QuestionDto[]> {
-    const questionnaires = await this.questionnaireRepository.getAllQuestionsByStep(userId, step);
-    return questionnaires.map(this.questionMapper.toDto);
-  }
 
-  public async getOneQuestion(questionId: string, userId: string): Promise<QuestionDto> {
-    const question = await this.questionnaireRepository.getOneQuestion(questionId, userId);
-    return this.questionMapper.toDto(question);
+  public async getOneQuestion(questionId: string) {
+    return this.questionnaireRepository.getOneQuestion(questionId);
   }
 
   public async getQuestionByStep(step: number): Promise<QuestionResponseDto[]> {
