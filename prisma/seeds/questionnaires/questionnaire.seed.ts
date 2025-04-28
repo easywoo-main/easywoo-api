@@ -94,6 +94,7 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'children',
         type: QuestionsType.SINGLE,
+        midStepTexts: ["Hey! Welcome to easywooYour Personal Empowerment Companion for:- Fixing your current relationship struggles- Transforming your dating game- Finding a relationship that truly fits you- Boosting your confidence- Improving your communication skillsOur users experience an 80% improvement rate with our personalized coaching content."]
       },
       {
         step: 2,
@@ -187,6 +188,9 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'mateRelationship', // relationship
         type: QuestionsType.MULTIPLE,
+        midStepTexts: ["This might matter to you...63.8% of the world's population uses social media. Choosing to avoid social media might lead to feelings of isolation, especially if friends and family connect online. It's natural to feel left out of the loop—your connections matter!",
+        "Confident social media use is wonderful!Just remember, moderation is key to staying balanced and healthy.Average daily social media use: 2 hours 21 minutes.- This is considered excessive for mental health.- Risks include feelings of inadequacy, anxiety, stress, social isolation and FOMO",
+        "Turns out, your screen time might actually be helping!People who dive into online support groups or communities often feel less stressed and anxious. The best part? The anonymity and 24/7 access make it super easy to reach out when you need a boost."]
       },
       {
         step: 3,
@@ -315,7 +319,7 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'personType', //persona
         type: QuestionsType.MULTIPLE,
-      },
+        },
       {
         step: 4,
         question: 'What hurdles are you facing right now? Select all that apply.',
@@ -502,9 +506,12 @@ export class QuestionnaireSeed extends Seeder {
             },
           }, //far_from_home
         ],
-
         name: 'biggestChallenges', // pain_points
         type: QuestionsType.MULTIPLE,
+        midStepTexts: ["This could uplift you! You embody an adventurous spirit paired with ambition, seeking new experiences while striving for your goals. It's an inspiring journey!",
+          " This might resonate. You are a compassionate, trustworthy person whose sensitivity allows you to connect deeply with others and make a meaningful impact.",
+          " This could uplift you! You are a unique blend of independence and passion, with a romantic heart that shines through your gentle, shy demeanor.",
+          "This could inspire you... You are a tender-hearted individual, shy yet romantic, cherishing deep connections and beautiful moments while navigating your sensitive emotions."," You will appreciate this. You are an inspiring individual, driven by ambition and passion, embracing adventure while dynamically pursuing your dreams with enthusiasm and courage."," This might matter to you... Being a Highly Sensitive Person (HSP) is challenging yet beautiful; your depth fosters profound connections, making your emotional journey uniquely enriching.",": Embracing your unique traits unlocks your potential, leading to a happier, more authentic life. You truly deserve this journey of self-discovery!" ]
       },
       {
         step: 5,
@@ -584,6 +591,7 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'timeFrame',
         type: QuestionsType.SINGLE,
+        midStepTexts: ["Feeling like a fraud?You're not alone—85% struggle with low self-esteem, and 82% face imposter syndrome. But you don't have to stay stuck there! easyWoo can elevate you to the confident 10%. :muscle::sparkles: ", "You will want to know this!Unlock a whole new level of Communication skills. Our research-backed approach helps you build skills that will empower you to take any relationship with confidence.", "Here is something worth knowing...89% of people think there's value in couples counsellingThe top barriers people face preventing them from going to couples counselling are:- The cost- Finding the right therapist - Convincing their partner- Time71% of people say they wish they were more adept at discussing big relationship topics or dealing with conflictIf any of the above resonate with you then you're a great fit for our accelerated program designed to speed up your relationship problems once and for all.","Here is a piece of wisdomEach step you take towards bettering yourself, is something to be proud of. Life can be tough, but it also has incredible opportunities ahead."]
       },
       {
         step: 6,
@@ -658,6 +666,7 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'mateBodyType', //mate_build
         type: QuestionsType.MULTIPLE,
+        midStepTexts: ["Did you know?A study by Dr. Gail Matthews at Dominican University found that people who write down their goals are 42% more likely to achieve them than those who don't."]
       },
       {
         step: 7,
@@ -907,6 +916,7 @@ export class QuestionnaireSeed extends Seeder {
           question: question.question,
           name: question.name,
           type: question.type,
+          midStepText: question.midStepTexts.join('\n'),
           answers: {
             create: question.answers.map((answer) => ({
               answer: answer.answer,
@@ -920,6 +930,7 @@ export class QuestionnaireSeed extends Seeder {
           question: question.question,
           name: question.name,
           type: question.type,
+          midStepText: question.midStepTexts.join('\n'),
         },
       });
     }

@@ -22,7 +22,7 @@ export class MessageChoiceController {
   @ApiResponse({ status: 200, description: 'Message choice retrieved successfully.', type: MessageChoiceEntity })
   @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
   public async findMessageChoiceById(@Param('id') id: string) {
-    return this.messageChoiceService.findMessageChoiceById(id);
+    return await this.messageChoiceService.findMessageChoiceById(id);
   }
 
   @Patch(':id')

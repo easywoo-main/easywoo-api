@@ -15,4 +15,7 @@ export class QuestionResponseDto {
   @ApiProperty({ description: 'The answer text', type: [AnswerResponseDto] })
   answers: AnswerResponseDto[];
 
+  @ApiProperty({ description: 'The text', type: [AnswerResponseDto] })
+  midStepText: string[]
+
 }

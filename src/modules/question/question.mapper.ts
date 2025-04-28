@@ -23,6 +23,7 @@ export class QuestionMapper {
       question: question.question,
       step: question.step,
       type: question.type,
+      midStepText: question.midStepText,
       answers: question.answers.map((answer: Answer) => {
         return {
           id: answer.id,
