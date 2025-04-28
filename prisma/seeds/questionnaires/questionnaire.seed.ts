@@ -16,7 +16,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 2,
+        step: 1,
         question: 'What is your sexual orientation?',
         answers: [
           { answer: 'Straight', name: 'straight' },
@@ -29,7 +29,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 3,
+        step: 1,
         question: 'Ethnicity',
         answers: [
           { answer: 'White', name: 'white' },
@@ -42,6 +42,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
+        step: 1,
         question: 'Your body type',
         answers: [
           { answer: "I don't mind", name: 'dontMind' },
@@ -56,7 +57,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
-        step: 4,
+        step: 1,
         question: 'How old are you?',
         answers: [
           { answer: '18-20', name: '18-20' },
@@ -73,7 +74,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 5,
+        step: 1,
         question: 'What is your current relationship status?',
         answers: [
           { answer: 'Single', name: 'single' },
@@ -85,7 +86,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 6,
+        step: 1,
         question: 'Do you have children',
         answers: [
           { answer: 'Yes', name: 'yes' },
@@ -95,7 +96,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 7,
+        step: 2,
         question: 'How socially active are you?',
         answers: [
           {
@@ -116,7 +117,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SLIDER,
       },
       {
-        step: 8,
+        step: 2,
         question: 'How confident are you in social situations?',
         answers: [
           { answer: 'Not at all', name: 'notAtAll' },
@@ -138,7 +139,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SLIDER,
       },
       {
-        step: 9,
+        step: 2,
         question: 'Where do you usually socialize?',
         answers: [
           { answer: 'At a restaurant', name: 'restaurant' },
@@ -173,7 +174,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
-        step: 10,
+        step: 2,
         question: 'What type of relationships are you looking for?',
         answers: [
           { answer: 'Casual no expectation', name: 'casual', evaluation: { 'other.just_date': 5 } },
@@ -188,7 +189,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
-        step: 11,
+        step: 3,
         question: "Let's see what type of person you are. Select all that apply.",
         answers: [
           {
@@ -316,7 +317,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
-        step: 12,
+        step: 4,
         question: 'What hurdles are you facing right now? Select all that apply.',
         answers: [
           {
@@ -506,7 +507,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
-        step: 14,
+        step: 5,
         question: 'We are here to help you achieve your goals. Select all that apply.',
         answers: [
           { answer: 'Find relationship I match with', name: 'findRelationship' },
@@ -572,7 +573,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 15,
+        step: 5,
         question: 'Do you have a time frame to reach your goals?',
         answers: [
           { answer: 'Yes, within a month', name: 'month' },
@@ -585,6 +586,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
+        step: 6,
         question: 'How important is appearance to you?',
         answers: [
           { answer: 'Not important', name: 'notImportant', 'awareness_objectives.picky': -3 },
@@ -612,7 +614,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
-        step: 17,
+        step: 6,
         question: 'What age groups interest you?',
         answers: [
           { answer: '18-20', name: '18-20' },
@@ -629,6 +631,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
+        step: 6,
         question: 'Is ethnicity important to you? Select all that apply.',
         answers: [
           { answer: "I don't mind", name: 'dontMind' },
@@ -642,6 +645,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE,
       },
       {
+        step: 6,
         question: 'Is body type important to you? Select all that apply.',
         answers: [
           { answer: "I don't mind", name: 'dontMind' },
@@ -656,6 +660,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
+        step: 7,
         question: 'What type of mate are you looking for? Select all that apply.',
         answers: [
           {
@@ -872,6 +877,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
       },
       {
+        step: 7,
         question: 'What is the preferred star sign of your mate?',
         answers: [
           { answer: "I don't mind", name: 'dontMind' },
@@ -897,7 +903,7 @@ export class QuestionnaireSeed extends Seeder {
       await prisma.question.upsert({
         where: { question: question.question },
         create: {
-          step: index + 1,
+          step: question.step,
           question: question.question,
           name: question.name,
           type: question.type,
@@ -910,7 +916,7 @@ export class QuestionnaireSeed extends Seeder {
           },
         },
         update: {
-          step: index + 1,
+          step: question.step,
           question: question.question,
           name: question.name,
           type: question.type,

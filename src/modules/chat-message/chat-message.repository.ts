@@ -7,16 +7,24 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 
 @Injectable()
 export class ChatMessageRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {
+  }
 
-  public async createChatMessage({prevMessageId, chatId, sliderProps, ...data}: CreateChatMessageDto): Promise<ChatMessageEntity> {
+  public async createChatMessage({
+                                   prevMessageId,
+                                   chatId,
+                                   sliderProps,
+                                   prevChoiceId,
+                                   ...data
+                                 }: CreateChatMessageDto): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.create({
       data: {
         ...data,
-        ...(sliderProps && {sliderProps: {create: sliderProps}}),
-        ...(chatId && {chat: {connect: {id: chatId}}}),
-        ...(prevMessageId && {prevMessages: {connect: {id: prevMessageId}}}),
-      },
+        ...(sliderProps && { sliderProps: { create: sliderProps } }),
+        ...(chatId && { chat: { connect: { id: chatId } } }),
+        ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
+        ...(prevChoiceId && { prevChoices: { connect: { id: prevChoiceId } } })
+      }
 
     });
   }
@@ -26,12 +34,18 @@ export class ChatMessageRepository {
       where: { id },
       include: {
         nextChoices: true,
-        nextMessage: true,
+        nextMessage: true
       }
     });
   }
 
-  public async updateChatMessage(id: string, {prevMessageId, chatId, sliderProps,nextMessageId, ...data}: Partial<UpdateChatMessageDto>): Promise<ChatMessageEntity> {
+  public async updateChatMessage(id: string, {
+    prevMessageId,
+    chatId,
+    sliderProps,
+    nextMessageId,
+    ...data
+  }: Partial<UpdateChatMessageDto>): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.update({
       where: { id },
       data: {
@@ -39,13 +53,14 @@ export class ChatMessageRepository {
         ...(sliderProps && { sliderProps: { create: sliderProps } }),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
-        ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } }),
-      }});
+        ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })
+      }
+    });
   }
 
   public async deleteChatMessage(id: string): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.delete({
-      where: { id },
+      where: { id }
     });
   }
 }

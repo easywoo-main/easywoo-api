@@ -8,6 +8,7 @@ export class ChatMessageService {
   constructor(private readonly chatMessageRepository: ChatMessageRepository) {}
 
   public async createChatMessage(newChatMessage: CreateChatMessageDto) {
+    console.log('newChatMessage', newChatMessage);
     return this.chatMessageRepository.createChatMessage(newChatMessage);
   }
 
