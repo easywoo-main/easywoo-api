@@ -5,6 +5,7 @@ export class QuestionnaireQuery {
     description: 'Step in the quiz process',
     type: Number,
     example: 1,
+    required: false,
   })
   step: number;
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { QuestionDto } from './dtos/question.dto';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class QuestionRepository {
@@ -9,8 +10,12 @@ export class QuestionRepository {
   public async getAllQuestions(step?: number): Promise<QuestionDto[]> {
     return this.prisma.question.findMany({
       where: {
-        ...(step && {step})
+        ...(step && { step })
       },
+      orderBy: [
+        { createdAt: Prisma.SortOrder.desc },
+        { step: Prisma.SortOrder.asc }
+      ],
       include: {
         answers: true
       }

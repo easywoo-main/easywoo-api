@@ -24,6 +24,7 @@ export class MessageChoiceService {
 
   @CheckExists("MessageChoice not found")
   public async findMessageChoiceById(id: string) {
+    console.log(await this.findMessageChoiceById(id));
     return this.messageChoiceRepository.findMessageChoiceById(id);
   }
 }

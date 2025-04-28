@@ -19,4 +19,6 @@ export class CreateChatMessageDto {
 
   chatId: string
 
+  prevChoiceId: string
+
 }

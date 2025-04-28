@@ -17,12 +17,13 @@ export class QuestionMapper {
     };
   }
 
-  public toResponseDto(question: Question & { answers: Answer[] }): QuestionResponseDto {
+  public toResponseDto(question: QuestionDto ): QuestionResponseDto {
     return {
       id: question.id,
       question: question.question,
       step: question.step,
       type: question.type,
+      midStepText: question.midStepText,
       answers: question.answers.map((answer: Answer) => {
         return {
           id: answer.id,

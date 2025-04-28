@@ -103,11 +103,12 @@ enum QuestionsType {
 }
 
 model Question {
-  id       String        @id @default(uuid())
-  step     Int
-  question String
-  name     String
-  type     QuestionsType
+  id          String        @id @default(uuid())
+  step        Int
+  question    String
+  name        String
+  type        QuestionsType
+  midStepText String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
