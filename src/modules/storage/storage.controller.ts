@@ -9,7 +9,7 @@ export class StorageController {
   constructor(private readonly storageService: StorageService) {
   }
 
-  @Post('/chat-message')
+  @Post('chat-message')
   @UseInterceptors(ChatFilesInterceptor("files"))
   public async uploadChatMessageFiles(@UploadedFiles()  files: Express.Multer.File[]) {
     return await this.storageService.uploadChatMessageFiles(files);
