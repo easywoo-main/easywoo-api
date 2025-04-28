@@ -10,12 +10,12 @@ export class QuestionRepository {
   public async getAllQuestions(step?: number): Promise<QuestionDto[]> {
     return this.prisma.question.findMany({
       where: {
-        ...(step && {step})
+        ...(step && { step })
       },
-      orderBy: {
-        createdAt: Prisma.SortOrder.desc,
-        step: Prisma.SortOrder.asc 
-      },
+      orderBy: [
+        { createdAt: Prisma.SortOrder.desc },
+        { step: Prisma.SortOrder.asc }
+      ],
       include: {
         answers: true
       }

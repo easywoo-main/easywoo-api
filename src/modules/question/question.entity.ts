@@ -18,7 +18,7 @@ export class QuestionEntity implements Question {
   type: QuestionsType;
 
   @ApiProperty({description: "The text"})
-  midStepText: string[]
+  midStepText: string
 
   @ApiProperty({ description: 'Timestamp when the questionnaire was created' })
   createdAt: Date;
