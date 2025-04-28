@@ -13,8 +13,8 @@ export class QuestionRepository {
         ...(step && { step })
       },
       orderBy: [
-        { createdAt: Prisma.SortOrder.desc },
-        { step: Prisma.SortOrder.asc }
+        { step: Prisma.SortOrder.asc },
+        { createdAt: Prisma.SortOrder.asc },
       ],
       include: {
         answers: true

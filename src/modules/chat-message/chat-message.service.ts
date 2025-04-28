@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ChatMessageRepository } from './chat-message.repository';
 import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
+import { CheckExists } from '../../decorators';
 
 @Injectable()
 export class ChatMessageService {
@@ -12,6 +13,7 @@ export class ChatMessageService {
     return this.chatMessageRepository.createChatMessage(newChatMessage);
   }
 
+  @CheckExists("Chat Message Not Found")
   public async findChatMessageById(chatMessageId: string) {
     return this.chatMessageRepository.findChatMessageById(chatMessageId);
   }
