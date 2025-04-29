@@ -1,7 +1,6 @@
 import { Controller, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { ChatFilesInterceptor } from '../../interceptor/chatFilesInterceptor';
 import { StorageService } from './storage.service';
-import { getAbsolutePublicPath } from '../../utils/storage.utils';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('storage')

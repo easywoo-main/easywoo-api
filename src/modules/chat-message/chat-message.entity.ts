@@ -8,6 +8,7 @@ export class ChatMessageEntity implements ChatMessage {
   files: string[];
   timeout: number;
   nextMessageId: string;
+  isCheckpoint: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

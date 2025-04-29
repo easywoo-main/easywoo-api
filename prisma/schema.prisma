@@ -210,11 +210,12 @@ enum MessageType {
 }
 
 model ChatMessage {
-  id      String      @id @default(uuid())
-  name    String?
-  type    MessageType
-  files   String[]
-  timeout Int?        @default(0)
+  id           String      @id @default(uuid())
+  name         String?
+  type         MessageType
+  files        String[]
+  timeout      Int?        @default(0)
+  isCheckpoint Boolean     @default(false)
 
   sliderProps SliderProp[]
 

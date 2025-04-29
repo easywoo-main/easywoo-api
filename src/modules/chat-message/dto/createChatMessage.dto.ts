@@ -21,4 +21,6 @@ export class CreateChatMessageDto {
 
   prevChoiceId: string
 
+  isCheckpoint: boolean
+
 }
