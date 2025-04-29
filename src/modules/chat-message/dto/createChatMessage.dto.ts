@@ -13,7 +13,7 @@ export class CreateChatMessageDto {
 
   timeout: number
 
-  sliderProps: CreateUpdateSliderPropDto
+  sliderProps: CreateUpdateSliderPropDto[]
 
   prevMessageId: string
 

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { MessageSliderEntity } from './message-slider.entity';
 import { CreateUpdateSliderPropWithRelationDto } from './dto/createUpdateSliderPropWithRelation.dto';
+import { CreateUpdateSliderPropDto } from '../chat-message/dto/createUpdateSliderProp.dto';
 
 @Injectable()
 export class MessageSliderRepository {
@@ -26,5 +27,4 @@ export class MessageSliderRepository {
   public async deleteMessageSlider(id: string): Promise<MessageSliderEntity> {
     return this.prisma.sliderProp.delete({where: {id}})
   }
-
 }

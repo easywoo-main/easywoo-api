@@ -51,7 +51,6 @@ export class ChatMessageRepository {
       where: { id },
       data: {
         ...data,
-        ...(sliderProps && { sliderProps: { create: sliderProps } }),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })

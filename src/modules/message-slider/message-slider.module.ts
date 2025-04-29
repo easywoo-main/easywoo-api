@@ -5,6 +5,7 @@ import { MessageSliderRepository } from './message-slider.repository';
 
 @Module({
   controllers: [MessageSliderController],
-  providers: [MessageSliderService, MessageSliderRepository]
+  providers: [MessageSliderService, MessageSliderRepository],
+  exports: [MessageSliderService]
 })
 export class MessageSliderModule {}

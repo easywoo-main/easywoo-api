@@ -3,16 +3,29 @@ import { MessageSliderRepository } from './message-slider.repository';
 import { MessageSliderEntity } from './message-slider.entity';
 import { CreateUpdateSliderPropWithRelationDto } from './dto/createUpdateSliderPropWithRelation.dto';
 import { CheckExists } from '../../decorators';
+import { CreateUpdateSliderPropDto } from '../chat-message/dto/createUpdateSliderProp.dto';
 
 @Injectable()
 export class MessageSliderService {
-  constructor(private readonly messageSliderRepository: MessageSliderRepository) {}
+  constructor(private readonly messageSliderRepository: MessageSliderRepository) {
+  }
 
   public async createMessageSlider(data: CreateUpdateSliderPropWithRelationDto): Promise<MessageSliderEntity> {
     return this.messageSliderRepository.createMessageSlider(data);
   }
 
-  @CheckExists("Slider not found")
+  public async bulkUpsertMessageSlider(chatMessageId: string, data: CreateUpdateSliderPropDto[]) {
+    return Promise.all(
+      data.map((messageSlider)=>{
+        if(!messageSlider.id){
+          return this.createMessageSlider({...messageSlider, chatMessageId})
+        }
+        return this.updateMessageSlider(messageSlider.id, {...messageSlider, chatMessageId})
+      })
+    )
+  }
+
+  @CheckExists('Slider not found')
   public async findMessageSliderById(id: string): Promise<MessageSliderEntity> {
     return this.messageSliderRepository.findMessageSliderById(id);
   }
@@ -23,7 +36,7 @@ export class MessageSliderService {
 
   public async updateMessageSlider(
     id: string,
-    data: Partial<CreateUpdateSliderPropWithRelationDto>,
+    data: Partial<CreateUpdateSliderPropWithRelationDto>
   ): Promise<MessageSliderEntity> {
     await this.findMessageSliderById(id);
     return this.messageSliderRepository.updateMessageSlider(id, data);
