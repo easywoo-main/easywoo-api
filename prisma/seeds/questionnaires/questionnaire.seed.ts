@@ -28,34 +28,34 @@ export class QuestionnaireSeed extends Seeder {
         name: 'sexualOrientation',
         type: QuestionsType.SINGLE
       },
-      {
-        step: 1,
-        question: 'Ethnicity',
-        answers: [
-          { answer: 'White', name: 'white' },
-          { answer: 'Black', name: 'black' },
-          { answer: 'Asian', name: 'asian' },
-          { answer: 'Mixed', name: 'mixed' },
-          { answer: 'Other', name: 'other' }
-        ],
-        name: 'ethnicity',
-        type: QuestionsType.SINGLE
-      },
-      {
-        step: 1,
-        question: 'Your body type',
-        answers: [
-          { answer: 'I don\'t mind', name: 'dontMind' },
-          { answer: 'Heavy set', name: 'heavySet' },
-          { answer: 'Athletic', name: 'athletic' },
-          { answer: 'Slim', name: 'slim' },
-          { answer: 'Skinny', name: 'skinny' },
-          { answer: 'A few extra kilos', name: 'fewExtraKilos' },
-          { answer: 'Overweight', name: 'overweight' }
-        ],
-        name: 'bodyType',
-        type: QuestionsType.MULTIPLE
-      },
+      // {
+      //   step: 1,
+      //   question: 'Ethnicity',
+      //   answers: [
+      //     { answer: 'White', name: 'white' },
+      //     { answer: 'Black', name: 'black' },
+      //     { answer: 'Asian', name: 'asian' },
+      //     { answer: 'Mixed', name: 'mixed' },
+      //     { answer: 'Other', name: 'other' }
+      //   ],
+      //   name: 'ethnicity',
+      //   type: QuestionsType.SINGLE
+      // },
+      // {
+      //   step: 1,
+      //   question: 'Your body type',
+      //   answers: [
+      //     { answer: 'I don\'t mind', name: 'dontMind' },
+      //     { answer: 'Heavy set', name: 'heavySet' },
+      //     { answer: 'Athletic', name: 'athletic' },
+      //     { answer: 'Slim', name: 'slim' },
+      //     { answer: 'Skinny', name: 'skinny' },
+      //     { answer: 'A few extra kilos', name: 'fewExtraKilos' },
+      //     { answer: 'Overweight', name: 'overweight' }
+      //   ],
+      //   name: 'bodyType',
+      //   type: QuestionsType.MULTIPLE
+      // },
       {
         step: 1,
         question: 'How old are you?',
@@ -73,29 +73,29 @@ export class QuestionnaireSeed extends Seeder {
         name: 'age',
         type: QuestionsType.SINGLE
       },
-      {
-        step: 1,
-        question: 'What is your current relationship status?',
-        answers: [
-          { answer: 'Single', name: 'single' },
-          { answer: 'Commited relationship/Married', name: 'commitedRelationship' },
-          { answer: 'It\'s complicated', name: 'itsComplicated' },
-          { answer: 'Separated / Divorced / Widower', name: 'divorced' }
-        ],
-        name: 'relationshipStatus',
-        type: QuestionsType.SINGLE
-      },
-      {
-        step: 1,
-        question: 'Do you have children',
-        answers: [
-          { answer: 'Yes', name: 'yes' },
-          { answer: 'No', name: 'no' }
-        ],
-        name: 'children',
-        type: QuestionsType.SINGLE,
-        midStepTexts: ['Hey! Welcome to easywooYour Personal Empowerment Companion for:- Fixing your current relationship struggles- Transforming your dating game- Finding a relationship that truly fits you- Boosting your confidence- Improving your communication skillsOur users experience an 80% improvement rate with our personalized coaching content.']
-      },
+      // {
+      //   step: 1,
+      //   question: 'What is your current relationship status?',
+      //   answers: [
+      //     { answer: 'Single', name: 'single' },
+      //     { answer: 'Commited relationship/Married', name: 'commitedRelationship' },
+      //     { answer: 'It\'s complicated', name: 'itsComplicated' },
+      //     { answer: 'Separated / Divorced / Widower', name: 'divorced' }
+      //   ],
+      //   name: 'relationshipStatus',
+      //   type: QuestionsType.SINGLE
+      // },
+      // {
+      //   step: 1,
+      //   question: 'Do you have children',
+      //   answers: [
+      //     { answer: 'Yes', name: 'yes' },
+      //     { answer: 'No', name: 'no' }
+      //   ],
+      //   name: 'children',
+      //   type: QuestionsType.SINGLE,
+      //   midStepTexts: ['Hey! Welcome to easywooYour Personal Empowerment Companion for:- Fixing your current relationship struggles- Transforming your dating game- Finding a relationship that truly fits you- Boosting your confidence- Improving your communication skillsOur users experience an 80% improvement rate with our personalized coaching content.']
+      // },
       {
         step: 2,
         question: 'How socially active are you?',
@@ -144,7 +144,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SLIDER
       },
       {
-        step: 2,
+        step: 3,
         question: 'Where do you usually socialize?',
         answers: [
           { answer: 'At a restaurant', name: 'restaurant' },
@@ -179,7 +179,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE
       },
       {
-        step: 2,
+        step: 3,
         question: 'What type of relationships are you looking for?',
         answers: [
           { answer: 'Casual no expectation', name: 'casual', evaluation: { 'other.just_date': 5 } },
@@ -197,7 +197,7 @@ export class QuestionnaireSeed extends Seeder {
           'Turns out, your screen time might actually be helping!People who dive into online support groups or communities often feel less stressed and anxious. The best part? The anonymity and 24/7 access make it super easy to reach out when you need a boost.']
       },
       {
-        step: 3,
+        step: 4,
         question: 'Let\'s see what type of person you are. Select all that apply.',
         answers: [
           {
@@ -325,7 +325,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE
       },
       {
-        step: 4,
+        step: 5,
         question: 'What hurdles are you facing right now? Select all that apply.',
         answers: [
           {
@@ -518,7 +518,7 @@ export class QuestionnaireSeed extends Seeder {
           'This could inspire you... You are a tender-hearted individual, shy yet romantic, cherishing deep connections and beautiful moments while navigating your sensitive emotions.', ' You will appreciate this. You are an inspiring individual, driven by ambition and passion, embracing adventure while dynamically pursuing your dreams with enthusiasm and courage.', ' This might matter to you... Being a Highly Sensitive Person (HSP) is challenging yet beautiful; your depth fosters profound connections, making your emotional journey uniquely enriching.', ': Embracing your unique traits unlocks your potential, leading to a happier, more authentic life. You truly deserve this journey of self-discovery!']
       },
       {
-        step: 5,
+        step: 6,
         question: 'We are here to help you achieve your goals. Select all that apply.',
         answers: [
           { answer: 'Find relationship I match with', name: 'findRelationship' },
@@ -584,7 +584,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE
       },
       {
-        step: 5,
+        step: 6,
         question: 'Do you have a time frame to reach your goals?',
         answers: [
           { answer: 'Yes, within a month', name: 'month' },
@@ -598,7 +598,7 @@ export class QuestionnaireSeed extends Seeder {
         midStepTexts: ['Feeling like a fraud?You\'re not alone—85% struggle with low self-esteem, and 82% face imposter syndrome. But you don\'t have to stay stuck there! easyWoo can elevate you to the confident 10%. :muscle::sparkles: ', 'You will want to know this!Unlock a whole new level of Communication skills. Our research-backed approach helps you build skills that will empower you to take any relationship with confidence.', 'Here is something worth knowing...89% of people think there\'s value in couples counsellingThe top barriers people face preventing them from going to couples counselling are:- The cost- Finding the right therapist - Convincing their partner- Time71% of people say they wish they were more adept at discussing big relationship topics or dealing with conflictIf any of the above resonate with you then you\'re a great fit for our accelerated program designed to speed up your relationship problems once and for all.', 'Here is a piece of wisdomEach step you take towards bettering yourself, is something to be proud of. Life can be tough, but it also has incredible opportunities ahead.']
       },
       {
-        step: 6,
+        step: 7,
         question: 'How important is appearance to you?',
         answers: [
           { answer: 'Not important', name: 'notImportant', 'awareness_objectives.picky': -3 },
@@ -626,7 +626,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE
       },
       {
-        step: 6,
+        step: 7,
         question: 'What age groups interest you?',
         answers: [
           { answer: '18-20', name: '18-20' },
@@ -643,21 +643,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SINGLE
       },
       {
-        step: 6,
-        question: 'Is ethnicity important to you? Select all that apply.',
-        answers: [
-          { answer: 'I don\'t mind', name: 'dontMind' },
-          { answer: 'White', name: 'white' },
-          { answer: 'Black', name: 'black' },
-          { answer: 'Asian', name: 'asian' },
-          { answer: 'Mixed', name: 'mixed' },
-          { answer: 'Other', name: 'other' }
-        ],
-        name: 'mateEthnicity',
-        type: QuestionsType.SINGLE
-      },
-      {
-        step: 6,
+        step: 7,
         question: 'Is body type important to you? Select all that apply.',
         answers: [
           { answer: 'I don\'t mind', name: 'dontMind' },
@@ -672,8 +658,22 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
         midStepTexts: ['Did you know?A study by Dr. Gail Matthews at Dominican University found that people who write down their goals are 42% more likely to achieve them than those who don\'t.']
       },
+      // {
+      //   step: 7,
+      //   question: 'Is ethnicity important to you? Select all that apply.',
+      //   answers: [
+      //     { answer: 'I don\'t mind', name: 'dontMind' },
+      //     { answer: 'White', name: 'white' },
+      //     { answer: 'Black', name: 'black' },
+      //     { answer: 'Asian', name: 'asian' },
+      //     { answer: 'Mixed', name: 'mixed' },
+      //     { answer: 'Other', name: 'other' }
+      //   ],
+      //   name: 'mateEthnicity',
+      //   type: QuestionsType.SINGLE
+      // },
       {
-        step: 7,
+        step: 8,
         question: 'What type of mate are you looking for? Select all that apply.',
         answers: [
           {
@@ -890,7 +890,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE
       },
       {
-        step: 7,
+        step: 9,
         question: 'What is the preferred star sign of your mate?',
         answers: [
           { answer: 'I don\'t mind', name: 'dontMind' },
@@ -909,10 +909,23 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'starSign',
         type: QuestionsType.SINGLE
+      },
+      {step: 10,
+      question: "Have tou come out as an LGBTQ+ individual? Select only one",
+        answers: [
+          {answer: "Yes, To Family Only", name: 'family'},
+          {answer: "Yes, To Friends Only", name: 'friend'},
+          {answer: "Yes, To Family and Friends", name: 'familyAndFriend'},
+          {answer: "Yes, To Family Friends and Society", name: 'familyFriendAndSociety'},
+          {answer: "No, But I Want To", name: "NoWant"},
+          {answer: "No and I don't want To", name: "no"}
+
+        ]
       }
+
     ];
 
-    for (const [index, question] of questions.entries()) {
+    for (const question of questions) {
       await prisma.question.upsert({
         where: { question: question.question },
         create: {
