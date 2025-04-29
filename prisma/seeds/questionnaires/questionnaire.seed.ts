@@ -6,7 +6,7 @@ export class QuestionnaireSeed extends Seeder {
     const questions = [
       {
         step: 1,
-        question: 'What is your gender?',
+        question: 'Gender',
         answers: [
           { answer: 'Male', name: 'male' },
           { answer: 'Female', name: 'female' },
@@ -17,7 +17,7 @@ export class QuestionnaireSeed extends Seeder {
       },
       {
         step: 1,
-        question: 'What is your sexual orientation?',
+        question: 'Sexual Orientation',
         answers: [
           { answer: 'Straight', name: 'straight' },
           { answer: 'Gay', name: 'gay', evaluation: { 'other.living_with_parents': 3 } },
@@ -58,7 +58,7 @@ export class QuestionnaireSeed extends Seeder {
       // },
       {
         step: 1,
-        question: 'How old are you?',
+        question: 'What is your age?',
         answers: [
           { answer: '18-20', name: '18-20' },
           { answer: '21-25', name: '21-25' },
@@ -98,7 +98,7 @@ export class QuestionnaireSeed extends Seeder {
       // },
       {
         step: 2,
-        question: 'How socially active are you?',
+        question: 'How active are you on Social Media? Select only one',
         answers: [
           {
             answer: 'Not active',
@@ -119,7 +119,7 @@ export class QuestionnaireSeed extends Seeder {
       },
       {
         step: 2,
-        question: 'How confident are you in social situations?',
+        question: 'How confident are you in social media? Select only only',
         answers: [
           { answer: 'Not at all', name: 'notAtAll' },
           {
@@ -145,7 +145,7 @@ export class QuestionnaireSeed extends Seeder {
       },
       {
         step: 3,
-        question: 'Where do you usually socialize?',
+        question: 'Where do you mostly socialize? Select all that apply',
         answers: [
           { answer: 'At a restaurant', name: 'restaurant' },
           { answer: 'At a club', name: 'club' },
@@ -180,7 +180,7 @@ export class QuestionnaireSeed extends Seeder {
       },
       {
         step: 3,
-        question: 'What type of relationships are you looking for?',
+        question: 'What kind of relationship are you looking for? Select all that apply.',
         answers: [
           { answer: 'Casual no expectation', name: 'casual', evaluation: { 'other.just_date': 5 } },
           { answer: 'Serious relationship', name: 'serious' },
@@ -674,7 +674,7 @@ export class QuestionnaireSeed extends Seeder {
       // },
       {
         step: 8,
-        question: 'What type of mate are you looking for? Select all that apply.',
+        question: 'Let\'s see what type of mate are you looking for',
         answers: [
           {
             answer: 'Independent',
@@ -910,18 +910,49 @@ export class QuestionnaireSeed extends Seeder {
         name: 'starSign',
         type: QuestionsType.SINGLE
       },
-      {step: 10,
-      question: "Have tou come out as an LGBTQ+ individual? Select only one",
+      {
+        step: 10,
+        question: 'Have tou come out as an LGBTQ+ individual? Select only one',
         answers: [
-          {answer: "Yes, To Family Only", name: 'family'},
-          {answer: "Yes, To Friends Only", name: 'friend'},
-          {answer: "Yes, To Family and Friends", name: 'familyAndFriend'},
-          {answer: "Yes, To Family Friends and Society", name: 'familyFriendAndSociety'},
-          {answer: "No, But I Want To", name: "NoWant"},
-          {answer: "No and I don't want To", name: "no"}
-
-        ]
+          { answer: 'Yes, To Family Only', name: 'family' },
+          { answer: 'Yes, To Friends Only', name: 'friend' },
+          { answer: 'Yes, To Family and Friends', name: 'familyAndFriend' },
+          { answer: 'Yes, To Family Friends and Society', name: 'familyFriendAndSociety' },
+          { answer: 'No, But I Want To', name: 'NoWant' },
+          { answer: 'No and I don\'t want To', name: 'no' }
+        ],
+        name: 'lgbtqComingOut',
+        type: QuestionsType.SINGLE
+      },
+      {
+        step: 10,
+        question: 'Do you fell accepted as a person of the LGBTQ+ community? Select only one',
+        answers: [
+          { answer: 'Yes', name: 'yes' },
+          { answer: 'No', name: 'no' }
+        ],
+        name: 'lgbtqAcceptance',
+        type: QuestionsType.SINGLE
+      },
+      {step: 10,
+      question: "Do you accept your sexual orientation as a member of the LGBTQ+ community?",
+        answers: [
+          { answer: 'Yes', name: 'yes' },
+          { answer: 'No', name: 'no' }
+        ],
+        name: 'lgbtqSelfAcceptance',
+        type: QuestionsType.SINGLE
+      },
+      {step: 10,
+        question: "Do you fee pressure to conform to a straight relationship?",
+        answers: [
+          { answer: 'Yes', name: 'yes' },
+          { answer: 'No', name: 'no' }
+        ],
+        name: 'pressureToConform',
+        type: QuestionsType.SINGLE
       }
+
 
     ];
 
