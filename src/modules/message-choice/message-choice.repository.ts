@@ -27,7 +27,10 @@ export class MessageChoiceRepository {
 
   public async findMessageChoiceById(id: string): Promise<MessageChoiceEntity> {
     return this.prisma.messageChoice.findUnique({
-      where: { id }
+      where: { id },
+      include: {
+        nextMessage: true
+      }
     });
   }
 }

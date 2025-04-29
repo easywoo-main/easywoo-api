@@ -14,6 +14,7 @@ import { MessageChoiceService } from './modules/message-choice/message-choice.se
 import { MessageChoiceModule } from './modules/message-choice/message-choice.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { MessageSliderModule } from './modules/message-slider/message-slider.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { StorageModule } from './modules/storage/storage.module';
     MessageChoiceModule,
     SubscriptionModule,
     StorageModule,
+    MessageSliderModule,
   ],
   controllers: [],
   providers: [],

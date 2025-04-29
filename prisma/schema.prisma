@@ -201,7 +201,7 @@ model Tag {
 enum MessageType {
   TEXT
   FILE
-  CHELENGE
+  CHALLENGE
 
   //QUESTION
   QUESTION_SINGLE

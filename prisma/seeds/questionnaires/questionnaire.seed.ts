@@ -581,7 +581,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'Get out of the friend zone', name: 'getOutFriendZone' }
         ],
         name: 'goals', //motivation_goals
-        type: QuestionsType.SINGLE
+        type: QuestionsType.MULTIPLE
       },
       {
         step: 6,
@@ -594,7 +594,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'No', name: 'no', evaluation: { 'awareness_objectives.wrong_choice_partner': 5 } }
         ],
         name: 'timeFrame',
-        type: QuestionsType.SINGLE,
+        type: QuestionsType.SLIDER,
         midStepTexts: ['Feeling like a fraud?You\'re not alone—85% struggle with low self-esteem, and 82% face imposter syndrome. But you don\'t have to stay stuck there! easyWoo can elevate you to the confident 10%. :muscle::sparkles: ', 'You will want to know this!Unlock a whole new level of Communication skills. Our research-backed approach helps you build skills that will empower you to take any relationship with confidence.', 'Here is something worth knowing...89% of people think there\'s value in couples counsellingThe top barriers people face preventing them from going to couples counselling are:- The cost- Finding the right therapist - Convincing their partner- Time71% of people say they wish they were more adept at discussing big relationship topics or dealing with conflictIf any of the above resonate with you then you\'re a great fit for our accelerated program designed to speed up your relationship problems once and for all.', 'Here is a piece of wisdomEach step you take towards bettering yourself, is something to be proud of. Life can be tough, but it also has incredible opportunities ahead.']
       },
       {
@@ -623,7 +623,7 @@ export class QuestionnaireSeed extends Seeder {
           }
         ],
         name: 'appearance', //look_importance
-        type: QuestionsType.SINGLE
+        type: QuestionsType.SLIDER
       },
       {
         step: 7,
@@ -908,7 +908,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'Pisces', name: 'pisces' }
         ],
         name: 'starSign',
-        type: QuestionsType.SINGLE
+        type: QuestionsType.MULTIPLE
       },
       {
         step: 10,

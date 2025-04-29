@@ -34,7 +34,8 @@ export class ChatMessageRepository {
       where: { id },
       include: {
         nextChoices: true,
-        nextMessage: true
+        nextMessage: true,
+        sliderProps: true,
       }
     });
   }
