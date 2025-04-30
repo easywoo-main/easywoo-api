@@ -12,6 +12,7 @@ import { CarePlanDto } from './dto/carePlan.dto';
 import { ReportSectionDto } from './dto/reportSection.dto';
 import { PdfService } from './modules/pdf/pdf.service';
 import { QuestionWithUserAnswerDto } from '../question/dtos/QuestionWithUserAnswerDto';
+import { PdfLocationDto } from './modules/pdf/dto/pdfLocation.dto';
 
 @Injectable()
 export class ReportService {
@@ -51,13 +52,13 @@ export class ReportService {
 
     const [carePlan, file] = await Promise.all([
       this.carePlanService.generateReportSection(questionnaire),
-      this.pdfService.generatePdfReport(reportSection),
+      {location: new URL("http://localhost:8082")} as PdfLocationDto // this.pdfService.generatePdfReport(reportSection),
     ]);
 
     return {
       reportSection,
       carePlan,
-      file
+      file// file
     };
   }
 
