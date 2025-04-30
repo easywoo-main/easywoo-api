@@ -6,6 +6,7 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatFilesInterceptor } from '../../interceptor/chatFilesInterceptor';
+import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 
 @Controller('chat-message')
 export class ChatMessageController {
@@ -15,14 +16,13 @@ export class ChatMessageController {
   @ApiOperation({ summary: 'Create a new chat message' })
   @ApiResponse({ status: 201, description: 'Chat message successfully created', type: ChatMessageEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
-  @UseInterceptors(ChatFilesInterceptor("files"))
-  public async createChatMessage(@Body() createChatMessageDto: CreateChatMessageDto, @UploadedFile() files?: File[]) {
+  public async createChatMessage(@Body() createChatMessageDto: CreateChatMessageDto) {
     return this.chatMessageService.createChatMessage(createChatMessageDto);
   }
 
   @Get('/:id')
   @ApiOperation({ summary: 'Fetch a chat message by ID' })
-  @ApiResponse({ status: 200, description: 'Chat message retrieved successfully', type: ChatMessageEntity })
+  @ApiResponse({ status: 200, description: 'Chat message retrieved successfully', type: ChatMessageWithRelationsDto })
   @ApiResponse({ status: 404, description: 'Chat message not found', type: ErrorResponse })
   public async findChatMessageById(@Param('id') id: string) {
     return this.chatMessageService.findChatMessageById(id);

@@ -17,6 +17,6 @@ export class MessageSliderEntity implements SliderProp {
     @ApiProperty({ description: 'The date the slider was last updated' })
     updatedAt: Date;
 
-    @ApiProperty({ description: 'The ID of the related chat message' })
+    @ApiProperty({ description: 'The ID of the related chat message', format:"uuid  " })
     chatMessageId: string;
 }

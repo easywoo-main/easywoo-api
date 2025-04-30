@@ -1,7 +1,17 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { SliderPropType } from '@prisma/client';
 
 export class CreateUpdateSliderPropDto {
-  id?: string
+  @ApiPropertyOptional({ description: 'ID of the slider property (optional)', format: 'uuid' })
+  id?: string;
+
+  @ApiProperty({ description: 'Name of the slider property', example: 'Slider Name' })
   name: string;
+
+  @ApiProperty({
+    description: 'Type of the slider property',
+    enum: SliderPropType,
+    example: SliderPropType.POSITIVE,
+  })
   type: SliderPropType;
 }
