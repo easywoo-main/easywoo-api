@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MessageChoiceRepository } from './message-choice.repository';
-import { CreateMessageChoiceDto } from './dto/createMessageChoice.dto';
+import { CreateMessageChoiceWithRelationDto } from './dto/createMessageChoiceWithRelation.dto';
 import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
 import { CheckExists } from '../../decorators';
 
@@ -8,7 +8,7 @@ import { CheckExists } from '../../decorators';
 export class MessageChoiceService {
   constructor(private readonly messageChoiceRepository: MessageChoiceRepository) {}
 
-  public async createMessageChoice(data: CreateMessageChoiceDto) {
+  public async createMessageChoice(data: CreateMessageChoiceWithRelationDto) {
     return this.messageChoiceRepository.createMessageChoice(data);
   }
 
@@ -25,5 +25,12 @@ export class MessageChoiceService {
   @CheckExists("MessageChoice not found")
   public async findMessageChoiceById(id: string) {
     return this.messageChoiceRepository.findMessageChoiceById(id);
+  }
+
+  public async createChallengeMessageChoices(prevMessageId: string) {
+    return Promise.all([
+      this.createMessageChoice({name: "SUBMITTED_TASK", prevMessageId}),
+      this.createMessageChoice({name: "CANCELED_TASK", prevMessageId}),
+    ])
   }
 }

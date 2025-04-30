@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import { MessageChoiceEntity } from './messageChoice.entity';
-import { CreateMessageChoiceDto } from './dto/createMessageChoice.dto';
+import { CreateMessageChoiceWithRelationDto } from './dto/createMessageChoiceWithRelation.dto';
 import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
 
 @Injectable()
 export class MessageChoiceRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  public async createMessageChoice(data: CreateMessageChoiceDto): Promise<MessageChoiceEntity> {
+  public async createMessageChoice(data: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
     return this.prisma.messageChoice.create({
       data
     });

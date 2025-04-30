@@ -5,6 +5,7 @@ import { MessageChoiceRepository } from './message-choice.repository';
 
 @Module({
   controllers: [MessageChoiceController],
-  providers: [MessageChoiceService, MessageChoiceRepository]
+  providers: [MessageChoiceService, MessageChoiceRepository],
+  exports: [MessageChoiceService]
 })
 export class MessageChoiceModule {}

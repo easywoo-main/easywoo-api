@@ -10,7 +10,6 @@ import { QuestionnaireAnswerModule } from './modules/question-answer/questionnai
 import { CourseModule } from './modules/course/course.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { ChatMessageModule } from './modules/chat-message/chat-message.module';
-import { MessageChoiceService } from './modules/message-choice/message-choice.service';
 import { MessageChoiceModule } from './modules/message-choice/message-choice.module';
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { StorageModule } from './modules/storage/storage.module';

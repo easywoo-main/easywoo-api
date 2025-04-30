@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MessageType } from '@prisma/client';
 import { CreateUpdateSliderPropDto } from './createUpdateSliderProp.dto';
+import { CreateMessageChoiceWithRelationDto } from '../../message-choice/dto/createMessageChoiceWithRelation.dto';
+import { CreateMessageChoiceDto } from '../../message-choice/dto/createMessageChoice.dto';
 
 export class CreateChatMessageDto {
   @ApiProperty({ description: 'Content of the message', example: 'Hello, world!' })
@@ -22,5 +24,8 @@ export class CreateChatMessageDto {
   prevChoiceId: string
 
   isCheckpoint: boolean
+
+  nextMessageChoices: CreateMessageChoiceDto[];
+
 
 }

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Delete, Param, Body, Patch } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { MessageChoiceService } from './message-choice.service';
-import { CreateMessageChoiceDto } from './dto/createMessageChoice.dto';
+import { CreateMessageChoiceWithRelationDto } from './dto/createMessageChoiceWithRelation.dto';
 import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
 import { MessageChoiceEntity } from './messageChoice.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
@@ -13,7 +13,7 @@ export class MessageChoiceController {
   @Post()
   @ApiOperation({ summary: 'Create a new message choice' })
   @ApiResponse({ status: 201, description: 'Message choice created successfully.', type: MessageChoiceEntity })
-  public async createMessageChoice(@Body() data: CreateMessageChoiceDto) {
+  public async createMessageChoice(@Body() data: CreateMessageChoiceWithRelationDto) {
     return this.messageChoiceService.createMessageChoice(data);
   }
 

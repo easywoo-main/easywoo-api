@@ -3,19 +3,22 @@ import { ChatMessageRepository } from './chat-message.repository';
 import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { CheckExists } from '../../decorators';
-import { MessageSliderController } from '../message-slider/message-slider.controller';
 import { MessageSliderService } from '../message-slider/message-slider.service';
+import { MessageType } from '@prisma/client';
+import { CHALLENGE_MESSAGE_CHOICE } from '../message-choice/message-choice.constants';
 
 @Injectable()
 export class ChatMessageService {
   constructor(
     private readonly chatMessageRepository: ChatMessageRepository,
-    private readonly messageSliderService: MessageSliderService
+    private readonly messageSliderService: MessageSliderService,
   ) {}
 
   public async createChatMessage(newChatMessage: CreateChatMessageDto) {
-    console.log('newChatMessage', newChatMessage);
-    return this.chatMessageRepository.createChatMessage(newChatMessage);
+    if (newChatMessage.type === MessageType.CHALLENGE) {
+      newChatMessage.nextMessageChoices = CHALLENGE_MESSAGE_CHOICE
+    }
+    return await this.chatMessageRepository.createChatMessage(newChatMessage);
   }
 
   @CheckExists("Chat Message Not Found")

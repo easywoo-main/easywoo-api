@@ -24,6 +24,8 @@ export class QuestionnaireAnswerService {
   public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, userId?: string): Promise<QuestionWithUserAnswerDto> {
     const question = await this.questionnaireService.getOneQuestion(questionnaireAnswerCreateDto.questionId);
 
+    console.log(question)
+
     if ([QuestionsType.SINGLE, QuestionsType.SLIDER].includes(question.type as any) && questionnaireAnswerCreateDto.answerIds.length > 1) {
       throw new BadRequestException('Invalid answer type');
     }
