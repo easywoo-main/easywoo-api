@@ -20,9 +20,9 @@ export class UserEntity implements User {
   @ApiProperty({ description: 'Indicates if the user has completed the quiz' })
   hasQuizCompleted: boolean;
 
-  @ApiProperty({ description: 'Google Id', format: 'uuid' })
+  @ApiProperty({ description: 'Google Id', format: 'uuid', required: false })
   googleUserId: string;
 
-  @ApiProperty({ description: 'Apple Id', format: 'uuid' })
+  @ApiProperty({ description: 'Apple Id', format: 'uuid', required: false  })
   appleUserId: string;
 }
