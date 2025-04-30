@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { QuestionService } from '../question/question.service';
 import { QuestionnaireDto } from '../question/dtos/questionnaire.dto';
 import { ReportDto } from './dto/report.dto';
 import { SentenceType } from '@prisma/client';
@@ -8,7 +7,6 @@ import { Condition } from './modules/evaluator/condition.dto';
 import { EvaluatorService } from './modules/evaluator/evaluator.service';
 import { REPORT_SECTIONS } from './utils/reportSections.untils';
 import { CarePlanService } from './modules/care-plan/care-plan.service';
-import { CarePlanDto } from './dto/carePlan.dto';
 import { ReportSectionDto } from './dto/reportSection.dto';
 import { PdfService } from './modules/pdf/pdf.service';
 import { QuestionWithUserAnswerDto } from '../question/dtos/QuestionWithUserAnswerDto';
@@ -25,7 +23,6 @@ export class ReportService {
   public async generateReport(questions: QuestionWithUserAnswerDto[]): Promise<ReportDto> {
     const questionnaire: QuestionnaireDto = new QuestionnaireDto();
 
-    //questionnaire
     for (const question of questions) {
       for (const answer of question.answers) {
         (questionnaire[question.name] ??= {})[answer.name] = answer.isAnswered;
@@ -52,13 +49,13 @@ export class ReportService {
 
     const [carePlan, file] = await Promise.all([
       this.carePlanService.generateReportSection(questionnaire),
-      {location: new URL("http://localhost:8082")} as PdfLocationDto // this.pdfService.generatePdfReport(reportSection),
+      this.pdfService.generatePdfReport(reportSection),//{location: new URL("http://localhost:8082")} as PdfLocationDto
     ]);
 
     return {
       reportSection,
       carePlan,
-      file// file
+      file
     };
   }
 
