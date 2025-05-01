@@ -47,9 +47,10 @@ export class ReportService {
       }),
     );
 
+
     const [carePlan, file] = await Promise.all([
       this.carePlanService.generateReportSection(questionnaire),
-      {location: new URL("http://localhost:8082")} as PdfLocationDto //this.pdfService.generatePdfReport(reportSection),//
+      this.pdfService.generatePdfReport(reportSection),
     ]);
 
     return {
