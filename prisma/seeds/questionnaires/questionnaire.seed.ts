@@ -640,7 +640,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: '60+', name: '60+' }
         ],
         name: 'mateAge',
-        type: QuestionsType.SINGLE
+        type: QuestionsType.MULTIPLE
       },
       {
         step: 7,
