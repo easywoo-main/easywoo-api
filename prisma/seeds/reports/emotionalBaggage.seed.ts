@@ -12,15 +12,15 @@ export class EmotionalBaggageSeed extends Seeder {
         sentence:
           'You are in a non happy relationship but unable to let go. What keeps you hanging on? Whatever the situation is, there are only three ways to deal with it. ACCEPT IT, CHANGE IT, or AVOID IT. If you need help, we can help you figure out which path is best for you.',
         condition: {
-          GTE: { 'awareness_objectives.scared_move_relationship': 15 },
-        },
+          GTE: { 'awareness_objectives.scared_move_relationship': 15 }
+        }
       },
       {
         sentence:
           'You are stuck on your ex and that causes several issues. First of all, you might be fueled with emotions such as loss, sadness, resentment, anger, nostalgia or even a drop in confidence. These feelings may make you unconsciously unavailable, yet may push you into rebound situations. On the one hand, you are not in a good place to allow yourself to open up to dating someone new as you have unresolved issues that block you emotionally. On the other hand, you tend to look for a persona in possible dates that is polarized. That is, either too similar to the persona of your ex or completely the opposite. ',
         condition: {
-          GTE: { 'self_improvement.get_over_ex': 15 },
-        },
+          GTE: { 'self_improvement.get_over_ex': 15 }
+        }
       },
       {
         sentence:
@@ -30,21 +30,17 @@ export class EmotionalBaggageSeed extends Seeder {
         condition: {
           'biggestChallenges.burnedInRelationships': true,
           'mateRelationship.commitedRelationship': true,
-          'personType.possessive': true,
-        },
+          'personType.possessive': true
+        }
       },
       {
         sentence:
           'A common challenge with people who have been burned in relationships, is that they build walls around them and don’t actually allow anyone in. You seem to have lost trust and may block yourself from reaching true intimacy.',
         condition: {
-          OR: {
-            AND: {
-              'biggestChallenges.burnedInRelationships': false,
-              'mateRelationship.commitedRelationship': false,
-            },
-            'personType.possessive': false,
-          },
-        },
+          'biggestChallenges.burnedInRelationships': false,
+          'mateRelationship.commitedRelationship': false,
+          'personType.possessive': false
+        }
       },
       {
         sentence:
@@ -55,9 +51,9 @@ export class EmotionalBaggageSeed extends Seeder {
           OR: {
             'mateRelationship.casual': true,
             'mateRelationship.sexual': true,
-            'mateRelationship.situationship': true,
-          },
-        },
+            'mateRelationship.situationship': true
+          }
+        }
       },
       {
         sentence:
@@ -72,11 +68,11 @@ export class EmotionalBaggageSeed extends Seeder {
                 'mateType.passionate': true,
                 'mateType.loyal': true,
                 'mateType.trustworthy': true,
-                'mateRelationship.trustworthy': true,
-              },
+                'mateRelationship.trustworthy': true
+              }
             },
             {
-              GTE: { 'awareness_objectives.picky': 15 },
+              GTE: { 'awareness_objectives.picky': 15 }
             },
             {
               OR: {
@@ -84,28 +80,28 @@ export class EmotionalBaggageSeed extends Seeder {
                 'mateType.adventurous': true,
                 'mateType.common_interests': true,
                 'mateType.sociable': true,
-                'mateType.dynamic': true,
-              },
-            },
-          ],
-        },
-      },
+                'mateType.dynamic': true
+              }
+            }
+          ]
+        }
+      }
     ];
     for (const sentenceEntity of sentences) {
       await prisma.sentence.upsert({
         where: {
-          sentence: sentenceEntity.sentence,
+          sentence: sentenceEntity.sentence
         },
         update: {
           condition: sentenceEntity.condition,
           sentence: sentenceEntity.sentence,
-          type: SentenceType.EMOTIONAL_BAGGAGE,
+          type: SentenceType.EMOTIONAL_BAGGAGE
         },
         create: {
           condition: sentenceEntity.condition,
           sentence: sentenceEntity.sentence,
-          type: SentenceType.EMOTIONAL_BAGGAGE,
-        },
+          type: SentenceType.EMOTIONAL_BAGGAGE
+        }
       });
     }
   }

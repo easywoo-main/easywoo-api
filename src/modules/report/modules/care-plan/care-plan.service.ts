@@ -19,7 +19,7 @@ export class CarePlanService {
     const sentences = await this.sentenceService.getAllSentencesByType(SentenceType.CARE_PLAN);
     const results: CarePlanDto[] = [];
     for (const sentence of sentences) {
-      if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {
+      if (this.evaluatorService.chekObj(sentence.condition as Condition, questionnaire)) {
         results.push({
           sentence: sentence.sentence,
           course: await this.postService.findRandomPostByFilter(JSON.parse(sentence.dbFindManyArgs as string) as Prisma.CourseFindManyArgs),

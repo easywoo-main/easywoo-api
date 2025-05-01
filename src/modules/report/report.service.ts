@@ -26,7 +26,7 @@ export class ReportService {
     for (const question of questions) {
       for (const answer of question.answers) {
         (questionnaire[question.name] ??= {})[answer.name] = answer.isAnswered;
-        if (answer.evaluation) {
+        if (answer.evaluation && answer.isAnswered) {
           for (const [key, value] of Object.entries(answer.evaluation)) {
             const [mainKey, subKey] = key.split('.');
 
@@ -38,11 +38,17 @@ export class ReportService {
       }
     }
 
+    console.log(questionnaire);
+
     const reportSection: ReportSectionDto[] = await Promise.all(
       REPORT_SECTIONS.map(async (reportSection): Promise<ReportSectionDto> => {
+        let {sentences, count} =  await this.generateReportSection(questionnaire, reportSection.type)
+        if (count < reportSection.minimumNumberSentences) {
+          sentences += reportSection.sentence;
+        }
         return {
           name: reportSection.name,
-          content: await this.generateReportSection(questionnaire, reportSection.type),
+          content: sentences,
         };
       }),
     );
@@ -60,14 +66,16 @@ export class ReportService {
     };
   }
 
-  private async generateReportSection(questionnaire: QuestionnaireDto, sentenceType: SentenceType): Promise<string> {
+  private async generateReportSection(questionnaire: QuestionnaireDto, sentenceType: SentenceType): Promise<{sentences: string, count: number}> {
     const sentences = await this.sentenceService.getAllSentencesByType(sentenceType);
+    let count = 0;
     let results = '';
     for (const sentence of sentences) {
-      if (this.evaluatorService.checkCondition(sentence.condition as Condition, questionnaire)) {
+      if (this.evaluatorService.chekObj(sentence.condition as Condition, questionnaire)) {
         results += sentence.sentence;
+        count++
       }
     }
-    return results;
+    return {sentences: results, count};
   }
 }

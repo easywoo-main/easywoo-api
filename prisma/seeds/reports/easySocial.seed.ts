@@ -66,7 +66,6 @@ export class EasySocialSeed extends Seeder {
       {
         sentence: '',
         condition: {
-          AND: [],
           GTE: { 'opportunity.mate_hungs_out': 15 },
           'biggestChallenges.notHappyWithSocialLife': true,
           'personType.shy': false,

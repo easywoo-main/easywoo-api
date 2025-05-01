@@ -26,8 +26,6 @@ export class RelationshipGoalsSeed extends Seeder {
           'Then this may indicate something more significant such as unresolved commitment issues. Look at our care plan.\n',
         condition: {
           'mateRelationship.casual': true,
-          'mate_age.18-20': false,
-          'mate_age.21-25': false,
         },
       },
       {

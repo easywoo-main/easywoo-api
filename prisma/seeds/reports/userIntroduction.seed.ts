@@ -110,7 +110,7 @@ async function main(prisma: PrismaClient) {
         'personType.passionate': true,
         OR: [{ 'personType.shy': false }, { 'personType.sensitive': false }],
       },
-      sentence: 'You are growth oriented and not afraid to get out of your comfort zone. These are attractive traits.',
+      sentence: 'You are growth oriented and not afraid to get out of your comfort zone.',
     },
     {
       condition: {

@@ -3,71 +3,58 @@ import { Condition } from './condition.dto';
 
 @Injectable()
 export class EvaluatorService {
-  public checkCondition(condition: Condition, obj: any): boolean {
-    if (condition.AND) {
-      if (Array.isArray(condition.AND)) {
-        return condition.AND.every((subCondition) => this.checkCondition(subCondition, obj));
+
+  public chekObj(value: any, obj: any): boolean {
+    if (Array.isArray(value)) {
+      return value.every((subCondition) => this.chekObj(subCondition, obj));
+    } else {
+      return Object.entries(value).every(([key, value]) => this.checkCondition(key, value, obj));
+    }
+  }
+
+  public checkCondition(key: string, value: any, obj: any): boolean {
+    if (key === 'AND') {
+      return this.chekObj(value, obj);
+    }
+
+    if (key === 'OR') {
+      if (Array.isArray(value)) {
+        return value.some((subCondition) => this.chekObj(subCondition, obj));
       } else {
-        return Object.entries(condition.AND).every(([key, value]) => this.checkConditionForKey(key, value, obj));
+        return Object.entries(value).some(([key, value]) => this.checkCondition(key, value, obj));
       }
     }
 
-    if (condition.OR) {
-      if (Array.isArray(condition.OR)) {
-        return condition.OR.some((subCondition) => this.checkCondition(subCondition, obj));
-      } else {
-        return Object.entries(condition.OR).some(([key, value]) => this.checkConditionForKey(key, value, obj));
-      }
-    }
-
-    if (condition.GTE) {
-      return Object.entries(condition.GTE).every(([key, value]) => {
+    if (key === 'GTE') {
+      return Object.entries(value).every(([key, value]) => {
         const objValue = this.getValueByKey(key, obj);
         return objValue >= value;
       });
     }
 
-    if (condition.GT) {
-      return Object.entries(condition.GT).every(([key, value]) => {
+    if (key === 'GT') {
+      return Object.entries(value).every(([key, value]) => {
         const objValue = this.getValueByKey(key, obj);
         return objValue > value;
       });
     }
 
-    if (condition.LTE) {
-      return Object.entries(condition.LTE).every(([key, value]) => {
+    if (key === 'LTE') {
+      return Object.entries(value).every(([key, value]) => {
         const objValue = this.getValueByKey(key, obj);
         return objValue <= value;
       });
     }
 
-    if (condition.LT) {
-      return Object.entries(condition.LT).every(([key, value]) => {
+    if (key === 'LT') {
+      return Object.entries(value).every(([key, value]) => {
         const objValue = this.getValueByKey(key, obj);
         return objValue < value;
       });
     }
 
-    if (condition.EQUALS) {
-      return Object.entries(condition.EQUALS).every(([key, value]) => {
-        const objValue = this.getValueByKey(key, obj);
-        return objValue === value;
-      });
-    }
+    return this.getValueByKey(key, obj) === value;
 
-    if (condition.IN) {
-      return condition.IN.includes(this.getValueByKey(Object.keys(condition)[0], obj));
-    }
-
-    if (condition.NOTIN) {
-      return !condition.NOTIN.includes(this.getValueByKey(Object.keys(condition)[0], obj));
-    }
-
-    if (Object.keys(condition).length > 0) {
-      return Object.entries(condition).every(([key, value]) => this.checkConditionForKey(key, value, obj));
-    }
-
-    return true;
   }
 
   public checkConditionForKey(key: string, value: any, obj: any): boolean {
