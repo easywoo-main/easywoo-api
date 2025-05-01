@@ -19,13 +19,13 @@ export const REPORT_SECTIONS: {
     sentence: 'It seems that at the moment you are not into searching deeper within your self. That’s ok by us.'
   },
   {
-    name: 'Who are you aiming to woo?',
+    name: 'Clearing up your relationship goals',
     type: SentenceType.TARGET_AUDIENCE,
     minimumNumberSentences: 1,
     sentence: ' It seems that you have not given us enough information on what kind of relationship you are looking for. If this is important to you, consider going back and retaking the questionnaire.'
   },
   {
-    name: 'Clearing up your relationship goals',
+    name: 'Who are you aiming to woo?',
     type: SentenceType.RELATIONSHIP_GOALS,
     minimumNumberSentences: 1,
     sentence: 'Not knowing who you would like to woo is ok. But if you give us some pointers by ticking more of the choices we are providing, it would enable us to give you feedback we are sure will help you.'
