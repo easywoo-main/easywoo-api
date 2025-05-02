@@ -22,40 +22,40 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'Straight', name: 'straight' },
           { answer: 'Gay', name: 'gay', evaluation: { 'other.living_with_parents': 3 } },
           { answer: 'Bisexual', name: 'bisexual', evaluation: { 'other.living_with_parents': 3 } },
-          { answer: 'Non binary', name: 'nonBinary', evaluation: { 'other.living_with_parents': 3 } },
+          // { answer: 'Non binary', name: 'nonBinary', evaluation: { 'other.living_with_parents': 3 } },
           { answer: 'Other', name: 'other' }
         ],
         name: 'sexualOrientation',
         type: QuestionsType.SINGLE
       },
-      {
-        step: 1,
-        question: 'Ethnicity',
-        answers: [
-          { answer: 'White', name: 'white' },
-          { answer: 'Black', name: 'black' },
-          { answer: 'Asian', name: 'asian' },
-          { answer: 'Mixed', name: 'mixed' },
-          { answer: 'Other', name: 'other' }
-        ],
-        name: 'ethnicity',
-        type: QuestionsType.SINGLE
-      },
-      {
-        step: 1,
-        question: 'Your body type',
-        answers: [
-          { answer: 'I don\'t mind', name: 'dontMind' },
-          { answer: 'Heavy set', name: 'heavySet' },
-          { answer: 'Athletic', name: 'athletic' },
-          { answer: 'Slim', name: 'slim' },
-          { answer: 'Skinny', name: 'skinny' },
-          { answer: 'A few extra kilos', name: 'fewExtraKilos' },
-          { answer: 'Overweight', name: 'overweight' }
-        ],
-        name: 'bodyType',
-        type: QuestionsType.MULTIPLE
-      },
+      // {
+      //   step: 1,
+      //   question: 'Ethnicity',
+      //   answers: [
+      //     { answer: 'White', name: 'white' },
+      //     { answer: 'Black', name: 'black' },
+      //     { answer: 'Asian', name: 'asian' },
+      //     { answer: 'Mixed', name: 'mixed' },
+      //     { answer: 'Other', name: 'other' }
+      //   ],
+      //   name: 'ethnicity',
+      //   type: QuestionsType.SINGLE
+      // },
+      // {
+      //   step: 1,
+      //   question: 'Your body type',
+      //   answers: [
+      //     { answer: 'I don\'t mind', name: 'dontMind' },
+      //     { answer: 'Heavy set', name: 'heavySet' },
+      //     { answer: 'Athletic', name: 'athletic' },
+      //     { answer: 'Slim', name: 'slim' },
+      //     { answer: 'Skinny', name: 'skinny' },
+      //     { answer: 'A few extra kilos', name: 'fewExtraKilos' },
+      //     { answer: 'Overweight', name: 'overweight' }
+      //   ],
+      //   name: 'bodyType',
+      //   type: QuestionsType.MULTIPLE
+      // },
       {
         step: 1,
         question: 'What is your age?',
@@ -73,74 +73,74 @@ export class QuestionnaireSeed extends Seeder {
         name: 'age',
         type: QuestionsType.SINGLE
       },
-      {
-        step: 1,
-        question: 'What is your current relationship status?',
-        answers: [
-          { answer: 'Single', name: 'single' },
-          { answer: 'Commited relationship/Married', name: 'commitedRelationship' },
-          { answer: 'It\'s complicated', name: 'itsComplicated' },
-          { answer: 'Separated / Divorced / Widower', name: 'divorced' }
-        ],
-        name: 'relationshipStatus',
-        type: QuestionsType.SINGLE
-      },
-      {
-        step: 1,
-        question: 'Do you have children',
-        answers: [
-          { answer: 'Yes', name: 'yes' },
-          { answer: 'No', name: 'no' }
-        ],
-        name: 'children',
-        type: QuestionsType.SINGLE,
-        midStepTexts: ['Hey! Welcome to easywooYour Personal Empowerment Companion for:- Fixing your current relationship struggles- Transforming your dating game- Finding a relationship that truly fits you- Boosting your confidence- Improving your communication skillsOur users experience an 80% improvement rate with our personalized coaching content.']
-      },
-      {
-        step: 2,
-        question: "Your star sign",
-        answers: [
-          {answer: 'Prefer not to say', name: 'preferNotToSay' },
-          {answer: 'Aries', name: 'aries' },
-          {answer: "Taurus", name: 'taurus' },
-          {answer: "Gemini", name: 'gemini' },
-          {answer: "Cancer", name: 'cancer' },
-          {answer: "Leo", name: 'leo' },
-          {answer: "Virgo", name: 'virgos' },
-          {answer: "Libra", name: "libra"},
-          {answer: "Scorpio", name: 'scorpio' },
-          {answer: "Sagittarius", name: 'sagittarius' },
-          {answer: "Capricorn", name: 'capricorn' },
-          {answer: "Aquarius", name: "aquarius"},
-          {answer: "Pisces", name: 'pisces' },
-        ],
-        name: "personStarSign",
-        type: QuestionsType.SINGLE,
-      },
-      {
-        step:2,
-        question: "Education",
-        answers: [
-          {answer: "High school", name: "highSchool"},
-          {answer: "Graduate", name: "graduate"},
-          {answer: "Post Graduate", name: "postGraduate"},
-        ],
-        name: "education",
-        type: QuestionsType.SINGLE,
-      },
-      {
-        step:2,
-        question: "Financial status",
-        answers: [
-          {answer: "Not making it", name: "notMakingIt"},
-          {answer: "Just making it", name: "justMakingIt"},
-          {answer: "Comfortable", name: "comfortable"},
-          {answer: "Well off", name: "wellOff"},
-          {answer: "Very well off", name: "veryWellOff"},
-        ],
-        name: "financialStatus",
-        type: QuestionsType.SLIDER,
-      },
+      // {
+      //   step: 1,
+      //   question: 'What is your current relationship status?',
+      //   answers: [
+      //     { answer: 'Single', name: 'single' },
+      //     { answer: 'Commited relationship/Married', name: 'commitedRelationship' },
+      //     { answer: 'It\'s complicated', name: 'itsComplicated' },
+      //     { answer: 'Separated / Divorced / Widower', name: 'divorced' }
+      //   ],
+      //   name: 'relationshipStatus',
+      //   type: QuestionsType.SINGLE
+      // },
+      // {
+      //   step: 1,
+      //   question: 'Do you have children',
+      //   answers: [
+      //     { answer: 'Yes', name: 'yes' },
+      //     { answer: 'No', name: 'no' }
+      //   ],
+      //   name: 'children',
+      //   type: QuestionsType.SINGLE,
+      //   midStepTexts: ['Hey! Welcome to easywooYour Personal Empowerment Companion for:- Fixing your current relationship struggles- Transforming your dating game- Finding a relationship that truly fits you- Boosting your confidence- Improving your communication skillsOur users experience an 80% improvement rate with our personalized coaching content.']
+      // },
+      // {
+      //   step: 2,
+      //   question: "Your star sign",
+      //   answers: [
+      //     {answer: 'Prefer not to say', name: 'preferNotToSay' },
+      //     {answer: 'Aries', name: 'aries' },
+      //     {answer: "Taurus", name: 'taurus' },
+      //     {answer: "Gemini", name: 'gemini' },
+      //     {answer: "Cancer", name: 'cancer' },
+      //     {answer: "Leo", name: 'leo' },
+      //     {answer: "Virgo", name: 'virgos' },
+      //     {answer: "Libra", name: "libra"},
+      //     {answer: "Scorpio", name: 'scorpio' },
+      //     {answer: "Sagittarius", name: 'sagittarius' },
+      //     {answer: "Capricorn", name: 'capricorn' },
+      //     {answer: "Aquarius", name: "aquarius"},
+      //     {answer: "Pisces", name: 'pisces' },
+      //   ],
+      //   name: "personStarSign",
+      //   type: QuestionsType.SINGLE,
+      // },
+      // {
+      //   step:2,
+      //   question: "Education",
+      //   answers: [
+      //     {answer: "High school", name: "highSchool"},
+      //     {answer: "Graduate", name: "graduate"},
+      //     {answer: "Post Graduate", name: "postGraduate"},
+      //   ],
+      //   name: "education",
+      //   type: QuestionsType.SINGLE,
+      // },
+      // {
+      //   step:2,
+      //   question: "Financial status",
+      //   answers: [
+      //     {answer: "Not making it", name: "notMakingIt"},
+      //     {answer: "Just making it", name: "justMakingIt"},
+      //     {answer: "Comfortable", name: "comfortable"},
+      //     {answer: "Well off", name: "wellOff"},
+      //     {answer: "Very well off", name: "veryWellOff"},
+      //   ],
+      //   name: "financialStatus",
+      //   type: QuestionsType.SLIDER,
+      // },
       {
         step: 3,
         question: 'How active are you on Social Media? Select only one',
@@ -258,7 +258,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'Loyal', name: 'loyal' },
           { answer: 'Charitable', name: 'charitable' },
           { answer: 'Trustworthy', name: 'trustworthy' },
-          { answer: 'Environmentally aware', name: 'environmentallyAware' },
+          // { answer: 'Environmentally aware', name: 'environmentallyAware' },
           { answer: 'Ambitious', name: 'ambitious', evaluation: { 'self_improvement.commitment_issues': 4 } },
           {
             answer: 'Reserved',
@@ -347,8 +347,8 @@ export class QuestionnaireSeed extends Seeder {
               'self_improvement.loneliness_stress_motivation': 2
             }
           }, //tidiness_cleanliness
-          { answer: 'Pet lover', name: 'petLover' },
-          { answer: 'Vegetarian / Vegan', name: 'vegetarianVegan' },
+          // { answer: 'Pet lover', name: 'petLover' },
+          // { answer: 'Vegetarian / Vegan', name: 'vegetarianVegan' },
           { answer: 'Smoker', name: 'smoker' },
           { answer: 'Non drinker', name: 'nonDrinker', evaluation: { 'opportunity.mate_hungs_out': 2 } },
           { answer: 'Casual drinker', name: 'casualDrinker' },
@@ -360,11 +360,11 @@ export class QuestionnaireSeed extends Seeder {
               'self_improvement.loneliness_stress_motivation': 1
             }
           },
-          { answer: 'Bald', name: 'bald' },
-          { answer: 'Facial hair', name: 'facialHair' },
-          { answer: 'Want children', name: 'wantChildren' },
-          { answer: 'Body piercings', name: 'bodyPiercings' },
-          { answer: 'Have tattoos', name: 'haveTattoos' }
+          // { answer: 'Bald', name: 'bald' },
+          // { answer: 'Facial hair', name: 'facialHair' },
+          // { answer: 'Want children', name: 'wantChildren' },
+          // { answer: 'Body piercings', name: 'bodyPiercings' },
+          // { answer: 'Have tattoos', name: 'haveTattoos' }
         ],
         name: 'personType', //persona
         type: QuestionsType.MULTIPLE
@@ -500,28 +500,28 @@ export class QuestionnaireSeed extends Seeder {
               'other.financial_instability': 15
             }
           }, //Financial_instability
-          {
-            answer: 'Getting Rejected',
-            name: 'gettingRejected',
-            evaluation: {
-              'opportunity.sexuality_lgbt': 5,
-              'opportunity.no_social_life': 2,
-              'self_improvement.communication_problems': 2,
-              'self_improvement.sexuality_problems': 3,
-              'self_improvement.loneliness_stress_motivation': 3
-            }
-          }, //getting_rejected
-          {
-            answer: 'Scared to breakup',
-            name: 'scaredToBreakup',
-            evaluation: {
-              'opportunity.sexuality_lgbt': 4,
-              'opportunity.no_social_life': 3,
-              'opportunity.mate_hungs_out': 3,
-              'self_improvement.communication_problems': 2,
-              'self_improvement.loneliness_stress_motivation': 3
-            }
-          }, //scared_to_breakup
+          // {
+          //   answer: 'Getting Rejected',
+          //   name: 'gettingRejected',
+          //   evaluation: {
+          //     'opportunity.sexuality_lgbt': 5,
+          //     'opportunity.no_social_life': 2,
+          //     'self_improvement.communication_problems': 2,
+          //     'self_improvement.sexuality_problems': 3,
+          //     'self_improvement.loneliness_stress_motivation': 3
+          //   }
+          // }, //getting_rejected
+          // {
+          //   answer: 'Scared to breakup',
+          //   name: 'scaredToBreakup',
+          //   evaluation: {
+          //     'opportunity.sexuality_lgbt': 4,
+          //     'opportunity.no_social_life': 3,
+          //     'opportunity.mate_hungs_out': 3,
+          //     'self_improvement.communication_problems': 2,
+          //     'self_improvement.loneliness_stress_motivation': 3
+          //   }
+          // }, //scared_to_breakup
           {
             answer: 'Pressure from family / society to start a family',
             name: 'pressureToStartFamily',
@@ -577,7 +577,7 @@ export class QuestionnaireSeed extends Seeder {
             name: 'improveSocialLife',
             evaluation: { 'opportunity.no_social_life': 10 }
           }, //social_life
-          { answer: 'Find new friends', name: 'findNewFriends' },
+          // { answer: 'Find new friends', name: 'findNewFriends' },
           { answer: 'Start a family', name: 'startFamily', evaluation: { 'other.fertility_issues': 5 } }, //start_family
           { answer: 'Self development', name: 'selfDevelopment' },
           {
@@ -593,12 +593,12 @@ export class QuestionnaireSeed extends Seeder {
               'self_improvement.loneliness_stress_motivation': 5
             }
           }, //improve_self_confidence
-          {
-            answer: 'Confidence move out relationship',
-            name: 'confidenceMoveOutRelationship',
-            evaluation: { 'self_improvement.get_over_ex': 5 }
-          }, // confidence_move_out_relationship
           { answer: 'Improve a certain part of my physical appearance', name: 'improvePhysicalAppearance' },
+          // {
+          //   answer: 'Confidence move out relationship',
+          //   name: 'confidenceMoveOutRelationship',
+          //   evaluation: { 'self_improvement.get_over_ex': 5 }
+          // }, // confidence_move_out_relationship
           {
             answer: 'Improve body weight',
             name: 'improveBodyWeight',
@@ -610,7 +610,7 @@ export class QuestionnaireSeed extends Seeder {
             evaluation: { 'self_improvement.sexuality_problems': 15 }
           }, //improve_sexual_life
           { answer: 'Further career', name: 'furtherCareer', evaluation: { 'other.further_career': 15 } }, // further_career
-          { answer: 'Further education', name: 'furtherEducation' },
+          // { answer: 'Further education', name: 'furtherEducation' },
           { answer: 'Fix my finances', name: 'fixFinances', evaluation: { 'other.financial_instability': 15 } }, //fix_finances
           {
             answer: 'Move out of parents\' house',
@@ -687,20 +687,20 @@ export class QuestionnaireSeed extends Seeder {
         name: 'mateAge',
         type: QuestionsType.MULTIPLE
       },
-      {
-        step: 7,
-        question: 'Is ethnicity important to you? Select all that apply.',
-        answers: [
-          { answer: 'I don\'t mind', name: 'dontMind' },
-          { answer: 'White', name: 'white' },
-          { answer: 'Black', name: 'black' },
-          { answer: 'Asian', name: 'asian' },
-          { answer: 'Mixed', name: 'mixed' },
-          { answer: 'Other', name: 'other' }
-        ],
-        name: 'mateEthnicity',
-        type: QuestionsType.SINGLE
-      },
+      // {
+      //   step: 7,
+      //   question: 'Is ethnicity important to you? Select all that apply.',
+      //   answers: [
+      //     { answer: 'I don\'t mind', name: 'dontMind' },
+      //     { answer: 'White', name: 'white' },
+      //     { answer: 'Black', name: 'black' },
+      //     { answer: 'Asian', name: 'asian' },
+      //     { answer: 'Mixed', name: 'mixed' },
+      //     { answer: 'Other', name: 'other' }
+      //   ],
+      //   name: 'mateEthnicity',
+      //   type: QuestionsType.SINGLE
+      // },
       {
         step: 7,
         question: 'Is body type important to you? Select all that apply.',
@@ -717,7 +717,6 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE,
         midStepTexts: ['Did you know?A study by Dr. Gail Matthews at Dominican University found that people who write down their goals are 42% more likely to achieve them than those who don\'t.']
       },
-
       {
         step: 8,
         question: 'Let\'s see what type of mate are you looking for',
@@ -874,7 +873,7 @@ export class QuestionnaireSeed extends Seeder {
             name: 'vegetarianVegan',
             evaluation: { 'awareness_objectives.wrong_choice_partner': 2, 'awareness_objectives.picky': 2 }
           },
-          { answer: 'Non smoker', name: 'nonSmoker' },
+          // { answer: 'Non smoker', name: 'nonSmoker' },
           {
             answer: 'Non drinker',
             name: 'nonDrinker',
@@ -889,6 +888,21 @@ export class QuestionnaireSeed extends Seeder {
             answer: 'Regular drinker',
             name: 'regularDrinker',
             evaluation: { 'awareness_objectives.wrong_choice_partner': 5, 'awareness_objectives.picky': 4 }
+          },
+          {
+            answer: 'Bald',
+            name: 'bald',
+            evaluation: { 'awareness_objectives.wrong_choice_partner': 5, 'awareness_objectives.picky': 4 }
+          },
+          {
+            answer: 'Not Bald',
+            name: 'notBald',
+            evaluation: { 'awareness_objectives.wrong_choice_partner': 3, 'awareness_objectives.picky': 2 }
+          },
+          {
+            answer: 'Facial hair',
+            name: 'facialHair',
+            evaluation: { 'awareness_objectives.wrong_choice_partner': 3 }
           },
           {
             answer: 'Body piercings',
@@ -915,22 +929,7 @@ export class QuestionnaireSeed extends Seeder {
             evaluation: { 'awareness_objectives.wrong_choice_partner': 2, 'awareness_objectives.picky': 2 }
           },
           { answer: 'Want children', name: 'wantChildren' },
-          {
-            answer: 'Bald',
-            name: 'bald',
-            evaluation: { 'awareness_objectives.wrong_choice_partner': 5, 'awareness_objectives.picky': 4 }
-          },
-          {
-            answer: 'Not Bald',
-            name: 'notBald',
-            evaluation: { 'awareness_objectives.wrong_choice_partner': 3, 'awareness_objectives.picky': 2 }
-          },
-          {
-            answer: 'Facial hair',
-            name: 'facialHair',
-            evaluation: { 'awareness_objectives.wrong_choice_partner': 3 }
-          },
-          { answer: 'Hair color', name: 'hairColor', evaluation: { 'awareness_objectives.wrong_choice_partner': 3 } }
+          // { answer: 'Hair color', name: 'hairColor', evaluation: { 'awareness_objectives.wrong_choice_partner': 3 } }
         ],
         name: 'mateType',
         type: QuestionsType.MULTIPLE
@@ -984,7 +983,8 @@ export class QuestionnaireSeed extends Seeder {
       question: "Do you accept your sexual orientation as a member of the LGBTQ+ community?",
         answers: [
           { answer: 'Yes', name: 'yes' },
-          { answer: 'No', name: 'no' }
+          { answer: 'No', name: 'no' },
+          {answer: "In the process", name: "inProcess"}
         ],
         name: 'lgbtqSelfAcceptance',
         type: QuestionsType.SINGLE
