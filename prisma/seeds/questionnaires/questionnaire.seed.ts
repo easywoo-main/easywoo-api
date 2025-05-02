@@ -142,7 +142,7 @@ export class QuestionnaireSeed extends Seeder {
       //   type: QuestionsType.SLIDER,
       // },
       {
-        step: 3,
+        step: 2,
         question: 'How active are you on Social Media? Select only one',
         answers: [
           {
@@ -189,7 +189,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SLIDER
       },
       {
-        step: 4,
+        step: 3,
         question: 'Where do you mostly socialize? Select all that apply',
         answers: [
           { answer: 'At a restaurant', name: 'restaurant' },
@@ -224,7 +224,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE
       },
       {
-        step: 4,
+        step: 3,
         question: 'What kind of relationship are you looking for? Select all that apply.',
         answers: [
           { answer: 'Casual no expectation', name: 'casual', evaluation: { 'other.just_date': 5 } },
@@ -242,7 +242,7 @@ export class QuestionnaireSeed extends Seeder {
           'Turns out, your screen time might actually be helping!People who dive into online support groups or communities often feel less stressed and anxious. The best part? The anonymity and 24/7 access make it super easy to reach out when you need a boost.']
       },
       {
-        step: 5,
+        step: 4,
         question: 'Let\'s see what type of person you are. Select all that apply.',
         answers: [
           {
@@ -370,7 +370,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.MULTIPLE
       },
       {
-        step: 6,
+        step: 5,
         question: 'What hurdles are you facing right now? Select all that apply.',
         answers: [
           {
