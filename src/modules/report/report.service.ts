@@ -10,7 +10,6 @@ import { CarePlanService } from './modules/care-plan/care-plan.service';
 import { ReportSectionDto } from './dto/reportSection.dto';
 import { PdfService } from './modules/pdf/pdf.service';
 import { QuestionWithUserAnswerDto } from '../question/dtos/QuestionWithUserAnswerDto';
-import { PdfLocationDto } from './modules/pdf/dto/pdfLocation.dto';
 import {EasywooApiService} from './modules/easywoo-api/easywoo-api.service'
 
 @Injectable()

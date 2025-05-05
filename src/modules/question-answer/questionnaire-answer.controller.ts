@@ -24,27 +24,34 @@ export class QuestionnaireAnswerController {
   constructor(private readonly questionnaireAnswerService: QuestionnaireAnswerService) {
   }
 
+
   @Get()
-  // @UseGuards(AuthGuard)
-  @ApiOperation({ summary: 'Create a new questionnaire answer' })
+  @ApiOperation({ summary: 'Create a new questionnaire answer and generate a report' })
   @ApiResponse({
     status: 201,
-    type: ReportDto,
-    description: 'The answer has been successfully created.'
+    description: 'The answer has been successfully created. Redirecting...',
+    content: {
+      'text/html': {
+        schema: {
+          type: 'string',
+          example: '<script type="text/javascript"> window.location = "https://easywoo.com/en/thank-you/"</script>',
+        },
+      },
+    },
   })
   @ApiBadRequestResponse({
     type: ErrorResponse,
-    description: 'Bad request, validation errors or invalid data.'
-  })
-  @ApiBody({
-    description: 'The questionnaire answer to create',
-    type: [QuestionnaireAnswerCreateDto]
+    description: 'Bad request, validation errors or invalid data.',
   })
   @ApiUnauthorizedResponse({
     type: ErrorResponse,
-    description: 'Unauthorized, invalid token or missing token.'
+    description: 'Unauthorized, invalid token or missing token.',
+  })
+  @ApiBody({
+    description: 'The questionnaire answer to create',
+    type: [QuestionnaireAnswerCreateDto],
   })
   public async createBulkQuestionnaireAnswerAndGenerateReport(@Body() questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto[]) {
-    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswerAndGenerateReport([]);
+    return await this.questionnaireAnswerService.createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDto);
   }
 }
