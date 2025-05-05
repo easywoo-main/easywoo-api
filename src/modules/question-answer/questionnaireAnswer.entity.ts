@@ -12,6 +12,9 @@ export class AnswerEntity implements Answer {
   @ApiProperty({ description: 'Answer text' })
   answer: string;
 
+  @ApiProperty({ description: 'easywoo name' })
+  easywooName: string
+
   @ApiProperty({ description: 'ID of the related question', format: 'uuid' })
   questionId: string;
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { QuestionnaireDto } from '../question/dtos/questionnaire.dto';
 import { ReportDto } from './dto/report.dto';
-import { SentenceType } from '@prisma/client';
+import { QuestionsType, SentenceType } from '@prisma/client';
 import { SentenceService } from './modules/sentence/sentence.service';
 import { Condition } from './modules/evaluator/condition.dto';
 import { EvaluatorService } from './modules/evaluator/evaluator.service';
@@ -11,6 +11,7 @@ import { ReportSectionDto } from './dto/reportSection.dto';
 import { PdfService } from './modules/pdf/pdf.service';
 import { QuestionWithUserAnswerDto } from '../question/dtos/QuestionWithUserAnswerDto';
 import { PdfLocationDto } from './modules/pdf/dto/pdfLocation.dto';
+import {EasywooApiService} from './modules/easywoo-api/easywoo-api.service'
 
 @Injectable()
 export class ReportService {
@@ -19,6 +20,7 @@ export class ReportService {
     private readonly evaluatorService: EvaluatorService,
     private readonly pdfService: PdfService,
     private readonly carePlanService: CarePlanService,
+    private readonly easywooApiService: EasywooApiService
   ) {}
   public async generateReport(questions: QuestionWithUserAnswerDto[]): Promise<ReportDto> {
     const questionnaire: QuestionnaireDto = new QuestionnaireDto();
@@ -77,5 +79,23 @@ export class ReportService {
       }
     }
     return {sentences: results, count};
+  }
+
+  public async sendQuestionnaireToEasywooApi(questions: QuestionWithUserAnswerDto[]){
+    let questionnaire;
+
+    for (const question of questions) {
+      for (const answer of question.answers) {
+        if (answer.isAnswered) {
+          if(question.type === QuestionsType.MULTIPLE) {
+            (questionnaire[question.easywooName] ??= []).push(answer.easywooName);
+          } else {
+            questionnaire[question.easywooName] = answer.easywooName;
+          }
+        }
+      }
+    }
+
+    return await this.easywooApiService.generateReport(questionnaire);
   }
 }

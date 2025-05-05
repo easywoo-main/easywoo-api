@@ -21,7 +21,7 @@ export class QuestionnaireAnswerService {
   ) {
   }
 
-  public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, userId?: string): Promise<QuestionWithUserAnswerDto> {
+  public async createQuestionnaireAnswer(questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto, userId?: string) {
     const question = await this.questionnaireService.getOneQuestion(questionnaireAnswerCreateDto.questionId);
 
     if ([QuestionsType.SINGLE, QuestionsType.SLIDER].includes(question.type as any) && questionnaireAnswerCreateDto.answerIds.length > 1) {
@@ -57,13 +57,13 @@ export class QuestionnaireAnswerService {
     return {...await this.questionnaireService.getOneQuestion(questionnaireAnswerCreateDto.questionId), answers: [...notSelectedAnswer, ...selectedAnswer]};
   }
 
-  public async createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDtos: QuestionnaireAnswerCreateDto[]): Promise<ReportDto>{
+  public async createBulkQuestionnaireAnswerAndGenerateReport(questionnaireAnswerCreateDtos: QuestionnaireAnswerCreateDto[]){
      const questionnaire =  await Promise.all(
       questionnaireAnswerCreateDtos.map(async (questionnaireAnswerCreateDto: QuestionnaireAnswerCreateDto): Promise<QuestionWithUserAnswerDto> =>
         await this.createQuestionnaireAnswer(questionnaireAnswerCreateDto)
       )
     );
 
-     return this.reportService.generateReport(questionnaire);
+     return this.reportService.sendQuestionnaireToEasywooApi(questionnaire);
   }
 }

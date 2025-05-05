@@ -7,7 +7,7 @@ export abstract class Seeder {
 
   async run(prisma: PrismaClient): Promise<void> {
     await this.seed(prisma)
-      .catch(this.logger.error)
+      .catch((e)=>console.log(e))
       .then(() => this.logger.log(`Seeding of ${this.constructor.name} completed`));
   }
 }

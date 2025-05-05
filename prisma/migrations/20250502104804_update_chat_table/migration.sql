@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Chat" ALTER COLUMN "freeSteps" DROP DEFAULT,
+ALTER COLUMN "price" DROP DEFAULT;

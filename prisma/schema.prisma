@@ -109,6 +109,7 @@ model Question {
   name        String
   type        QuestionsType
   midStepText String?
+  easywooName String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -146,9 +147,11 @@ enum SentenceType {
 }
 
 model Answer {
-  id         String @id @default(uuid())
-  answer     String
-  name       String
+  id          String @id @default(uuid())
+  answer      String
+  name        String
+  easywooName String
+
   questionId String
 
   evaluation Json?
@@ -264,9 +267,10 @@ model MessageChoice {
 }
 
 model Chat {
-  id   String @id @default(uuid())
-  name String
-
+  id             String  @id @default(uuid())
+  name           String
+  freeSteps      Int
+  price          Float
   startMessageId String? @unique
 
   createdAt DateTime @default(now())

@@ -8,6 +8,13 @@ export class ChatEntity implements Chat {
   @ApiProperty({ description: 'Name of the chat' })
   name: string;
 
+  @ApiProperty({ description: 'The price of the chat' })
+  price: number;
+
+  @ApiProperty({ description: 'The number of free steps available in the chat' })
+  freeSteps: number;
+
+
   @ApiProperty({ description: 'ID of the starting message in the chat', format: 'uuid' })
   startMessageId: string;
 

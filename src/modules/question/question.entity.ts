@@ -20,6 +20,9 @@ export class QuestionEntity implements Question {
   @ApiProperty({description: "The text"})
   midStepText: string
 
+  @ApiProperty({description: "The name of easywooApi"})
+  easywooName: string
+
   @ApiProperty({ description: 'Timestamp when the questionnaire was created' })
   createdAt: Date;
 

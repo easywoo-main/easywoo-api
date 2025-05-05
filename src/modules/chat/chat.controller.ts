@@ -10,7 +10,8 @@ import { ChatEntity } from './chat.entity';
 @ApiTags('Chat')
 @Controller('chat')
 export class ChatController {
-  constructor(private readonly chatService: ChatService) {}
+  constructor(private readonly chatService: ChatService) {
+  }
 
   @Get('/:chatId')
   @ApiOperation({ summary: 'Fetch a chat by ID' })
@@ -42,7 +43,7 @@ export class ChatController {
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
   public async updateChat(
     @Param('chatId') chatId: string,
-    @Body() updateChatDto: Partial<UpdateChatDto>,
+    @Body() updateChatDto: Partial<UpdateChatDto>
   ) {
     return this.chatService.updateChat(chatId, updateChatDto);
   }

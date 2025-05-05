@@ -14,7 +14,6 @@ export class PageRequestArgs {
   })
   sortBy?: Record<string, 'desc' | 'asc'> = { id: 'desc' };
 
-  @ApiProperty({ description: 'Number of items to skip', example: 0, required: false })
   skip?: number = this.pageNumber * this.pageSize - this.pageSize;
 
   @ApiProperty({ description: 'Search query string', example: '', required: false })
