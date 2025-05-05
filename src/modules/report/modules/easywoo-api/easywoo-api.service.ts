@@ -35,6 +35,7 @@ export class EasywooApiService {
 
       return response.data;
     } catch (error) {
+      console.log(error)
       console.error('Error sending report:', error.response?.data || error.message);
       throw new InternalServerErrorException('Error sending report');
     }

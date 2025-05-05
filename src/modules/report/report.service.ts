@@ -81,7 +81,7 @@ export class ReportService {
   }
 
   public async sendQuestionnaireToEasywooApi(questions: QuestionWithUserAnswerDto[]){
-    let questionnaire;
+    let questionnaire = {};
 
     for (const question of questions) {
       for (const answer of question.answers) {
