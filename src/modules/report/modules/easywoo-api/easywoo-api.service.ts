@@ -15,7 +15,7 @@ export class EasywooApiService {
     const formData = new URLSearchParams();
 
 
-    Object.entries(formData).forEach(([key, value]) => {
+    Object.entries(questionnaire).forEach(([key, value]: [string, any]) => {
       if (Array.isArray(value)) {
         value.forEach((value) => formData.append(key, value));
       }else {
