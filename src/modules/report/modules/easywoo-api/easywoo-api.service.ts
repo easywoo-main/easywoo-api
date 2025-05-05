@@ -26,6 +26,7 @@ export class EasywooApiService {
       const response = await firstValueFrom(
         this.httpService.post(url, formData.toString(), {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          withCredentials: true,
         }),
       );
 
@@ -38,11 +39,17 @@ export class EasywooApiService {
         throw new Error('Redirect URL not found in script');
       }
 
+      const cookies = response.headers['set-cookie'];
+
       const redirectResponse = await firstValueFrom(
-        this.httpService.get(redirectUrl),
+        this.httpService.get(redirectUrl, {
+          headers: {
+            Cookie: cookies?.join('; ') || '', // передаємо всі куки
+          },
+        }),
       );
 
-      return  redirectResponse.data
+      return redirectResponse.data;
     } catch (error) {
       console.error('Error sending report:', error.response?.data || error.message);
       throw new InternalServerErrorException('Error sending report');
