@@ -34,7 +34,6 @@ export class QuestionnaireAnswerController {
       'text/html': {
         schema: {
           type: 'string',
-          example: '<script type="text/javascript"> window.location = "https://easywoo.com/en/thank-you/"</script>',
         },
       },
     },

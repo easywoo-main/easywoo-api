@@ -5,37 +5,45 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EasywooApiService {
-  constructor(private readonly httpService: HttpService,
-              private readonly configService: ConfigService
-  ) {
-  }
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {}
 
-  public async generateReport(questionnaire) {
-    const url =  this.configService.get<string>('EASYWOO_API');
+  public async generateReport(questionnaire: Record<string, any>) {
+    const url = this.configService.get<string>('EASYWOO_API');
     const formData = new URLSearchParams();
-
 
     Object.entries(questionnaire).forEach(([key, value]: [string, any]) => {
       if (Array.isArray(value)) {
-        value.forEach((value) => formData.append(key, value));
-      }else {
+        value.forEach((item) => formData.append(key, item));
+      } else {
         formData.append(key, value);
       }
-    })
+    });
 
     try {
       const response = await firstValueFrom(
         this.httpService.post(url, formData.toString(), {
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        })
+        }),
       );
 
-      console.log(response.data)
+      const html = response.data;
 
+      const match = html.match(/window\.location\s*=\s*"([^"]+)"/);
+      const redirectUrl = match?.[1];
 
-      return response.data;
+      if (!redirectUrl) {
+        throw new Error('Redirect URL not found in script');
+      }
+
+      const redirectResponse = await firstValueFrom(
+        this.httpService.get(redirectUrl),
+      );
+
+      return  redirectResponse.data
     } catch (error) {
-      console.log(error)
       console.error('Error sending report:', error.response?.data || error.message);
       throw new InternalServerErrorException('Error sending report');
     }
