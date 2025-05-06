@@ -27,12 +27,14 @@ export class ChatMessageService {
   }
 
   public async updateChatMessageById(chatMessageId: string, chatMessage: Partial<UpdateChatMessageDto>) {
+    await this.findChatMessageById(chatMessageId);
     await this.messageSliderService.bulkUpsertMessageSlider(chatMessageId, chatMessage.sliderProps)
     delete chatMessage.sliderProps;
     return this.chatMessageRepository.updateChatMessage(chatMessageId, chatMessage);
   }
 
   public async deleteChatMessageById(chatMessageId: string) {
+    await this.findChatMessageById(chatMessageId);
     return this.chatMessageRepository.deleteChatMessage(chatMessageId);
   }
 }

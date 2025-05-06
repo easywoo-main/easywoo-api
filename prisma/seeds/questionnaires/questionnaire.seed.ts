@@ -172,7 +172,7 @@ export class QuestionnaireSeed extends Seeder {
         type: QuestionsType.SLIDER
       },
       {
-        step: 3,
+        step: 2,
         question: 'How confident are you in social media? Select only only',
         answers: [
           { answer: 'Not at all', name: 'notAtAll',         easywooName: '1'},

@@ -37,6 +37,7 @@ export class ChatMessageController {
     @Param('id') id: string,
     @Body() updateChatMessageDto: Partial<UpdateChatMessageDto>,
   ) {
+    console.log(id)
     return this.chatMessageService.updateChatMessageById(id, updateChatMessageDto);
   }
 

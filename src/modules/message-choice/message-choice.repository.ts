@@ -6,23 +6,35 @@ import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
 
 @Injectable()
 export class MessageChoiceRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {
+  }
 
-  public async createMessageChoice(data: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
+  public async createMessageChoice({
+                                     prevMessageId,
+                                     ...data
+                                   }: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
     return this.prisma.messageChoice.create({
-      data
+      data: { ...data, prevMessage: { connect: { id: prevMessageId } } }
     });
   }
 
-  public async updateMessageChoice(id: string, data: Partial<UpdateMessageChoiceDto>): Promise<MessageChoiceEntity> {
+  public async updateMessageChoice(id: string, {
+    prevMessageId,
+    nextMessageId,
+    ...data
+  }: Partial<UpdateMessageChoiceDto>): Promise<MessageChoiceEntity> {
     return this.prisma.messageChoice.update({
       where: { id },
-      data
+      data: {
+        ...data,
+        ...(prevMessageId && {prevMessage: { connect: { id: prevMessageId } }}),
+        ...(nextMessageId && {nextMessage: { connect: { id: nextMessageId } }})
+      }
     });
   }
 
   public async deleteMessageChoice(id: string): Promise<MessageChoiceEntity> {
-    return this.prisma.messageChoice.delete({where: { id }})
+    return this.prisma.messageChoice.delete({ where: { id } });
   }
 
   public async findMessageChoiceById(id: string): Promise<MessageChoiceEntity> {

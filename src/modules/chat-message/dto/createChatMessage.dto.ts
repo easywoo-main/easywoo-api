@@ -25,7 +25,7 @@ export class CreateChatMessageDto {
     description: 'Timeout in seconds for the message',
     example: 30
   })
-  timeout: number;
+  timeout?: number;
 
   @ApiProperty({
     description: 'List of slider properties associated with the message',
