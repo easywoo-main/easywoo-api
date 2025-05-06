@@ -25,7 +25,7 @@ export class QuestionnaireAnswerController {
   }
 
 
-  @Post()
+  @Get()
   @ApiOperation({ summary: 'Create a new questionnaire answer and generate a report' })
   @ApiResponse({
     status: 201,
@@ -33,7 +33,8 @@ export class QuestionnaireAnswerController {
     content: {
       'text/html': {
         schema: {
-          type: 'string',
+          type: '<!DOCTYPE html>\n' +
+            '<html lang="en-GB">',
         },
       },
     },
