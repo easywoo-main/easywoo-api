@@ -41,15 +41,18 @@ export class EasywooApiService {
 
       const cookies = response.headers['set-cookie'];
 
-      const redirectResponse = await firstValueFrom(
-        this.httpService.get(redirectUrl, {
-          headers: {
-            Cookie: cookies?.join('; ') || '', // передаємо всі куки
-          },
-        }),
-      );
+      console.log(cookies?.join('; '));
+      return {redirectUrl, cookies: cookies.join('; ')};
 
-      return redirectResponse.data;
+      // const redirectResponse = await firstValueFrom(
+      //   this.httpService.get(redirectUrl, {
+      //     headers: {
+      //       Cookie: cookies?.join('; ') || '',
+      //     },
+      //   }),
+      // );
+      //
+      // return redirectResponse.data;
     } catch (error) {
       console.error('Error sending report:', error.response?.data || error.message);
       throw new InternalServerErrorException('Error sending report');
