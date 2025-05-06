@@ -29,12 +29,12 @@ export class QuestionnaireAnswerController {
   @ApiOperation({ summary: 'Create a new questionnaire answer and generate a report' })
   @ApiResponse({
     status: 201,
-    description: 'The answer has been successfully created. Redirecting...',
+    description: 'The answer has been successfully created.',
     content: {
       'text/html': {
         schema: {
-          type: '<!DOCTYPE html>\n' +
-            '<html lang="en-GB">',
+          type: 'string',
+          example: '<!DOCTYPE html>'
         },
       },
     },
