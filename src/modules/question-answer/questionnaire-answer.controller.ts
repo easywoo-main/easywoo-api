@@ -25,7 +25,7 @@ export class QuestionnaireAnswerController {
   }
 
 
-  @Get()
+  @Post()
   @ApiOperation({ summary: 'Create a new questionnaire answer and generate a report' })
   @ApiResponse({
     status: 201,
