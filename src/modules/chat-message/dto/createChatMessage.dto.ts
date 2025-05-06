@@ -61,5 +61,5 @@ export class CreateChatMessageDto {
     description: 'List of next message choices that can follow this message',
     type: [CreateMessageChoiceDto],
   })
-  nextMessageChoices: CreateMessageChoiceDto[];
+  nextChoices: CreateMessageChoiceDto[];
 }

@@ -16,7 +16,7 @@ export class ChatMessageService {
 
   public async createChatMessage(newChatMessage: CreateChatMessageDto) {
     if (newChatMessage.type === MessageType.CHALLENGE) {
-      newChatMessage.nextMessageChoices = CHALLENGE_MESSAGE_CHOICE
+      newChatMessage.nextChoices = CHALLENGE_MESSAGE_CHOICE
     }
     return await this.chatMessageRepository.createChatMessage(newChatMessage);
   }

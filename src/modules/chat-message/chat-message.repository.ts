@@ -15,13 +15,13 @@ export class ChatMessageRepository {
                                    chatId,
                                    sliderProps,
                                    prevChoiceId,
-                                   nextMessageChoices,
+                                   nextChoices,
                                    ...data
                                  }: CreateChatMessageDto): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.create({
       data: {
         ...data,
-        ...(nextMessageChoices && {nextChoices: {createMany: {data: nextMessageChoices, skipDuplicates: true}}}),
+        ...(nextChoices && {nextChoices: {createMany: {data: nextChoices, skipDuplicates: true}}}),
         ...(sliderProps && { sliderProps: { create: sliderProps } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
@@ -47,16 +47,16 @@ export class ChatMessageRepository {
     chatId,
     sliderProps,
     nextMessageId,
-    nextMessageChoices,
+    nextChoices,
     ...data
   }: Partial<UpdateChatMessageDto>): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.update({
       where: { id },
       data: {
         ...data,
-        ...(nextMessageChoices && {nextChoices: {
+        ...(nextChoices && {nextChoices: {
             disconnect: [],
-            createMany: {data: nextMessageChoices, skipDuplicates: true}
+            createMany: {data: nextChoices, skipDuplicates: true}
         }}),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
