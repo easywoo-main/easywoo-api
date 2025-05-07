@@ -39,6 +39,7 @@ export class ChatMessageRepository {
         nextChoices: true,
         nextMessage: true,
         sliderProps: true,
+        infoPopUp: true
       }
     });
   }
@@ -49,6 +50,7 @@ export class ChatMessageRepository {
       include: {
         nextChoices: true,
         sliderProps: true,
+        infoPopUp: true
       }
     });
   }

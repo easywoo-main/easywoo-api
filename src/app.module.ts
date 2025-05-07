@@ -15,6 +15,7 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { MessageSliderModule } from './modules/message-slider/message-slider.module';
 import { ProgresTrackerChatModule } from './modules/progres-tracker-chat/progres-tracker-chat.module';
+import { InfoPopUpModule } from './modules/info-pop-up/info-pop-up.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ProgresTrackerChatModule } from './modules/progres-tracker-chat/progres
     StorageModule,
     MessageSliderModule,
     ProgresTrackerChatModule,
+    InfoPopUpModule,
   ],
   controllers: [],
   providers: [],

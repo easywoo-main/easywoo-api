@@ -236,7 +236,8 @@ model ChatMessage {
   nextChoices     MessageChoice[]   @relation("MessageToPrev")
   prevChoices     MessageChoice[]   @relation("MessageToNext")
   chat            Chat?
-  StepChatMessage StepChatMessage[]
+  stepChatMessage StepChatMessage[]
+  infoPopUp       InfoPopUp[]
 }
 
 enum SliderPropType {
@@ -286,6 +287,20 @@ model Chat {
 
   subscriptions Subscription[]
   users         User[]
+}
+
+model InfoPopUp {
+  id String @id @default(uuid())
+
+  name String
+  file String
+
+  chatMessageId String
+
+  chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model ResultSliderProp {

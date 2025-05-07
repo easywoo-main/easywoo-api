@@ -63,7 +63,7 @@ export class ChatRepository {
     return this.prisma.chat.update({
         where: { id: chatId },
         data: { users: { connect: { id: userId } } },
-        include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true}}}
+        include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true, infoPopUp: true}}}
       }
     );
   }
