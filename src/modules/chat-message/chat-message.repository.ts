@@ -4,6 +4,7 @@ import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
+import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -41,6 +42,17 @@ export class ChatMessageRepository {
       }
     });
   }
+
+  public async findChatMessagesWithPropsById(id: string): Promise<ChatMessageWithPropsDto> {
+    return this.prisma.chatMessage.findUnique({
+      where: { id },
+      include: {
+        nextChoices: true,
+        sliderProps: true,
+      }
+    });
+  }
+
 
   public async updateChatMessage(id: string, {
     prevMessageId,

@@ -22,19 +22,24 @@ export class ChatMessageService {
   }
 
   @CheckExists("Chat Message Not Found")
-  public async findChatMessageById(chatMessageId: string) {
+  public async findChatMessageWithRelationById(chatMessageId: string) {
     return this.chatMessageRepository.findChatMessageById(chatMessageId);
   }
 
+  @CheckExists("Chat Message Not Found")
+  public async findChatMessagesWithPropsById(chatMessageId: string) {
+    return this.chatMessageRepository.findChatMessagesWithPropsById(chatMessageId);
+  }
+
   public async updateChatMessageById(chatMessageId: string, chatMessage: Partial<UpdateChatMessageDto>) {
-    await this.findChatMessageById(chatMessageId);
+    await this.findChatMessageWithRelationById(chatMessageId);
     await this.messageSliderService.bulkUpsertMessageSlider(chatMessageId, chatMessage.sliderProps)
     delete chatMessage.sliderProps;
     return this.chatMessageRepository.updateChatMessage(chatMessageId, chatMessage);
   }
 
   public async deleteChatMessageById(chatMessageId: string) {
-    await this.findChatMessageById(chatMessageId);
+    await this.findChatMessageWithRelationById(chatMessageId);
     return this.chatMessageRepository.deleteChatMessage(chatMessageId);
   }
 }

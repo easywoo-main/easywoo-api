@@ -16,7 +16,7 @@ export class ResultMessageChoiceService {
   public async createResultMessageChoice(data: CreateResultMessageChoiceDto, userId: string) {
     const resultMessageChoice = await this.resultMessageChoiceRepository.createResultMessageChoice({ userId, ...data });
     const messageChoice =  await this.messageChoiceService.findMessageChoiceById(resultMessageChoice.messageChoiceId);
-    return await this.chatMessageService.findChatMessageById(messageChoice.nextMessageId);
+    return await this.chatMessageService.findChatMessagesWithPropsById(messageChoice.nextMessageId);
   }
 
   public async getResultMessageChoicesByUserId(userId: string) {

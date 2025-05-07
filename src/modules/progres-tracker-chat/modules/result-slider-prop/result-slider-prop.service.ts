@@ -15,8 +15,8 @@ export class ResultSliderPropService {
 
   public async createManyResultSliderProp(data: CreateResultSliderPropDto[], userId: string, chatMessageId: string) {
     await this.resultSliderPropRepository.createManyResultSliderProp(data.map((item) => ({userId, ...item})));
-    const currentStep =  await this.chatMessageService.findChatMessageById(chatMessageId);
-    return await this.chatMessageService.findChatMessageById(currentStep.nextMessageId);  }
+    const currentStep =  await this.chatMessageService.findChatMessageWithRelationById(chatMessageId);
+    return await this.chatMessageService.findChatMessagesWithPropsById(currentStep.nextMessageId);  }
 
   public async getResultSliderPropsByUserId(userId: string) {
     return this.resultSliderPropRepository.getResultSliderPropsByUserId(userId);

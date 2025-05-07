@@ -12,8 +12,8 @@ export class StepChatMessageService {
 
   public async createStepChatMessage(data: CreateStepChatMessageDto, userId: string) {
     const stepChatMessage = await this.stepChatMessageRepository.createStepChatMessage({ userId, ...data });
-    const currentStep =  await this.chatMessageService.findChatMessageById(stepChatMessage.chatMessageId);
-    return await this.chatMessageService.findChatMessageById(currentStep.nextMessageId);
+    const currentStep =  await this.chatMessageService.findChatMessageWithRelationById(stepChatMessage.chatMessageId);
+    return await this.chatMessageService.findChatMessagesWithPropsById(currentStep.nextMessageId);
   }
 
   public async getStepChatMessagesByUserId(userId: string) {

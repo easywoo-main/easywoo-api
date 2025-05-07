@@ -8,6 +8,7 @@ import { CreateStepChatMessageDto } from './dtos/createStepChatMessage.dto';
 import { StepChatMessageEntity } from './step-chat-message.entity';
 import { ErrorResponse } from '../../../../errorHandler/errorResponse.dto';
 import { ChatMessageWithRelationsDto } from 'src/modules/chat-message/dto/messageWithRelations.dto';
+import { ChatMessageWithPropsDto } from 'src/modules/chat-message/dto/messageWithProps.dto';
 
 @Controller('step-chat-message')
 export class StepChatMessageController {
@@ -17,7 +18,7 @@ export class StepChatMessageController {
     @UseGuards(AuthGuard)
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Create a step chat message' })
-    @ApiResponse({ status: 201, description: 'The step chat message has been successfully created.', type: ChatMessageWithRelationsDto })
+    @ApiResponse({ status: 201, description: 'The step chat message has been successfully created.', type: ChatMessageWithPropsDto })
     @ApiResponse({ status: 400, description: 'Invalid input.', type: ErrorResponse})
     @ApiResponse({ status: 401, description: 'Unauthorized access.', type: ErrorResponse })
     public async createStepChatMessage(@Body() data: CreateStepChatMessageDto, @UserDetails() user: UserPayload) {

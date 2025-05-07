@@ -8,6 +8,7 @@ import { CreateResultSliderPropDto } from './dtos/createResultSliderProp.dto';
 import { ErrorResponse } from '../../../../errorHandler/errorResponse.dto';
 import { ResultSliderPropEntity } from './result-slider-prop.entity';
 import { ChatMessageWithRelationsDto } from 'src/modules/chat-message/dto/messageWithRelations.dto';
+import { ChatMessageWithPropsDto } from 'src/modules/chat-message/dto/messageWithProps.dto';
 
 @ApiTags('Result Slider Prop')
 @Controller('result-slider-prop')
@@ -31,7 +32,7 @@ export class ResultSliderPropController {
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create multiple result slider props' })
   @ApiBody({ type: [CreateResultSliderPropDto] })
-  @ApiResponse({ status: 201, description: 'The result slider props have been successfully created.', type: ChatMessageWithRelationsDto })
+  @ApiResponse({ status: 201, description: 'The result slider props have been successfully created.', type: ChatMessageWithPropsDto })
   @ApiResponse({ status: 400, description: 'Invalid input.', type: ErrorResponse })
   @ApiResponse({ status: 401, description: 'Unauthorized access.', type: ErrorResponse })
   public async createManyResultSliderProp(@Body() data: CreateResultSliderPropDto[], @Param("chatMessageId") chatMessageId: string, @UserDetails() user: UserPayload) {

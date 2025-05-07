@@ -25,7 +25,7 @@ export class ChatMessageController {
   @ApiResponse({ status: 200, description: 'Chat message retrieved successfully', type: ChatMessageWithRelationsDto })
   @ApiResponse({ status: 404, description: 'Chat message not found', type: ErrorResponse })
   public async findChatMessageById(@Param('id') id: string) {
-    return this.chatMessageService.findChatMessageById(id);
+    return this.chatMessageService.findChatMessageWithRelationById(id);
   }
 
   @Patch('/:id')
