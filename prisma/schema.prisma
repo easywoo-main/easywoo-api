@@ -293,7 +293,7 @@ model InfoPopUp {
   id String @id @default(uuid())
 
   name String
-  file String
+  file String?
 
   chatMessageId String
 

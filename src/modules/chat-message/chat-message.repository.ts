@@ -32,14 +32,15 @@ export class ChatMessageRepository {
     });
   }
 
-  public async findChatMessageById(id: string): Promise<ChatMessageWithRelationsDto> {
+  public async findChatMessageById(id: string, ): Promise<ChatMessageWithRelationsDto> {
     return this.prisma.chatMessage.findUnique({
       where: { id },
       include: {
         nextChoices: true,
         nextMessage: true,
         sliderProps: true,
-        infoPopUp: true
+        infoPopUp: true,
+        // user: {where: userId}
       }
     });
   }

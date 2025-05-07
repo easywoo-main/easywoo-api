@@ -236,7 +236,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'College', name: 'college', easywooName: "college" },
         ],
         name: 'socialize', // social_at
-        easywooName: "social_at",
+        easywooName: "social_at[]",
         type: QuestionsType.MULTIPLE
       },
       {
@@ -252,7 +252,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'In a relationship but want to meet other people', name: 'inARelationship', easywooName: "seeing_other_people" }
         ],
         name: 'mateRelationship', // relationship
-        easywooName: "relationship",
+        easywooName: "relationship[]",
         type: QuestionsType.MULTIPLE,
         midStepTexts: ['This might matter to you...63.8% of the world\'s population uses social media. Choosing to avoid social media might lead to feelings of isolation, especially if friends and family connect online. It\'s natural to feel left out of the loop—your connections matter!',
           'Confident social media use is wonderful!Just remember, moderation is key to staying balanced and healthy.Average daily social media use: 2 hours 21 minutes.- This is considered excessive for mental health.- Risks include feelings of inadequacy, anxiety, stress, social isolation and FOMO',
@@ -398,7 +398,7 @@ export class QuestionnaireSeed extends Seeder {
           // { answer: 'Have tattoos', name: 'haveTattoos' }
         ],
         name: 'personType', //persona
-        easywooName: "persona",
+        easywooName: "persona[]",
         type: QuestionsType.MULTIPLE
       },
       {
@@ -608,7 +608,7 @@ export class QuestionnaireSeed extends Seeder {
           } //far_from_home
         ],
         name: 'biggestChallenges', // pain_points
-        easywooName: "pain_points",
+        easywooName: "pain_points[]",
         type: QuestionsType.MULTIPLE,
         midStepTexts: ['This could uplift you! You embody an adventurous spirit paired with ambition, seeking new experiences while striving for your goals. It\'s an inspiring journey!',
           ' This might resonate. You are a compassionate, trustworthy person whose sensitivity allows you to connect deeply with others and make a meaningful impact.',
@@ -687,7 +687,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'Get out of the friend zone', name: 'getOutFriendZone', easywooName: "leave_friendzone" },
         ],
         name: 'goals', //motivation_goals
-        easywooName: "motivation_goals",
+        easywooName: "motivation_goals[]",
         type: QuestionsType.MULTIPLE
       },
       {
@@ -751,7 +751,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: '60+', name: '60+', easywooName: "60+" }
         ],
         name: 'mateAge',
-        easywooName: "mate_age",
+        easywooName: "mate_age[]",
         type: QuestionsType.MULTIPLE
       },
       // {
@@ -782,7 +782,7 @@ export class QuestionnaireSeed extends Seeder {
         ],
         name: 'mateBodyType', //mate_build
         type: QuestionsType.MULTIPLE,
-        easywooName: "mate_build",
+        easywooName: "mate_build[]",
         midStepTexts: ['Did you know?A study by Dr. Gail Matthews at Dominican University found that people who write down their goals are 42% more likely to achieve them than those who don\'t.']
       },
       {
@@ -1033,7 +1033,7 @@ export class QuestionnaireSeed extends Seeder {
           // { answer: 'Hair color', name: 'hairColor', evaluation: { 'awareness_objectives.wrong_choice_partner': 3 } }
         ],
         name: 'mateType',
-        easywooName: "mate_persona",
+        easywooName: "mate_persona[]",
         type: QuestionsType.MULTIPLE
       },
       {
@@ -1055,7 +1055,7 @@ export class QuestionnaireSeed extends Seeder {
           { answer: 'Pisces', name: 'pisces', easywooName: "Pisces" },
         ],
         name: 'starSign',
-        easywooName: "mate_sign",
+        easywooName: "mate_sign[]",
         type: QuestionsType.MULTIPLE
       },
       {

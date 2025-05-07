@@ -1,9 +1,7 @@
 
-
-
 export class CreateUpdateInfoPopupDto {
   name: string
-  file: string;
+  file?: string;
   chatMessageId: string
 }
 

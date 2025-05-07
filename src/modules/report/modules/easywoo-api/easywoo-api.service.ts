@@ -21,6 +21,7 @@ export class EasywooApiService {
         formData.append(key, value);
       }
     });
+    console.log(formData);
 
     try {
       const response = await firstValueFrom(
