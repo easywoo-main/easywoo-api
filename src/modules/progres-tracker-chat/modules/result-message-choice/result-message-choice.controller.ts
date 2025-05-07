@@ -7,6 +7,7 @@ import { UserPayload } from 'src/interfaces';
 import { CreateResultMessageChoiceDto } from './dtos/createResultMessageChoice.dto';
 import { ErrorResponse } from '../../../../errorHandler/errorResponse.dto';
 import { ResultMessageChoiceEntity } from './result-message-choice.entity';
+import { ChatMessageWithRelationsDto } from 'src/modules/chat-message/dto/messageWithRelations.dto';
 
 @Controller('result-message-choice')
 export class ResultMessageChoiceController {
@@ -17,7 +18,7 @@ export class ResultMessageChoiceController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a result message choice' })
-  @ApiResponse({ status: 201, description: 'The result message choice has been successfully created.', type: ResultMessageChoiceEntity })
+  @ApiResponse({ status: 201, description: 'The result message choice has been successfully created.', type: ChatMessageWithRelationsDto })
   @ApiResponse({ status: 400, description: 'Invalid input.', type: ErrorResponse })
   public async createResultMessageChoice(
     @Body() data: CreateResultMessageChoiceDto,

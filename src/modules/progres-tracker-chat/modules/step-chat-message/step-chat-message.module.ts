@@ -4,10 +4,11 @@ import { StepChatMessageService } from './step-chat-message.service';
 import { StepChatMessageRepository } from './step-chat-message.repository';
 import { TokenModule } from 'src/modules/token/token.module';
 import { UserModule } from 'src/modules/user/user.module';
+import { ChatMessageModule } from 'src/modules/chat-message/chat-message.module';
 
 @Module({
   controllers: [StepChatMessageController],
   providers: [StepChatMessageService, StepChatMessageRepository],
-  imports: [TokenModule, UserModule],
+  imports: [TokenModule, UserModule, ChatMessageModule],
 })
 export class StepChatMessageModule {}

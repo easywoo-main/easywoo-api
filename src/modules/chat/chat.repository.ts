@@ -5,6 +5,7 @@ import { CreateChatDto } from './dto/createChat.dto';
 import { Prisma } from '.prisma/client';
 import { ChatEntity } from './chat.entity';
 import { UpdateChatDto } from './dto/updateChatDto';
+import { ChatWithMessageDto } from './dto/chatWithMessage.dto';
 
 @Injectable()
 export class ChatRepository {
@@ -58,10 +59,11 @@ export class ChatRepository {
     });
   }
 
-  public async createRelationWithUser(chatId: string, userId: string): Promise<ChatEntity> {
+  public async createRelationWithUser(chatId: string, userId: string): Promise<ChatWithMessageDto> {
     return this.prisma.chat.update({
         where: { id: chatId },
-        data: { users: { connect: { id: userId } } }
+        data: { users: { connect: { id: userId } } },
+        include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true}}}
       }
     );
   }

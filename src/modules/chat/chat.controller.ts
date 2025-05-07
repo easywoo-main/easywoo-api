@@ -9,6 +9,7 @@ import { ChatEntity } from './chat.entity';
 import { AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
+import { ChatWithMessageDto } from './dto/chatWithMessage.dto';
 
 @ApiTags('Chat')
 @Controller('chat')
@@ -41,7 +42,11 @@ export class ChatController {
 
   @Post("/:chatId")
   @UseGuards(AuthGuard)
-  public async startChat(@Param('chatId') chatId: string, @UserDetails() user: UserPayload,) {
+  @ApiOperation({ summary: 'Start a chat for a user' })
+  @ApiResponse({ status: 200, description: 'Chat started successfully', type: ChatWithMessageDto })
+  @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
+  @ApiResponse({ status: 401, description: 'Unauthorized access', type: ErrorResponse })
+  public async startChat(@Param('chatId') chatId: string, @UserDetails() user: UserPayload) {
     return this.chatService.startChat(chatId, user.id);
   }
 
