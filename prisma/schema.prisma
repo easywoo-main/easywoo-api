@@ -24,11 +24,14 @@ model User {
   googleUserId String? @unique
   appleUserId  String? @unique
 
-  googleUser   GoogleUser?    @relation(fields: [googleUserId], references: [id])
-  appleUser    AppleUser?     @relation(fields: [appleUserId], references: [id])
-  chats        Chat[]
-  Subscription Subscription[]
-  UserAnswer   UserAnswer[]
+  googleUser          GoogleUser?           @relation(fields: [googleUserId], references: [id])
+  appleUser           AppleUser?            @relation(fields: [appleUserId], references: [id])
+  chats               Chat[]
+  Subscription        Subscription[]
+  UserAnswer          UserAnswer[]
+  ResultSliderProp    ResultSliderProp[]
+  ResultMessageChoice ResultMessageChoice[]
+  StepChatMessage     StepChatMessage[]
 }
 
 model GoogleUser {
@@ -230,9 +233,10 @@ model ChatMessage {
   nextMessage  ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id])
   prevMessages ChatMessage[] @relation("MessageToNext")
 
-  nextChoices MessageChoice[] @relation("MessageToPrev")
-  prevChoices MessageChoice[] @relation("MessageToNext")
-  chat        Chat?
+  nextChoices     MessageChoice[]   @relation("MessageToPrev")
+  prevChoices     MessageChoice[]   @relation("MessageToNext")
+  chat            Chat?
+  StepChatMessage StepChatMessage[]
 }
 
 enum SliderPropType {
@@ -247,8 +251,9 @@ model SliderProp {
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
 
-  chatMessage   ChatMessage @relation(fields: [chatMessageId], references: [id])
-  chatMessageId String
+  chatMessage      ChatMessage        @relation(fields: [chatMessageId], references: [id])
+  chatMessageId    String
+  ResultSliderProp ResultSliderProp[]
 }
 
 model MessageChoice {
@@ -262,8 +267,9 @@ model MessageChoice {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  nextMessage ChatMessage? @relation("MessageToNext", fields: [nextMessageId], references: [id])
-  prevMessage ChatMessage  @relation("MessageToPrev", fields: [prevMessageId], references: [id])
+  nextMessage         ChatMessage?          @relation("MessageToNext", fields: [nextMessageId], references: [id])
+  prevMessage         ChatMessage           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
+  resultMessageChoice ResultMessageChoice[]
 }
 
 model Chat {
@@ -280,4 +286,42 @@ model Chat {
 
   subscriptions Subscription[]
   users         User[]
+}
+
+model ResultSliderProp {
+  id String @id @default(uuid())
+
+  result       String
+  userId       String
+  sliderPropId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sliderProp SliderProp @relation(fields: [sliderPropId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+}
+
+model ResultMessageChoice {
+  id              String @id @default(uuid())
+  userId          String
+  messageChoiceId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messageChoice MessageChoice @relation(fields: [messageChoiceId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+}
+
+model StepChatMessage {
+  id            String @id @default(uuid())
+  userId        String
+  chatMessageId String
+
+  user        User        @relation(fields: [userId], references: [id])
+  chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

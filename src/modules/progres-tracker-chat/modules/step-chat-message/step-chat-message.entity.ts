@@ -1,10 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../database/prisma.service';
-import { CreateStepChatMessageDto } from './dtos/createStepChatMessage.dto';
+import { StepChatMessage } from "@prisma/client";
+import { ApiProperty } from "@nestjs/swagger";
 
-@Injectable()
-export class StepChatMessageRepository {
-  constructor(private readonly prisma: PrismaService) {}
+export class StepChatMessageEntity implements StepChatMessage {
+    @ApiProperty({ description: "Unique identifier for the StepChatMessage", format: 'uuid' })
+    id: string;
 
-  public async createStepChatMessageRepository(data: CreateStepChatMessageDto): Promise<ResultSliderPropEntity> {}
+    @ApiProperty({ description: "Identifier of the user associated with the StepChatMessage",format: 'uuid' })
+    userId: string;
+
+    @ApiProperty({ description: "Identifier of the chat message associated with the StepChatMessage",format: 'uuid' })
+    chatMessageId: string;
+
+    @ApiProperty({ description: "Timestamp when the StepChatMessage was created" })
+    createdAt: Date;
+
+    @ApiProperty({ description: "Timestamp when the StepChatMessage was last updated" })
+    updatedAt: Date;
 }

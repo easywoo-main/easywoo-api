@@ -5,7 +5,6 @@ import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
-import { ChatFilesInterceptor } from '../../interceptor/chatFilesInterceptor';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 
 @Controller('chat-message')
@@ -19,6 +18,7 @@ export class ChatMessageController {
   public async createChatMessage(@Body() createChatMessageDto: CreateChatMessageDto) {
     return this.chatMessageService.createChatMessage(createChatMessageDto);
   }
+
 
   @Get('/:id')
   @ApiOperation({ summary: 'Fetch a chat message by ID' })

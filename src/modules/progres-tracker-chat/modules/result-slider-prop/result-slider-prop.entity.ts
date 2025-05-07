@@ -1,26 +1,22 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../database/prisma.service';
-import { CreateResultSliderPropDto } from './dto/createResultSliderProp.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { ResultSliderProp } from '@prisma/client';
 
-@Injectable()
-export class ResultSliderPropRepository {
+export class ResultSliderPropEntity implements ResultSliderProp {
+    @ApiProperty({ description: 'The unique identifier of the result slider prop', format: 'uuid' })
+    id: string;
 
-  constructor(private readonly prisma: PrismaService) {
-  }
+    @ApiProperty({ description: 'The result associated with the slider prop', example: "10" })
+    result: string;
 
-  public async createResultSliderProp(data: CreateResultSliderPropDto) {
-    return this.prisma.resultSliderProp.create({
-      data
-    });
-  }
+    @ApiProperty({ description: 'The unique identifier of the user', format: 'uuid' })
+    userId: string;
 
-  public async createManyResultSliderProp(data: CreateResultSliderPropDto) {
-    return this.prisma.resultSliderProp.createManyAndReturn({
-      data
-    });
-  }
+    @ApiProperty({ description: 'The unique identifier of the slider prop',  format: 'uuid' })
+    sliderPropId: string;
 
-  public async getResultSliderPropsByUserId(userId: string){
-    return this.prisma.resultSliderProp.findMany({where: {userId}});  }
+    @ApiProperty({ description: 'The date when the record was created' })
+    createdAt: Date;
 
+    @ApiProperty({ description: 'The date when the record was last updated' })
+    updatedAt: Date;
 }

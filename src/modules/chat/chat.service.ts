@@ -31,4 +31,9 @@ export class ChatService {
     await this.findChatById(chatId);
     return this.chatRepository.deleteChat(chatId);
   }
+
+  public async startChat(chatId: string, userId: string) {
+    await this.findChatById(chatId);
+    return this.chatRepository.createRelationWithUser(chatId, userId);
+  }
 }
