@@ -4,10 +4,11 @@ import { ChatService } from './chat.service';
 import { ChatRepository } from './chat.repository';
 import { TokenModule } from '../token/token.module';
 import { UserModule } from '../user/user.module';
+import { ChatMessageModule } from '../chat-message/chat-message.module';
 
 @Module({
   controllers: [ChatController],
   providers: [ChatService, ChatRepository],
-  imports: [TokenModule, UserModule],
+  imports: [TokenModule, UserModule, ChatMessageModule],
 })
 export class ChatModule {}

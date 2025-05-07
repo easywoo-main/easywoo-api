@@ -4,10 +4,14 @@ import { PageRequest } from '../../utils/pageable.utils';
 import { CheckExists } from '../../decorators';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
+import { ChatMessageService } from '../chat-message/chat-message.service';
 
 @Injectable()
 export class ChatService {
-  constructor(private readonly chatRepository: ChatRepository) {}
+  constructor(
+    private readonly chatRepository: ChatRepository,
+    private readonly chatMessageService: ChatMessageService,
+  ) {}
 
   public async findAllChat(pageRequest: PageRequest) {
     return this.chatRepository.findAllChats(pageRequest);
@@ -33,7 +37,8 @@ export class ChatService {
   }
 
   public async startChat(chatId: string, userId: string) {
-    await this.findChatById(chatId);
-    return this.chatRepository.createRelationWithUser(chatId, userId);
+    const chat = await this.findChatById(chatId);
+    await this.chatRepository.createRelationWithUser(chatId, userId);
+    return this.chatMessageService.findChatMessagesWithPropsById(chat.startMessageId);
   }
 }
