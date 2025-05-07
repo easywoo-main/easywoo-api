@@ -1,10 +1,12 @@
 import { Controller, Post, Body, Get, Param, UseGuards } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { StepChatMessageService } from './step-chat-message.service';
 import { AuthGuard } from 'src/guard';
 import { UserDetails } from 'src/decorators';
 import { UserPayload } from 'src/interfaces';
 import { CreateStepChatMessageDto } from './dtos/createStepChatMessage.dto';
+import { StepChatMessageEntity } from './step-chat-message.entity';
+import { ErrorResponse } from '../../../../errorHandler/errorResponse.dto';
 
 @Controller('step-chat-message')
 export class StepChatMessageController {
@@ -12,17 +14,19 @@ export class StepChatMessageController {
 
     @Post()
     @UseGuards(AuthGuard)
+    @ApiBearerAuth()
     @ApiOperation({ summary: 'Create a step chat message' })
-    @ApiResponse({ status: 201, description: 'The step chat message has been successfully created.' })
-    @ApiResponse({ status: 400, description: 'Invalid input.' })
+    @ApiResponse({ status: 201, description: 'The step chat message has been successfully created.', type: StepChatMessageEntity })
+    @ApiResponse({ status: 400, description: 'Invalid input.', type: ErrorResponse})
+    @ApiResponse({ status: 401, description: 'Unauthorized access.', type: ErrorResponse })
     public async createStepChatMessage(@Body() data: CreateStepChatMessageDto, @UserDetails() user: UserPayload) {
         return this.stepChatMessageService.createStepChatMessage(data, user.id);
     }
 
     @Get(':userId')
     @ApiOperation({ summary: 'Get step chat messages by user ID' })
-    @ApiResponse({ status: 200, description: 'List of step chat messages.' })
-    @ApiResponse({ status: 404, description: 'Messages not found.' })
+    @ApiResponse({ status: 200, description: 'List of step chat messages.', type: [StepChatMessageEntity] })
+    @ApiResponse({ status: 401, description: 'Unauthorized access.', type: ErrorResponse })
     public async getStepChatMessagesByUserId(@Param('userId') userId: string) {
         return this.stepChatMessageService.getStepChatMessagesByUserId(userId);
     }
