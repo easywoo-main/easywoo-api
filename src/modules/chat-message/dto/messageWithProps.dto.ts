@@ -18,7 +18,7 @@ export class ChatMessageWithPropsDto extends ChatMessageEntity {
       type: [InfoPopUpEntity]
     }
   )
-  infoPopUp: InfoPopUpEntity[];
+  infoPopUps: InfoPopUpEntity[];
 
   @ApiPropertyOptional({
     description: 'Props of Slider',

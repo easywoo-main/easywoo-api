@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { absoluteRootPath, getAbsolutePublicPath, getChatMessagePath, getPublicPath } from '../../utils/storage.utils';
-import * as fs from 'fs/promises'; // Use asynchronous fs module
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { absoluteRootPath, getChatMessagePath, getPublicPath } from '../../utils/storage.utils';
+import * as fs from 'fs/promises';
 import * as path from 'node:path';
 import { v4 as uuidv4 } from 'uuid';
 import { ConfigService } from '@nestjs/config';
@@ -16,7 +16,7 @@ export class StorageService {
     try {
       await fs.mkdir(folderPath, { recursive: true });
     } catch (error) {
-      throw new Error(`Failed to create directory: ${folderPath}. Error: ${error.message}`);
+      throw new InternalServerErrorException(`Failed to create directory: ${folderPath}. Error: ${error.message}`);
     }
 
     const fileName = uuidv4() + path.extname(file.originalname);
@@ -25,7 +25,7 @@ export class StorageService {
     try {
       await fs.writeFile(filePath, file.buffer);
     } catch (error) {
-      throw new Error(`Failed to save the file: ${fileName}. Error: ${error.message}`);
+      throw new InternalServerErrorException(`Failed to save the file: ${fileName}. Error: ${error.message}`);
     }
 
     return `${this.configService.get<string>('BASE_URL')}/${destination}/${fileName}`;

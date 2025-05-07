@@ -237,7 +237,7 @@ model ChatMessage {
   prevChoices     MessageChoice[]   @relation("MessageToNext")
   chat            Chat?
   stepChatMessage StepChatMessage[]
-  infoPopUp       InfoPopUp[]
+  infoPopUps      InfoPopUp[]
 }
 
 enum SliderPropType {

@@ -3,12 +3,12 @@ import { ChatMessageController } from './chat-message.controller';
 import { ChatMessageService } from './chat-message.service';
 import { ChatMessageRepository } from './chat-message.repository';
 import { MessageSliderModule } from '../message-slider/message-slider.module';
-import { MessageChoiceModule } from '../message-choice/message-choice.module';
+import { InfoPopUpModule } from '../info-pop-up/info-pop-up.module';
 
 @Module({
   controllers: [ChatMessageController],
   providers: [ChatMessageService, ChatMessageRepository],
-  imports:[MessageSliderModule, MessageChoiceModule],
   exports: [ChatMessageService],
+  imports:[MessageSliderModule, InfoPopUpModule],
 })
 export class ChatMessageModule {}

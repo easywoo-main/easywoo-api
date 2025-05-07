@@ -1,9 +1,6 @@
-import { Body, Controller, Get, Post, UseGuards, Response } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { QuestionnaireAnswerService } from './questionnaire-answer.service';
-import { UserDetails } from '../../decorators';
-import { UserPayload } from '../../interfaces';
 import { QuestionnaireAnswerCreateDto } from './dtos/questionnaireAnswerCreate.dto';
-import { Response as ExpressResponse } from 'express';
 import {
   ApiTags,
   ApiOperation,
@@ -14,9 +11,6 @@ import {
   ApiBody
 } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
-import { AuthGuard } from '../../guard';
-import { Success } from '../../utils/success.utils';
-import { ReportDto } from '../report/dto/report.dto';
 
 @ApiTags('Questionnaire Answer')
 @ApiBearerAuth()

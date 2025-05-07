@@ -28,4 +28,15 @@ export class InfoPopUpService {
   public async deleteInfoPopUp(id: string) {
     return this.infoPopUpRepository.deleteInfoPopUp(id);
   }
+
+  public async bulkUpsertPopUp(chatMessageId: string, infoPopUps: CreateUpdateInfoPopupDto[]) {
+    return Promise.all(
+      infoPopUps.map((messageSlider)=>{
+        if(!messageSlider.id){
+          return this.createInfoPopUp({...messageSlider, chatMessageId})
+        }
+        return this.updateInfoPopUp(messageSlider.id, {...messageSlider, chatMessageId})
+      })
+    )
+  }
 }

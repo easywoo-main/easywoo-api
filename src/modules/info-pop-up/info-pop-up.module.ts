@@ -5,6 +5,7 @@ import { InfoPopUpRepository } from './info-pop-up.repository';
 
 @Module({
   controllers: [InfoPopUpController],
-  providers: [InfoPopUpService, InfoPopUpRepository]
+  providers: [InfoPopUpService, InfoPopUpRepository],
+  exports: [InfoPopUpService]
 })
 export class InfoPopUpModule {}

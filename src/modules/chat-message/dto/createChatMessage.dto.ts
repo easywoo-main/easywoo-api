@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { MessageType } from '@prisma/client';
 import { CreateUpdateSliderPropDto } from './createUpdateSliderProp.dto';
-import { CreateMessageChoiceWithRelationDto } from '../../message-choice/dto/createMessageChoiceWithRelation.dto';
 import { CreateMessageChoiceDto } from '../../message-choice/dto/createMessageChoice.dto';
+import { CreateUpdateInfoPopupDto } from '../../info-pop-up/dtos/createUpdateInfoPopup.dto';
 
 export class CreateChatMessageDto {
   @ApiProperty({ description: 'Content of the message', example: 'Hello, world!' })
@@ -32,6 +32,11 @@ export class CreateChatMessageDto {
     type: [CreateUpdateSliderPropDto],
   })
   sliderProps: CreateUpdateSliderPropDto[];
+  @ApiProperty({
+    description: 'List of pop-up associated with the message',
+    type: [CreateUpdateInfoPopupDto],
+  })
+  infoPopUps: CreateUpdateInfoPopupDto[]
 
   @ApiProperty({
     description: 'ID of the previous message in the chat flow',

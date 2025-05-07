@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { PageRequest, PageResponse } from '../../utils/pageable.utils';
+import { PageRequest } from '../../utils/pageable.utils';
 import { CreateChatDto } from './dto/createChat.dto';
 import { Prisma } from '.prisma/client';
 import { ChatEntity } from './chat.entity';
@@ -63,7 +63,7 @@ export class ChatRepository {
     return this.prisma.chat.update({
         where: { id: chatId },
         data: { users: { connect: { id: userId } } },
-        include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true, infoPopUp: true}}}
+        include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true, infoPopUps: true}}}
       }
     );
   }

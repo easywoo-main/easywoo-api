@@ -17,6 +17,7 @@ export class ChatMessageRepository {
                                    sliderProps,
                                    prevChoiceId,
                                    nextChoices,
+                                   infoPopUps,
                                    ...data
                                  }: CreateChatMessageDto): Promise<ChatMessageEntity> {
     return this.prisma.chatMessage.create({
@@ -24,6 +25,7 @@ export class ChatMessageRepository {
         ...data,
         ...(nextChoices && {nextChoices: {createMany: {data: nextChoices, skipDuplicates: true}}}),
         ...(sliderProps && { sliderProps: { create: sliderProps } }),
+        ...(infoPopUps && {infoPopUps: {create: infoPopUps}}),
         ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(prevChoiceId && { prevChoices: { connect: { id: prevChoiceId } } })
@@ -39,7 +41,7 @@ export class ChatMessageRepository {
         nextChoices: true,
         nextMessage: true,
         sliderProps: true,
-        infoPopUp: true,
+        infoPopUps: true,
         // user: {where: userId}
       }
     });
@@ -51,7 +53,7 @@ export class ChatMessageRepository {
       include: {
         nextChoices: true,
         sliderProps: true,
-        infoPopUp: true
+        infoPopUps: true
       }
     });
   }
@@ -61,6 +63,7 @@ export class ChatMessageRepository {
     prevMessageId,
     chatId,
     sliderProps,
+    infoPopUps,
     nextMessageId,
     nextChoices,
     ...data
