@@ -5,6 +5,7 @@ import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -23,9 +24,9 @@ export class ChatMessageRepository {
     return this.prisma.chatMessage.create({
       data: {
         ...data,
-        ...(nextChoices && {nextChoices: {createMany: {data: nextChoices, skipDuplicates: true}}}),
+        ...(nextChoices && { nextChoices: { createMany: { data: nextChoices, skipDuplicates: true } } }),
         ...(sliderProps && { sliderProps: { create: sliderProps } }),
-        ...(infoPopUps && {infoPopUps: {create: infoPopUps}}),
+        ...(infoPopUps && { infoPopUps: { create: infoPopUps } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(prevChoiceId && { prevChoices: { connect: { id: prevChoiceId } } })
@@ -34,15 +35,15 @@ export class ChatMessageRepository {
     });
   }
 
-  public async findChatMessageById(id: string, ): Promise<ChatMessageWithRelationsDto> {
+  public async findChatMessageById(id: string): Promise<ChatMessageWithRelationsDto> {
+
     return this.prisma.chatMessage.findUnique({
       where: { id },
       include: {
         nextChoices: true,
-        nextMessage: true,
         sliderProps: true,
-        infoPopUps: true,
-        // user: {where: userId}
+        nextMessage: true,
+        infoPopUps: true
       }
     });
   }
@@ -72,10 +73,12 @@ export class ChatMessageRepository {
       where: { id },
       data: {
         ...data,
-        ...(nextChoices && {nextChoices: {
+        ...(nextChoices && {
+          nextChoices: {
             disconnect: [],
-            createMany: {data: nextChoices, skipDuplicates: true}
-        }}),
+            createMany: { data: nextChoices, skipDuplicates: true }
+          }
+        }),
         ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })

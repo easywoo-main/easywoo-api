@@ -1,8 +1,8 @@
 
 export class CreateUpdateInfoPopupDto {
   id: string;
-  name: string
-  file?: string;
+  title: string
+  description?: string;
   chatMessageId: string;
 }
 

@@ -292,8 +292,8 @@ model Chat {
 model InfoPopUp {
   id String @id @default(uuid())
 
-  name String
-  file String?
+  title       String
+  description String?
 
   chatMessageId String
 
