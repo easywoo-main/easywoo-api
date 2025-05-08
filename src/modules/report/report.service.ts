@@ -11,6 +11,7 @@ import { ReportSectionDto } from './dto/reportSection.dto';
 import { PdfService } from './modules/pdf/pdf.service';
 import { QuestionWithUserAnswerDto } from '../question/dtos/QuestionWithUserAnswerDto';
 import {EasywooApiService} from './modules/easywoo-api/easywoo-api.service'
+import * as cheerio from 'cheerio';
 
 @Injectable()
 export class ReportService {
@@ -95,10 +96,19 @@ export class ReportService {
       }
     }
 
-    console.log(await this.generateReport(questions));
+    const page = await this.easywooApiService.generateReport(questionnaire);
+    await this.parseReportPage(page);
+    return page
+  }
 
-
-
-    return await this.easywooApiService.generateReport(questionnaire);
+  public async parseReportPage(page: string) {
+    const $ = cheerio.load(page);
+    const reportSection: ReportSectionDto[] = [];
+    $('h2[style="color:#ed7d31"]').each((index, header) => {
+      const textAfterHeader = $(header).next('p').text();
+      reportSection.push({name: $(header).text(), content: textAfterHeader});
+      console.log({name: $(header).text(), content: textAfterHeader.trim()})
+    });
+    return reportSection;
   }
 }

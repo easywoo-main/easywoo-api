@@ -8,6 +8,12 @@ export class RelationshipGoalsSeed extends Seeder {
       condition: Condition;
       sentence: string;
     }[] = [
+      // {
+      //  sentence: 'It seems that at this point in your life any kind of relationship is ok with you. Actually, this is not a bad place to be. As long as you feel comfortable being open to life’s possibilities. However, if you find that you are not clear as to what relationship you would like to be in at this stage in your life, do check out our clarifying suggestions in your care plan.' ,
+      //   condition: {
+      //    'mateRelationship.casual'
+      //   }
+      // }
       {
         sentence:
           'You will know if casual sex is emotionally healthy for you if it makes you feel good about yourself. There is no right or wrong here, just what kind of sexual life you want to live.',

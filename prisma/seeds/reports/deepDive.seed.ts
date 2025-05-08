@@ -51,7 +51,7 @@ export class DeepDiveSeed extends Seeder {
         sentence:
           'You mention you are not completely satisfied with your appearance. Don’t forget the way we see ourselves will also affect the way we are perceived by others. We suggest that you enhance your strong points in order to balance your weak points, and at the same time really work on accepting and loving yourself inside and out. If however, there are things that you cannot come to terms with, maybe a professional can be of some help. Check our index.',
         condition: {
-          GTE: { 'self_improvement.appearance': 15 },
+          GTE: { 'self_improvement.appearance_issues': 15 },
         },
       },
       {

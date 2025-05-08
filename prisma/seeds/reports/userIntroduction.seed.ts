@@ -22,10 +22,11 @@ async function main(prisma: PrismaClient) {
     {
       condition: {
         'personType.reserved': true,
-        'personType.sociable': true,
+        'personType.humorous':false,
+        'personType.sociable': false,
       },
       sentence:
-        'You tend to be rather self-aware. You have a need for lots of time alone, does this allow you to socialise enough? You take more time thinking than acting. You make for an incredible friend, as you are loyal and stable. If being reserved is a personality trait, then you should embrace it with pride! But if it hides shyness or lack of confidence then you should look at our recommendations.',
+        'You tend to be rather self-aware. You have a need for lots of time alone, does this allow you to socialise enough? You take more time thinking than acting. You make for an incredible friend, as you are loyal and stable. If being reserved is a personality trait, then you should embrace it with pride! But if it hides shyness or lack of confidence then you should look at our recommendations.\n',
     },
     {
       condition: {
