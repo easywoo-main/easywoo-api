@@ -95,6 +95,10 @@ export class ReportService {
       }
     }
 
+    console.log(await this.generateReport(questions));
+
+
+
     return await this.easywooApiService.generateReport(questionnaire);
   }
 }
