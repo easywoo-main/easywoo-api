@@ -4,6 +4,9 @@ import { CarePlanDto } from './carePlan.dto';
 import { PdfLocationDto } from '../modules/pdf/dto/pdfLocation.dto';
 
 export class ReportDto {
+  @ApiProperty({description: 'Report ID'})
+  reportId: string
+
   @ApiProperty({ type: [ReportSectionDto], description: 'List of report sections' })
   reportSection: ReportSectionDto[];
 

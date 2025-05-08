@@ -14,7 +14,14 @@ const BASE_URL = process.env.BASE_URL;
 export class PdfService {
 
 
-  public async generatePdfReport(report: ReportSectionDto[]): Promise<PdfLocationDto> {
+  public async generatePdfReport(report: ReportSectionDto[], reportId? : string): Promise<PdfLocationDto> {
+    const html = reportTemplate(report);
+    return this.generatePdfReportFromHtml(html, reportId || uuidv4())
+  }
+
+  public async generatePdfReportFromHtml(html: string, reportId: string){
+    const fileName = Date.now()+ "-" + reportId;
+
     const browser = await puppeteer.launch({
       headless: true,
       timeout: 60000,
@@ -27,10 +34,6 @@ export class PdfService {
       ],
     });
     const page = await browser.newPage();
-
-    const html = reportTemplate(report);
-
-    const fileName = uuidv4();
     const pdfPath = path.join(getAbsoluteReportPath(), `${fileName}.pdf`);
 
     const directory = path.dirname(pdfPath);

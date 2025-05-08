@@ -28,10 +28,11 @@ model User {
   appleUser           AppleUser?            @relation(fields: [appleUserId], references: [id])
   chats               Chat[]
   Subscription        Subscription[]
-  UserAnswer          UserAnswer[]
+  // UserAnswer          UserAnswer[]
   ResultSliderProp    ResultSliderProp[]
   ResultMessageChoice ResultMessageChoice[]
   StepChatMessage     StepChatMessage[]
+  Report              Report[]
 }
 
 model GoogleUser {
@@ -87,16 +88,15 @@ model Subscription {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model UserAnswer {
-  id       String  @id @default(uuid())
-  answerId String
-  userId   String?
+model Report {
+  id     String  @id @default(uuid())
+  userId String?
+
+  user   User?    @relation(fields: [userId], references: [id])
+  answer Answer[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user   User?  @relation(fields: [userId], references: [id])
-  answer Answer @relation(fields: [answerId], references: [id])
 }
 
 enum QuestionsType {
@@ -162,8 +162,8 @@ model Answer {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  question   Question     @relation(fields: [questionId], references: [id])
-  UserAnswer UserAnswer[]
+  question Question @relation(fields: [questionId], references: [id])
+  reports  Report[]
 
   @@unique([answer, questionId])
   @@unique([name, questionId])
