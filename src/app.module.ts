@@ -14,7 +14,7 @@ import { MessageChoiceModule } from './modules/message-choice/message-choice.mod
 import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { MessageSliderModule } from './modules/message-slider/message-slider.module';
-import { ProgresTrackerChatModule } from './modules/progres-tracker-chat/progres-tracker-chat.module';
+import { ProgressTrackerChatModule } from './modules/progres-tracker-chat/progress-tracker-chat.module';
 import { InfoPopUpModule } from './modules/info-pop-up/info-pop-up.module';
 
 @Module({
@@ -36,7 +36,7 @@ import { InfoPopUpModule } from './modules/info-pop-up/info-pop-up.module';
     SubscriptionModule,
     StorageModule,
     MessageSliderModule,
-    ProgresTrackerChatModule,
+    ProgressTrackerChatModule,
     InfoPopUpModule,
   ],
   controllers: [],

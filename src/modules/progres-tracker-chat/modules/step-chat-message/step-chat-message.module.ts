@@ -10,5 +10,6 @@ import { ChatMessageModule } from 'src/modules/chat-message/chat-message.module'
   controllers: [StepChatMessageController],
   providers: [StepChatMessageService, StepChatMessageRepository],
   imports: [TokenModule, UserModule, ChatMessageModule],
+  exports: [StepChatMessageService],
 })
 export class StepChatMessageModule {}

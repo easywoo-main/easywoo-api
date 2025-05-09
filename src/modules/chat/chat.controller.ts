@@ -3,7 +3,7 @@ import { ChatService } from './chat.service';
 import { PageRequest, PageRequestArgs, PageResponse } from '../../utils/pageable.utils';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatEntity } from './chat.entity';
 import { AuthGuard } from '../../guard';
@@ -43,6 +43,7 @@ export class ChatController {
 
   @Post("/:chatId")
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Start a chat for a user' })
   @ApiResponse({ status: 200, description: 'Chat started successfully', type: ChatMessageWithPropsDto })
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })

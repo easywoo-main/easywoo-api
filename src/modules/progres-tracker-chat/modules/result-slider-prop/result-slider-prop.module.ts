@@ -10,6 +10,7 @@ import { ChatMessageModule } from 'src/modules/chat-message/chat-message.module'
   controllers: [ResultSliderPropController],
   providers: [ResultSliderPropService, ResultSliderPropRepository],
   imports: [TokenModule, UserModule, ChatMessageModule],
+  exports: [ResultSliderPropService]
   
 })
 export class ResultSliderPropModule {}

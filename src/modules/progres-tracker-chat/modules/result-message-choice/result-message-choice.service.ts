@@ -3,24 +3,19 @@ import { ResultMessageChoiceRepository } from './result-message-choice.repositor
 import { CreateResultMessageChoiceDto } from './dtos/createResultMessageChoice.dto';
 import { MessageChoiceService } from 'src/modules/message-choice/message-choice.service';
 import { ChatMessageService } from 'src/modules/chat-message/chat-message.service';
+import { Success } from '../../../../utils/success.utils';
 
 @Injectable()
 export class ResultMessageChoiceService {
   constructor(
     private readonly resultMessageChoiceRepository: ResultMessageChoiceRepository,
-    private readonly messageChoiceService: MessageChoiceService,
-    private readonly chatMessageService: ChatMessageService,
-  ) {
-  }
+  ) {}
 
-  public async createResultMessageChoice(data: CreateResultMessageChoiceDto, userId: string) {
-    const resultMessageChoice = await this.resultMessageChoiceRepository.createResultMessageChoice({ userId, ...data });
-    const messageChoice =  await this.messageChoiceService.findMessageChoiceById(resultMessageChoice.messageChoiceId);
-    return await this.chatMessageService.findChatMessagesWithPropsById(messageChoice.nextMessageId);
+  public async createResultMessageChoice(messageChoiceId: string, userId: string) {
+    return await this.resultMessageChoiceRepository.createResultMessageChoice({ userId, messageChoiceId });
   }
 
   public async getResultMessageChoicesByUserId(userId: string) {
     return this.resultMessageChoiceRepository.getResultMessageChoicesByUserId(userId);
   }
-
 }

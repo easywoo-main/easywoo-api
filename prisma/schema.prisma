@@ -20,6 +20,7 @@ model User {
   password         String?
   isVerified       Boolean @default(false)
   hasQuizCompleted Boolean @default(false)
+  photo            String?
 
   googleUserId String? @unique
   appleUserId  String? @unique
@@ -27,12 +28,12 @@ model User {
   googleUser          GoogleUser?           @relation(fields: [googleUserId], references: [id])
   appleUser           AppleUser?            @relation(fields: [appleUserId], references: [id])
   chats               Chat[]
-  Subscription        Subscription[]
+  subscription        Subscription[]
   // UserAnswer          UserAnswer[]
-  ResultSliderProp    ResultSliderProp[]
-  ResultMessageChoice ResultMessageChoice[]
-  StepChatMessage     StepChatMessage[]
-  Report              Report[]
+  resultSliderProp    ResultSliderProp[]
+  resultMessageChoice ResultMessageChoice[]
+  stepChatMessage     StepChatMessage[]
+  report              Report[]
 }
 
 model GoogleUser {
@@ -233,11 +234,11 @@ model ChatMessage {
   nextMessage  ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id])
   prevMessages ChatMessage[] @relation("MessageToNext")
 
-  nextChoices     MessageChoice[]   @relation("MessageToPrev")
-  prevChoices     MessageChoice[]   @relation("MessageToNext")
-  chat            Chat?
-  stepChatMessage StepChatMessage[]
-  infoPopUps      InfoPopUp[]
+  nextChoices      MessageChoice[]   @relation("MessageToPrev")
+  prevChoices      MessageChoice[]   @relation("MessageToNext")
+  chat             Chat?
+  stepChatMessages StepChatMessage[]
+  infoPopUps       InfoPopUp[]
 }
 
 enum SliderPropType {

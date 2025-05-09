@@ -8,7 +8,7 @@ import { InfoPopUpModule } from '../info-pop-up/info-pop-up.module';
 @Module({
   controllers: [ChatMessageController],
   providers: [ChatMessageService, ChatMessageRepository],
-  exports: [ChatMessageService],
   imports:[MessageSliderModule, InfoPopUpModule],
+  exports: [ChatMessageService]
 })
 export class ChatMessageModule {}

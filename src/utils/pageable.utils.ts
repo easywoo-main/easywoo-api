@@ -39,6 +39,14 @@ export class PageRequest {
   toPageResponse<T>(content: T[], count: number): PageResponse<T> {
     return new PageResponse<T>(this, content, count);
   }
+
+  getFilter(){
+    return {
+      skip: this.skip,
+      take: this.pageSize,
+      orderBy: this.sortBy,
+    }
+  }
 }
 export class PageResponse<T> {
   readonly search?: string;

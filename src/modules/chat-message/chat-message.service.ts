@@ -25,8 +25,11 @@ export class ChatMessageService {
   }
 
   @CheckExists('Chat Message Not Found')
-  public async findChatMessageWithRelationById(chatMessageId: string) {
-    return this.chatMessageRepository.findChatMessageById(chatMessageId);
+  public async findChatMessageWithRelationById(chatMessageId: string, userIds?: string | string[]) {
+    return this.chatMessageRepository.findChatMessageById(
+      chatMessageId,
+      userIds ? Array.isArray(userIds) ? userIds : [userIds]: []
+    );
   }
 
   @CheckExists('Chat Message Not Found')
@@ -52,4 +55,5 @@ export class ChatMessageService {
     await this.findChatMessageWithRelationById(chatMessageId);
     return this.chatMessageRepository.deleteChatMessage(chatMessageId);
   }
+
 }

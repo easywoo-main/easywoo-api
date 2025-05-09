@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Param, Body, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Param, Body, Patch, Query } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiNotFoundResponse } from '@nestjs/swagger';
 import { MessageChoiceService } from './message-choice.service';
 import { CreateMessageChoiceWithRelationDto } from './dto/createMessageChoiceWithRelation.dto';
@@ -21,7 +21,7 @@ export class MessageChoiceController {
   @ApiOperation({ summary: 'Get a message choice by ID' })
   @ApiResponse({ status: 200, description: 'Message choice retrieved successfully.', type: MessageChoiceEntity })
   @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
-  public async findMessageChoiceById(@Param('id') id: string) {
+  public async findMessageChoiceById(@Param('id') id: string, @Query('userIds[]') userIds?: string | string[]) {
     return await this.messageChoiceService.findMessageChoiceById(id);
   }
 

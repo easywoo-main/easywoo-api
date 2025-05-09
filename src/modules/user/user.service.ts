@@ -5,10 +5,12 @@ import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './user.entity';
 import { CheckExists } from '../../decorators';
+import { PageRequest, PageRequestArgs, PageResponse } from 'src/utils/pageable.utils';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UserRepository) {
+  }
 
   public async createUser(userDto: UserCreateDto): Promise<UserEntity> {
     const existingUser = await this.findUserByEmail(userDto.email);
@@ -46,5 +48,14 @@ export class UserService {
   async updateUser(userId: string, updateUser: Partial<UserEntity>) {
     await this.findUserById(userId);
     return await this.userRepository.updateUser(userId, updateUser);
+  }
+
+  public async getAllUser(chatId: string, pageRequestArgs: PageRequestArgs): Promise<PageResponse<UserEntity>> {
+    const pageRequest = new PageRequest(pageRequestArgs);
+    const [users, count] = await Promise.all([
+      this.userRepository.getAllUserByChatId(chatId,pageRequest),
+      this.userRepository.getCountUser(chatId, pageRequest)
+    ]);
+    return pageRequest.toPageResponse(users, count);
   }
 }

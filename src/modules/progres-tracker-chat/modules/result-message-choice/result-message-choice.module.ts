@@ -11,5 +11,6 @@ import { MessageChoiceModule } from 'src/modules/message-choice/message-choice.m
   controllers: [ResultMessageChoiceController],
   providers: [ResultMessageChoiceService, ResultMessageChoiceRepository],
   imports: [TokenModule, UserModule, MessageChoiceModule, ChatMessageModule],
+  exports: [ResultMessageChoiceService],
 })
 export class ResultMessageChoiceModule {}

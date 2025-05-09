@@ -31,6 +31,7 @@ export class GlobalFilter implements ExceptionFilter {
 
     const handler = this.handlers.find((h) => h.supports(exception)) || new DefaultExceptionHandler();
 
+    console.log(handler);
     this.logger.error(`Exception: ${exception}`, exception as Error);
     const { status, message, name, additionalInfo } = handler.handle(exception);
 

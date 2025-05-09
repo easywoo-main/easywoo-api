@@ -18,10 +18,12 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
+import { CreateUserStepDto } from './dto/createUserStep.dto';
 
 @Controller('chat-message')
 export class ChatMessageController {
-  constructor(private readonly chatMessageService: ChatMessageService) {}
+  constructor(private readonly chatMessageService: ChatMessageService) {
+  }
 
   @Post()
   @ApiOperation({ summary: 'Create a new chat message' })
@@ -36,8 +38,8 @@ export class ChatMessageController {
   @ApiOperation({ summary: 'Fetch a chat message by ID' })
   @ApiResponse({ status: 200, description: 'Chat message retrieved successfully', type: ChatMessageWithRelationsDto })
   @ApiResponse({ status: 404, description: 'Chat message not found', type: ErrorResponse })
-  public async findChatMessageById(@Param('id') id: string) {
-    return this.chatMessageService.findChatMessageWithRelationById(id);
+  public async findChatMessageById(@Param('id') id: string, @Query('userIds[]') userIds?: string | string[]) {
+    return this.chatMessageService.findChatMessageWithRelationById(id, userIds);
   }
 
   @Patch('/:id')
@@ -47,7 +49,7 @@ export class ChatMessageController {
   @ApiResponse({ status: 404, description: 'Chat message not found', type: ErrorResponse })
   public async updateChatMessage(
     @Param('id') id: string,
-    @Body() updateChatMessageDto: Partial<UpdateChatMessageDto>,
+    @Body() updateChatMessageDto: Partial<UpdateChatMessageDto>
   ) {
     return this.chatMessageService.updateChatMessageById(id, updateChatMessageDto);
   }
@@ -59,4 +61,5 @@ export class ChatMessageController {
   public async deleteChatMessage(@Param('id') id: string) {
     return this.chatMessageService.deleteChatMessageById(id);
   }
+
 }

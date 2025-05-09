@@ -27,8 +27,8 @@ export class MessageChoiceRepository {
       where: { id },
       data: {
         ...data,
-        ...(prevMessageId && {prevMessage: { connect: { id: prevMessageId } }}),
-        ...(nextMessageId && {nextMessage: { connect: { id: nextMessageId } }})
+        ...(prevMessageId && { prevMessage: { connect: { id: prevMessageId } } }),
+        ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })
       }
     });
   }
@@ -37,11 +37,12 @@ export class MessageChoiceRepository {
     return this.prisma.messageChoice.delete({ where: { id } });
   }
 
-  public async findMessageChoiceById(id: string): Promise<MessageChoiceEntity> {
+  public async findMessageChoiceById(id: string, userIds?: string[]): Promise<MessageChoiceEntity> {
     return this.prisma.messageChoice.findUnique({
       where: { id },
       include: {
-        nextMessage: true
+        nextMessage: true,
+        ...(userIds && { resultMessageChoice: { where: { user: { id: { in: userIds } } } } })
       }
     });
   }
