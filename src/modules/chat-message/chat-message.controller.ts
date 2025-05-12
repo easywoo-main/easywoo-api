@@ -6,10 +6,6 @@ import {
   Param,
   Patch,
   Post,
-  UploadedFile,
-  UseInterceptors,
-  Res,
-  Query
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ChatMessageService } from './chat-message.service';
@@ -18,7 +14,6 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
-import { CreateUserStepDto } from './dto/createUserStep.dto';
 
 @Controller('chat-message')
 export class ChatMessageController {

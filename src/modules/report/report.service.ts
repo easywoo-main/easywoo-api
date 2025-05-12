@@ -108,12 +108,12 @@ export class ReportService {
     }
 
     const page = await this.easywooApiService.generateReport(questionnaire);
-    const reportSection = await this.parseReportPage(page);
+    const reportSection = await this.parseReportSection(page);
     const file = await this.pdfService.generatePdfReport(reportSection, reportId);
     return { reportSection, file, reportId, carePlan: null };
   }
 
-  private async parseReportPage(page: string) {
+  private async parseReportSection(page: string) {
     const $ = cheerio.load(page);
     const reportSection: ReportSectionDto[] = [];
     $('h2[style="color:#ed7d31"]').each((_, header) => {
@@ -122,6 +122,17 @@ export class ReportService {
       console.log({ name: $(header).text(), content: textAfterHeader.trim() });
     });
     return reportSection;
+  }
+
+  private async parseCarePlanSection(page: string) {
+    const $ = cheerio.load(page);
+    const carePlan: ReportSectionDto[] = [];
+    $('h2[style="color:#ed7d31"]').each((_, header) => {
+      const textAfterHeader = $(header).next('p').text();
+      carePlan.push({ name: $(header).text().trim(), content: textAfterHeader.trim() });
+      console.log({ name: $(header).text(), content: textAfterHeader.trim() });
+    });
+    return carePlan;
   }
 
   public async createReport(questionnaireAnswerCreateDtos: QuestionnaireAnswerCreateDto[], userId?: string) {
