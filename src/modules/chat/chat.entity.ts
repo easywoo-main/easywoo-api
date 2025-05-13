@@ -2,6 +2,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Chat } from '@prisma/client';
 
 export class ChatEntity implements Chat {
+  @ApiProperty({description: "Landing page URL"})
+  landingUrl: string;
+
+  @ApiProperty({description: "One to one consultation"})
+  hasIndividualConsultation: boolean;
+
+  @ApiProperty({description: "Course enabled / disabled"})
+  isDisabled: boolean;
+
   @ApiProperty({ description: 'Unique identifier of the chat', format: 'uuid' })
   id: string;
 

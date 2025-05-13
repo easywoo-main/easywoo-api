@@ -5,7 +5,7 @@ import { QuestionnaireAnswerCreateDto } from '../question-answer/dtos/questionna
 import { ReportService } from './report.service';
 import { ReportDto } from './dto/report.dto';
 
-@Controller('report')
+@Controller('questionnaire-answer')//todo: report
 export class ReportController {
   constructor(private readonly reportService: ReportService) {
   }

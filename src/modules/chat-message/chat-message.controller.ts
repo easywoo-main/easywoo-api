@@ -5,7 +5,7 @@ import {
   Get,
   Param,
   Patch,
-  Post,
+  Post, Query
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ChatMessageService } from './chat-message.service';
@@ -37,6 +37,12 @@ export class ChatMessageController {
     return this.chatMessageService.findChatMessageWithRelationById(id, userIds);
   }
 
+  @Get()
+  @ApiOperation({ summary: 'Fetch all chat message' })
+  public async findAllChatMessages(@Query('chatMessageId') chatMessageId: string) {
+    return this.chatMessageService.findAllByChatMessageId(chatMessageId);
+  }
+
   @Patch('/:id')
   @ApiOperation({ summary: 'Update a chat message by ID' })
   @ApiResponse({ status: 200, description: 'Chat message successfully updated', type: ChatMessageEntity })
@@ -56,5 +62,4 @@ export class ChatMessageController {
   public async deleteChatMessage(@Param('id') id: string) {
     return this.chatMessageService.deleteChatMessageById(id);
   }
-
 }

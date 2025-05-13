@@ -9,4 +9,13 @@ export class CreateChatDto {
 
   @ApiProperty({ description: 'The number of free steps available in the chat' })
   freeSteps: number;
+
+  @ApiProperty({description: "Landing page URL"})
+  landingUrl?: string;
+
+  @ApiProperty({description: "One to one consultation"})
+  hasIndividualConsultation: boolean;
+
+  @ApiProperty({description: "Course enabled / disabled"})
+  isDisabled: boolean;
 }

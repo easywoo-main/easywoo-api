@@ -43,8 +43,8 @@ export class EasywooApiService {
       const cookies = response.headers['set-cookie'];
 
       // console.log(cookies?.join('; '));
-      // return {redirectUrl, cookies: cookies.join('; ')};
-
+      return { redirectUrl, cookies: cookies.join('; ') };
+      /**
       const redirectResponse = await firstValueFrom(
         this.httpService.get(redirectUrl, {
           headers: {
@@ -54,6 +54,7 @@ export class EasywooApiService {
       );
 
       return redirectResponse.data;
+       */
     } catch (error) {
       console.error('Error sending report:', error.response?.data || error.message);
       throw new InternalServerErrorException('Error sending report');

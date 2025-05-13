@@ -101,4 +101,8 @@ export class ChatMessageRepository {
       where: { id }
     });
   }
+
+  public async findAll() {
+
+  }
 }

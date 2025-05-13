@@ -1,15 +1,14 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { PageRequest, PageRequestArgs, PageResponse } from '../../utils/pageable.utils';
+import { PageRequest, PageRequestArgs } from '../../utils/pageable.utils';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
-import { ApiTags, ApiOperation, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatEntity } from './chat.entity';
 import { AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
-import { ChatWithMessageDto } from './dto/chatWithMessage.dto';
 import { ChatMessageWithPropsDto } from '../chat-message/dto/messageWithProps.dto';
 
 @ApiTags('Chat')

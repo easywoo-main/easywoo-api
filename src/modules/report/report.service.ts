@@ -92,7 +92,7 @@ export class ReportService {
     return { sentences: results, count };
   }
 
-  private async generateReport(questions: QuestionWithUserAnswerDto[], reportId: string): Promise<ReportDto> {
+  private async generateReport(questions: QuestionWithUserAnswerDto[], reportId: string) {
     let questionnaire = {};
 
     for (const question of questions) {
@@ -107,10 +107,13 @@ export class ReportService {
       }
     }
 
-    const page = await this.easywooApiService.generateReport(questionnaire);
+    return  await this.easywooApiService.generateReport(questionnaire);
+    /**
+     *     const page = await this.easywooApiService.generateReport(questionnaire);
     const reportSection = await this.parseReportSection(page);
     const file = await this.pdfService.generatePdfReport(reportSection, reportId);
     return { reportSection, file, reportId, carePlan: null };
+     */
   }
 
   private async parseReportSection(page: string) {

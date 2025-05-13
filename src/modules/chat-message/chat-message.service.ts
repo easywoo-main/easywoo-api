@@ -56,4 +56,8 @@ export class ChatMessageService {
     return this.chatMessageRepository.deleteChatMessage(chatMessageId);
   }
 
+  public async findAllByChatMessageId(chatMessageId: string) {
+
+  }
+
 }
