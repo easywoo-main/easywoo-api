@@ -148,9 +148,9 @@ export class ReportService {
       questionnaireAnswerCreateDtos.map(async (questionnaireAnswerCreateDto) => {
         const question = await this.questionService.getOneQuestion(questionnaireAnswerCreateDto.questionId);
         question.answers.forEach(answer => {
-          if (!questionnaireAnswerCreateDto.answerIds.includes(answer.id)) {
-            throw new BadRequestException('Unknown answer provided');
-          }
+          // if (!questionnaireAnswerCreateDto.answerIds.includes(answer.id)) {
+          //   throw new BadRequestException('Unknown answer provided');
+          // }//todo
 
           if ([QuestionsType.SINGLE, QuestionsType.SLIDER].includes(question.type as any) && questionnaireAnswerCreateDto.answerIds.length > 1) {
             throw new BadRequestException('Invalid answer type');
