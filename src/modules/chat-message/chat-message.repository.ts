@@ -119,8 +119,8 @@ export class ChatMessageRepository {
           }
         }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
-        ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })
-      }
+        ...(nextMessageId !== undefined && { nextMessageId })
+      } as Prisma.ChatMessageUncheckedUpdateInput
     });
   }
 
