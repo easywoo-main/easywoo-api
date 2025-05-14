@@ -6,11 +6,9 @@ import { ProgressTrackerChatController } from './progress-tracker-chat.controlle
 import { ProgressTrackerChatService } from './progress-tracker-chat.service';
 import { ChatMessageModule } from '../chat-message/chat-message.module';
 import { MessageChoiceModule } from '../message-choice/message-choice.module';
-import { UserModule } from '../user/user.module';
-import { TokenModule } from '../token/token.module';
 
 @Module({
-  imports: [StepChatMessageModule, ResultMessageChoiceModule, ResultSliderPropModule, ChatMessageModule, MessageChoiceModule, TokenModule, UserModule],
+  imports: [StepChatMessageModule, ResultMessageChoiceModule, ResultSliderPropModule, ChatMessageModule, MessageChoiceModule],
   controllers: [ProgressTrackerChatController],
   providers: [ProgressTrackerChatService]
 })

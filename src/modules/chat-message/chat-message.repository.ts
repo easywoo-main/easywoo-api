@@ -5,6 +5,9 @@ import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
+import { MessageType } from '@prisma/client';
+import { PageRequest } from '../../utils/pageable.utils';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -12,10 +15,11 @@ export class ChatMessageRepository {
   }
 
   public async createChatMessage({
-                                   prevMessageId,
+                                   prevMessageIds,
                                    chatId,
+                                   startingChatId,
                                    sliderProps,
-                                   prevChoiceId,
+                                   prevChoiceIds,
                                    nextChoices,
                                    infoPopUps,
                                    ...data
@@ -26,9 +30,25 @@ export class ChatMessageRepository {
         ...(nextChoices && { nextChoices: { createMany: { data: nextChoices, skipDuplicates: true } } }),
         ...(sliderProps && { sliderProps: { create: sliderProps } }),
         ...(infoPopUps && { infoPopUps: { create: infoPopUps } }),
+        ...(startingChatId && { startingChat: { connect: { id: startingChatId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
-        ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
-        ...(prevChoiceId && { prevChoices: { connect: { id: prevChoiceId } } })
+        ...(prevMessageIds && {
+          prevMessages: {
+            connect: prevMessageIds.map((id) => {
+              return {
+                id: id
+              };
+            })
+          }
+        }), ...(prevChoiceIds && {
+          prevChoices: {
+            connect: prevChoiceIds.map((id) => {
+              return {
+                id: id
+              };
+            })
+          }
+        })
       }
 
     });
@@ -47,6 +67,7 @@ export class ChatMessageRepository {
         sliderProps: true,
         nextMessage: true,
         infoPopUps: true,
+        prevMessages: true,
         stepChatMessages: {
           where: {
             user: {
@@ -71,7 +92,7 @@ export class ChatMessageRepository {
 
 
   public async updateChatMessage(id: string, {
-    prevMessageId,
+    prevMessageIds,
     chatId,
     sliderProps,
     infoPopUps,
@@ -88,8 +109,15 @@ export class ChatMessageRepository {
             disconnect: [],
             createMany: { data: nextChoices, skipDuplicates: true }
           }
+        }), ...(prevMessageIds && {
+          prevMessages: {
+            connect: prevMessageIds.map((id) => {
+              return {
+                id
+              };
+            })
+          }
         }),
-        ...(prevMessageId && { prevMessages: { connect: { id: prevMessageId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })
       }
@@ -102,7 +130,61 @@ export class ChatMessageRepository {
     });
   }
 
-  public async findAll() {
-
+  public async findMessagesWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest): Promise<ChatMessageEntity[]> {
+    return this.prisma.chatMessage.findMany({
+      where: this.getWhereWithoutNextId(chatMessageId, chatId, pageRequest.search),
+      ...pageRequest.getFilter()
+    });
   }
+
+  public async countMessagesWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
+    return this.prisma.chatMessage.count({
+      where: this.getWhereWithoutNextId(chatMessageId, chatId, pageRequest.search)
+    });
+  }
+
+  private getWhereWithoutNextId(
+    chatMessageId: string,
+    chatId: string,
+    search: string
+  ): Prisma.ChatMessageWhereInput {
+    const baseFilter: Prisma.ChatMessageWhereInput = {
+      id: { not: chatMessageId },
+      chatId: chatId,
+      OR: [
+        {
+          type: { in: [MessageType.QUESTION_SINGLE, MessageType.CHALLENGE] },
+          nextChoices: { some: {} }
+        },
+        {
+          type: { notIn: [MessageType.QUESTION_SINGLE, MessageType.CHALLENGE] },
+          OR: [
+            { nextMessageId: null },
+            { nextMessageId: chatMessageId }
+          ]
+        }
+      ]
+    };
+
+    if (search) {
+      baseFilter.OR = [
+        ...(baseFilter.OR || []),
+        {
+          name: {
+            contains: search,
+            mode: 'insensitive'
+          }
+        },
+        {
+          id: {
+            contains: search,
+            mode: 'insensitive'
+          }
+        }
+      ];
+    }
+
+    return baseFilter;
+  }
+
 }

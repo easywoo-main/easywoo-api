@@ -42,7 +42,7 @@ export class CreateChatMessageDto {
     description: 'ID of the previous message in the chat flow',
     format: "uuid"
   })
-  prevMessageId: string;
+  prevMessageIds: string[];
 
   @ApiProperty({
     description: 'ID of the chat the message belongs to',
@@ -50,11 +50,14 @@ export class CreateChatMessageDto {
   })
   chatId: string;
 
+  startingChatId: string;
+
+
   @ApiProperty({
     description: 'ID of the previous message choice, if any',
     format: "uuid"
   })
-  prevChoiceId: string;
+  prevChoiceIds: string[];
 
   @ApiProperty({
     description: 'Flag indicating whether this message is a checkpoint in the chat flow',

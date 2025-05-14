@@ -7,6 +7,7 @@ import { MessageSliderService } from '../message-slider/message-slider.service';
 import { MessageType } from '@prisma/client';
 import { CHALLENGE_MESSAGE_CHOICE } from '../message-choice/message-choice.constants';
 import { InfoPopUpService } from '../info-pop-up/info-pop-up.service';
+import { PageRequest, PageRequestArgs } from '../../utils/pageable.utils';
 
 @Injectable()
 export class ChatMessageService {
@@ -56,8 +57,15 @@ export class ChatMessageService {
     return this.chatMessageRepository.deleteChatMessage(chatMessageId);
   }
 
-  public async findAllByChatMessageId(chatMessageId: string) {
+  public async findAllByChatMessageId(chatMessageId: string, chatId: string, pageRequestArgs: PageRequestArgs) {
+    const pageRequest = new PageRequest(pageRequestArgs);
 
+    const [chatMessages, count] = await Promise.all([
+      this.chatMessageRepository.findMessagesWithoutNextId(chatMessageId,chatId, pageRequest),
+      this.chatMessageRepository.countMessagesWithoutNextId(chatMessageId, chatId, pageRequest)
+    ]);
+
+    return pageRequest.toPageResponse(chatMessages, count);
   }
 
 }

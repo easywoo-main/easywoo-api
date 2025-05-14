@@ -50,7 +50,7 @@ export class UserService {
     return await this.userRepository.updateUser(userId, updateUser);
   }
 
-  public async getAllUser(chatId: string, pageRequestArgs: PageRequestArgs): Promise<PageResponse<UserEntity>> {
+  public async getAllUser(chatId: string, pageRequestArgs: PageRequest): Promise<PageResponse<UserEntity>> {
     const pageRequest = new PageRequest(pageRequestArgs);
     const [users, count] = await Promise.all([
       this.userRepository.getAllUserByChatId(chatId,pageRequest),

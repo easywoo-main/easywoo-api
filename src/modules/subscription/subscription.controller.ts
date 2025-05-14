@@ -30,7 +30,7 @@ export class SubscriptionController {
     return new Success("Payment issue created successfully");
   }
 
-  @Get('my-subscription')
+  @Get('my')
   @UseGuards(AuthGuard)
   async getSubscription(@Body() user: UserPayload) {
     return this.subscriptionService.getSubscriptionByUserId(user.id);

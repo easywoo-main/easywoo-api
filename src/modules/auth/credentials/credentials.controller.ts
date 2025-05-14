@@ -1,8 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiOkResponse, ApiNotFoundResponse, ApiBadRequestResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../../errorHandler/errorResponse.dto';
-import { RefreshToken } from '../../token/dtos/refresh.token.dto';
-import { AccessToken } from '../../token/dtos/accessToken.dto';
+import { RefreshTokenImpl } from '../../token/dtos/refresh.token.dto';
+import { AccessTokenImpl } from '../../token/dtos/accessToken.dto';
 import { UserCreateDto } from '../../user/dto/userCreate.dto';
 import { CredentialsService } from './credentials.service';
 import { LoginDto } from './login.dto';
@@ -26,7 +26,7 @@ export class CredentialsController {
   @ApiOperation({ summary: 'Refresh access token' })
   @ApiOkResponse({ type: UserAuthDto, description: 'New access token generated' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Invalid refresh token' })
-  async refreshToken(@Body() body: RefreshToken): Promise<AccessToken> {
+  async refreshToken(@Body() body: RefreshTokenImpl): Promise<AccessTokenImpl> {
     return this.credentialsService.refreshToken(body);
   }
 

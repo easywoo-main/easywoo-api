@@ -14,6 +14,7 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
+import { PageRequestArgs } from '../../utils/pageable.utils';
 
 @Controller('chat-message')
 export class ChatMessageController {
@@ -39,8 +40,8 @@ export class ChatMessageController {
 
   @Get()
   @ApiOperation({ summary: 'Fetch all chat message' })
-  public async findAllChatMessages(@Query('chatMessageId') chatMessageId: string) {
-    return this.chatMessageService.findAllByChatMessageId(chatMessageId);
+  public async findAllChatMessages(@Query('chatMessageId') chatMessageId: string, @Query("chatId") chatId: string,  @Query() pageRequestArgs: PageRequestArgs) {
+    return this.chatMessageService.findAllByChatMessageId(chatMessageId,chatId, pageRequestArgs);
   }
 
   @Patch('/:id')

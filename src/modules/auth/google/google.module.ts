@@ -6,10 +6,11 @@ import { UserModule } from '../../user/user.module';
 import { GoogleRepository } from './google.repository';
 import { DatabaseModule } from '../../../database/database.module';
 import { GoogleClient } from '../../../configs/google.config';
+import { GoogleMapper } from './google.mapper';
 
 @Module({
   imports: [DatabaseModule, TokenModule, UserModule],
   controllers: [GoogleController],
-  providers: [GoogleService, GoogleClient, GoogleRepository],
+  providers: [GoogleService, GoogleClient, GoogleRepository, GoogleMapper],
 })
 export class GoogleModule {}

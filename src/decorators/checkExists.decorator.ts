@@ -10,7 +10,7 @@ export function CheckExists(error?: string | HttpException) {
       const result = originalMethod.apply(this, args);
 
       const createException = () => {
-        if (!error) return new NotFoundException('Entity not found');
+        if (!error) return new NotFoundException('Record not found');
         if (typeof error === 'string') return new NotFoundException(error);
         return error;
       };

@@ -3,15 +3,15 @@ import { TokenGuard } from './token.guard';
 import { Reflector } from '@nestjs/core';
 import { TokenService } from '../modules/token/token.service';
 import { UserService } from '../modules/user/user.service';
+import { AuthService } from '../modules/auth/auth.service';
 
 @Injectable()
 export class AuthGuard extends TokenGuard {
   constructor(
     protected readonly reflector: Reflector,
-    protected readonly tokenService: TokenService,
-    private readonly userService: UserService,
+    protected readonly authService: AuthService,
   ) {
-    super(reflector, tokenService);
+    super(reflector, authService);
   }
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [context.getHandler(), context.getClass()]);
@@ -25,13 +25,6 @@ export class AuthGuard extends TokenGuard {
     }
 
     const request = context.switchToHttp().getRequest();
-    const payload = request.user;
-    const user = await this.userService.findUserById(payload.id);
-
-    //todo: uncomment this code when email verification is implemented
-    // if (!user.isVerified) {
-    //   throw new UnauthorizedException('Access denied. User is not verified');
-    // }
-    return true;
+    return this.authService.verifyUser(request.user);
   }
 }

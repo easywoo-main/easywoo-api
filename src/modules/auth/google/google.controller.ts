@@ -12,7 +12,7 @@ export class GoogleController {
   @ApiOperation({ summary: 'Handle Google authentication callback' })
   @ApiResponse({ status: 200, description: 'User successfully authenticated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  public async googleAuthRedirect(@Body() googleCallbackDto: GoogleCallbackDto) {
+  public async googleAuth(@Body() googleCallbackDto: GoogleCallbackDto) {
     return this.googleAuthService.googleAuth(googleCallbackDto);
   }
 }

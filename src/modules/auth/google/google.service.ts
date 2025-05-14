@@ -10,6 +10,8 @@ import { GoogleUserWithUser } from './dtos/googleUserWithUser.dto';
 import { GoogleCallbackDto } from './dtos/googleCallback.dto';
 import { UserEntity } from '../../user/user.entity';
 import { GoogleClient } from '../../../configs/google.config';
+import { TokenPayload } from 'google-auth-library';
+import { GoogleMapper } from './google.mapper';
 
 @Injectable()
 export class GoogleService {
@@ -18,14 +20,11 @@ export class GoogleService {
     private readonly googleRepository: GoogleRepository,
     private readonly tokenService: TokenService,
     private readonly userService: UserService,
+    private readonly googleMapper: GoogleMapper,
   ) {}
 
   public async googleAuth(googleCallbackDto: GoogleCallbackDto): Promise<UserAuthDto> {
-    const ticket = await this.googleClient.verifyIdToken({ idToken: googleCallbackDto.idToken });
-    const payload = ticket.getPayload();
-    if (!payload) {
-      throw new UnauthorizedException('Invalid token');
-    }
+    const payload = await this.verifyToken(googleCallbackDto.idToken)
 
     let googleUser = await this.findOneByEmail(payload.email!);
     let user: UserEntity, existingGoogleUser: GoogleUser;
@@ -40,14 +39,7 @@ export class GoogleService {
       email: payload.email,
     };
 
-    const googleUserDto: GoogleCreateDto = {
-      googleAccountId: payload.sub,
-      firstName: payload.given_name,
-      lastName: payload.family_name,
-      email: payload.email,
-      picture: payload.picture,
-      emailVerified: payload.email_verified,
-    };
+    const googleUserDto = this.googleMapper.userPayloadToGoogleDto(payload);
 
     if (!existingUser && !existingGoogleUser) {
       existingUser = await this.userService.createUser(userDto);
@@ -66,6 +58,15 @@ export class GoogleService {
       user: existingUser,
       ...accessTokens,
     };
+  }
+
+  private async verifyToken(idToken: string): Promise<TokenPayload> {
+    const ticket = await this.googleClient.verifyIdToken({ idToken });
+    const payload = ticket.getPayload();
+    if (!payload) {
+      throw new UnauthorizedException('Invalid token');
+    }
+    return payload;
   }
 
   public async createGoogleUser(googleDto: GoogleCreateDto): Promise<GoogleUser> {

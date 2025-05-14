@@ -227,6 +227,7 @@ model ChatMessage {
   sliderProps SliderProp[]
 
   nextMessageId String?
+  chatId        String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -234,11 +235,15 @@ model ChatMessage {
   nextMessage  ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id])
   prevMessages ChatMessage[] @relation("MessageToNext")
 
-  nextChoices      MessageChoice[]   @relation("MessageToPrev")
-  prevChoices      MessageChoice[]   @relation("MessageToNext")
-  chat             Chat?
+  nextChoices MessageChoice[] @relation("MessageToPrev")
+  prevChoices MessageChoice[] @relation("MessageToNext")
+
   stepChatMessages StepChatMessage[]
   infoPopUps       InfoPopUp[]
+  chat             Chat              @relation("ChatMessages", fields: [chatId], references: [id])
+  startingChat     Chat?             @relation("StartMessage")
+
+  @@index([chatId])
 }
 
 enum SliderPropType {
@@ -287,10 +292,14 @@ model Chat {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  startMessage ChatMessage? @relation(fields: [startMessageId], references: [id])
+  startMessage ChatMessage? @relation("StartMessage", fields: [startMessageId], references: [id])
+
+  messages ChatMessage[] @relation("ChatMessages")
 
   subscriptions Subscription[]
   users         User[]
+
+  @@index([startMessageId])
 }
 
 model InfoPopUp {

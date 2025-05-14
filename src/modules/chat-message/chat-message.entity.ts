@@ -23,6 +23,9 @@ export class ChatMessageEntity implements ChatMessage {
   @ApiProperty({ description: 'Indicates if the message is a checkpoint' })
   isCheckpoint: boolean;
 
+  @ApiProperty({description: "chatId"})
+  chatId: string;
+
   @ApiProperty({ description: 'Timestamp when the message was created' })
   createdAt: Date;
 
