@@ -1,13 +1,13 @@
-import { Body, Injectable, Param, Post } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateUserStepDto } from '../chat-message/dto/createUserStep.dto';
 import { ChatMessageService } from '../chat-message/chat-message.service';
-import { MessageType } from '@prisma/client';
 import { ResultMessageChoiceService } from './modules/result-message-choice/result-message-choice.service';
-import { CreateResultMessageChoiceDto } from './modules/result-message-choice/dtos/createResultMessageChoice.dto';
 import { ResultSliderPropService } from './modules/result-slider-prop/result-slider-prop.service';
 import { Success } from '../../utils/success.utils';
 import { MessageChoiceService } from '../message-choice/message-choice.service';
 import { StepChatMessageService } from './modules/step-chat-message/step-chat-message.service';
+import { UserTextMessageAnswerService } from './modules/user-text-message-answer/user-text-message-answer.service';
+import { MessageType } from '@prisma/client';
 
 @Injectable()
 export class ProgressTrackerChatService {
@@ -16,7 +16,8 @@ export class ProgressTrackerChatService {
     private readonly resultMessageChoiceService: ResultMessageChoiceService,
     private readonly resultSliderPropService: ResultSliderPropService,
     private readonly messageChoiceService: MessageChoiceService,
-    private readonly stepChatMessageService: StepChatMessageService
+    private readonly stepChatMessageService: StepChatMessageService,
+    private readonly userTextMessageAnswerService: UserTextMessageAnswerService
   ) {
   }
 
@@ -41,11 +42,15 @@ export class ProgressTrackerChatService {
     }
 
     if (MessageType.QUESTION_SLIDERS === currencyChatMessage.type) {
-      await this.resultSliderPropService.createManyResultSliderProp(createUserStepDto.sliderProps, userId, chatMessageId)
+      await this.resultSliderPropService.createManyResultSliderProp(createUserStepDto.sliderProps, userId)
     }
 
     if (MessageType.QUESTION_TEXT_FIELD === currencyChatMessage.type) {
-      //todo save
+      await this.userTextMessageAnswerService.createTextMessageAnswer({
+        chatMessageId,
+        userId,
+        answer: createUserStepDto.textAnswer,
+      });
     }
 
     return currencyChatMessage.nextMessageId

@@ -13,7 +13,7 @@ export class ResultSliderPropService {
     return this.resultSliderPropRepository.createResultSliderProp({userId, ...data});
   }
 
-  public async createManyResultSliderProp(data: CreateResultSliderPropDto[], userId: string, chatMessageId: string) {
+  public async createManyResultSliderProp(data: CreateResultSliderPropDto[], userId: string) {
     return await this.resultSliderPropRepository.createManyResultSliderProp(data.map((item) => ({userId, ...item})));
   }
 
