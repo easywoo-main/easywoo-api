@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { PageRequest } from '../../utils/pageable.utils';
 import { CreateChatDto } from './dto/createChat.dto';
 import { Prisma } from '.prisma/client';
 import { ChatEntity } from './chat.entity';
 import { UpdateChatDto } from './dto/updateChatDto';
 import { ChatWithMessageDto } from './dto/chatWithMessage.dto';
+import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class ChatRepository {
@@ -20,24 +20,30 @@ export class ChatRepository {
     });
   }
 
-  public async findAllChats(pageRequest: PageRequest) {
-    const where: Prisma.ChatWhereInput = {
+  public async findAllChats(pageRequest: PageRequest): Promise<ChatEntity[]> {
+    // const [count, chats] = await Promise.all([
+    //   this.prisma.chat.count({         where: this.getWhereChats(pageRequest),}),
+    // ]);
+    //
+    // return pageRequest.toPageResponse<ChatEntity>(chats, count);
+
+    return this.prisma.chat.findMany({
+      where: this.getWhereChats(pageRequest),
+      ...pageRequest.getFilter()
+    });
+  }
+
+  public async countChats(pageRequest: PageRequest) {
+    return this.prisma.chat.count({ where: this.getWhereChats(pageRequest) });
+  }
+
+  private getWhereChats(pageRequest: PageRequest): Prisma.ChatWhereInput {
+    return {
       name: {
         contains: pageRequest.search || '',
         mode: 'insensitive'
       }
     };
-    const [count, chats] = await Promise.all([
-      this.prisma.chat.count({ where }),
-      this.prisma.chat.findMany({
-        where,
-        skip: pageRequest.skip,
-        take: pageRequest.pageSize,
-        orderBy: pageRequest.sortBy
-      })
-    ]);
-
-    return pageRequest.toPageResponse<ChatEntity>(chats, count);
   }
 
   public async createChat(data: CreateChatDto): Promise<ChatEntity> {

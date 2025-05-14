@@ -2,8 +2,8 @@ import { UserCreateDto } from './dto/userCreate.dto';
 import { UserEntity } from './user.entity';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { PageRequest, PageRequestArgs } from 'src/utils/pageable.utils';
 import { Prisma } from '.prisma/client';
+import { PageRequest } from '../../utils/page-request.utils';
 
 const selectWithPassword: Record<keyof UserEntity, true> = Object.fromEntries(Object.keys(new UserEntity()).map((key) => [key, true])) as Record<keyof UserEntity, true>;
 

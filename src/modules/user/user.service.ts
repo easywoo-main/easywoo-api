@@ -5,7 +5,8 @@ import { Success } from '../../utils/success.utils';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from './user.entity';
 import { CheckExists } from '../../decorators';
-import { PageRequest, PageRequestArgs, PageResponse } from 'src/utils/pageable.utils';
+import { PageRequest } from '../../utils/page-request.utils';
+import { PageResponse } from '../../utils/page-response.utils';
 
 @Injectable()
 export class UserService {
@@ -50,8 +51,7 @@ export class UserService {
     return await this.userRepository.updateUser(userId, updateUser);
   }
 
-  public async getAllUser(chatId: string, pageRequestArgs: PageRequest): Promise<PageResponse<UserEntity>> {
-    const pageRequest = new PageRequest(pageRequestArgs);
+  public async getAllUser(chatId: string, pageRequest: PageRequest): Promise<PageResponse<UserEntity>> {
     const [users, count] = await Promise.all([
       this.userRepository.getAllUserByChatId(chatId,pageRequest),
       this.userRepository.getCountUser(chatId, pageRequest)

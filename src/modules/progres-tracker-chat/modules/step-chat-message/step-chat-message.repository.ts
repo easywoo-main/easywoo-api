@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../database/prisma.service';
 import { StepChatMessageEntity } from './step-chat-message.entity';
 import { CreateStepChatMessageDtoWithUserId } from './dtos/createStepChatMessageWithUserId.dto';
-import { PageRequest } from '../../../../utils/pageable.utils';
 import { Prisma } from '.prisma/client';
 import { StepChatMessageDto } from './dtos/stepChatMessage.dto';
+import { PageRequest } from '../../../../utils/page-request.utils';
 
 @Injectable()
 export class StepChatMessageRepository {

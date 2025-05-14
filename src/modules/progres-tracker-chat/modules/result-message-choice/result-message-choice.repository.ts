@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../../database/prisma.service';
 import { ResultMessageChoiceEntity } from './result-message-choice.entity';
 import { CreateResultMessageChoiceDtoWithUserId } from './dtos/createResultMessageChoiceWithUserId.dto';
-import { PageRequest } from '../../../../utils/pageable.utils';
 import { Prisma } from '.prisma/client';
 import { ResultMessageChoiceDto } from './dtos/resultMessageChoice.dto';
+import { PageRequest } from '../../../../utils/page-request.utils';
 
 @Injectable()
 export class ResultMessageChoiceRepository {

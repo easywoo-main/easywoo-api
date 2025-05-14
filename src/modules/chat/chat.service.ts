@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ChatRepository } from './chat.repository';
-import { PageRequest } from '../../utils/pageable.utils';
 import { CheckExists } from '../../decorators';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
 import { ChatMessageService } from '../chat-message/chat-message.service';
+import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class ChatService {
@@ -14,7 +14,12 @@ export class ChatService {
   ) {}
 
   public async findAllChat(pageRequest: PageRequest) {
-    return this.chatRepository.findAllChats(pageRequest);
+    const [chats, count] = await Promise.all([
+      this.chatRepository.findAllChats(pageRequest),
+      this.chatRepository.countChats(pageRequest),
+    ])
+
+    return pageRequest.toPageResponse(chats, count);
   }
 
   @CheckExists('Chat not found')

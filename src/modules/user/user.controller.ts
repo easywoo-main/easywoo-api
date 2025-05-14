@@ -7,7 +7,7 @@ import { ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/s
 import { UserEntity } from './user.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
-import { PageRequestArgs } from '../../utils/pageable.utils';
+import { PageRequest } from '../../utils/page-request.utils';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +32,7 @@ export class UserController {
 
   @Get("/chat/:chatId")
   @ApiBearerAuth()
-  public async getAllUser(@Param("chatId") chatId: string, @Query() pageRequestArgs: PageRequestArgs){
-    return this.userService.getAllUser(chatId, pageRequestArgs)
+  public async getAllUser(@Param("chatId") chatId: string, @Query() pageRequest: PageRequest){
+    return this.userService.getAllUser(chatId, pageRequest)
   }
 }

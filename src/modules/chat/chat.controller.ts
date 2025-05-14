@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { ChatService } from './chat.service';
-import { PageRequest, PageRequestArgs } from '../../utils/pageable.utils';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
@@ -10,6 +9,7 @@ import { AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
 import { UserPayload } from '../../interfaces';
 import { ChatMessageWithPropsDto } from '../chat-message/dto/messageWithProps.dto';
+import { PageRequest } from 'src/utils/page-request.utils';
 
 @ApiTags('Chat')
 @Controller('chat')
@@ -28,8 +28,9 @@ export class ChatController {
   @Get()
   @ApiOperation({ summary: 'Fetch all chats with pagination' })
   @ApiResponse({ status: 200, description: 'Chats retrieved successfully', type: [ChatEntity] })
-  public async findAllChats(@Query() pageRequest: PageRequestArgs) {
-    return this.chatService.findAllChat(new PageRequest(pageRequest));
+  public async findAllChats(@Query() pageRequest: PageRequest) {
+    console.log(pageRequest);
+    return this.chatService.findAllChat(pageRequest);
   }
 
   @Post()

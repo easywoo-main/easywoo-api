@@ -6,8 +6,8 @@ import { ChatMessageEntity } from './chat-message.entity';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
 import { MessageType } from '@prisma/client';
-import { PageRequest } from '../../utils/pageable.utils';
 import { Prisma } from '.prisma/client';
+import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class ChatMessageRepository {
