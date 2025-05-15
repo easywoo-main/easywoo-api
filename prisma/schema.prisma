@@ -251,8 +251,6 @@ model ChatMessage {
   timeout      Int?        @default(0)
   isCheckpoint Boolean     @default(false) @map("is_checkpoint")
 
-  sliderProps SliderProp[]
-
   nextMessageId String? @map("next_message_id")
   chatId        String  @map("chat_id")
 
@@ -284,16 +282,17 @@ enum SliderPropType {
 model SliderProp {
   id   String         @id @default(uuid())
   name String
+  text String
   type SliderPropType
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  chatMessageId    String             @map("chat_message_id")
-  chatMessage      ChatMessage        @relation(fields: [chatMessageId], references: [id])
-  ResultSliderProp ResultSliderProp[]
+  chatId           String
+  chat             Chat               @relation(fields: [chatId], references: [id])
+  resultSliderProp ResultSliderProp[]
 
-  @@index([chatMessageId])
+  // @@index([chatId])
   @@map("slider_props")
 }
 
@@ -333,6 +332,7 @@ model Chat {
 
   subscriptions Subscription[]
   users         User[]         @relation("user_chats")
+  sliderProp    SliderProp[]
 
   @@index([startMessageId])
   @@map("chats")

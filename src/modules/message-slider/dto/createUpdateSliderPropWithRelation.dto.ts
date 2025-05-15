@@ -6,5 +6,5 @@ export class CreateUpdateSliderPropWithRelationDto extends CreateUpdateSliderPro
     description: 'Identifier of the chat message associated with this slider',
     format: 'uuid',
   })
-  chatMessageId: string;
+  chatId: string;
 }

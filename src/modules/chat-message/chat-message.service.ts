@@ -42,11 +42,9 @@ export class ChatMessageService {
     await this.findChatMessageWithRelationById(chatMessageId);
 
     await Promise.all([
-      this.messageSliderService.bulkUpsertMessageSlider(chatMessageId, chatMessage?.sliderProps ?? []),
       this.infoPopUpService.bulkUpsertPopUp(chatMessageId, chatMessage?.infoPopUps ?? [])
     ]);
 
-    delete chatMessage.sliderProps;
     delete chatMessage.infoPopUps;
 
     return this.chatMessageRepository.updateChatMessage(chatMessageId, chatMessage);

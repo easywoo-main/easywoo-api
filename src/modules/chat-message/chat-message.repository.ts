@@ -21,7 +21,6 @@ export class ChatMessageRepository {
                                    prevMessageIds,
                                    chatId,
                                    startingChatId,
-                                   sliderProps,
                                    prevChoiceIds,
                                    nextChoices,
                                    infoPopUps,
@@ -31,7 +30,6 @@ export class ChatMessageRepository {
       data: {
         ...data,
         ...(nextChoices && { nextChoices: { createMany: { data: nextChoices, skipDuplicates: true } } }),
-        ...(sliderProps && { sliderProps: { create: sliderProps } }),
         ...(infoPopUps && { infoPopUps: { create: infoPopUps } }),
         ...(startingChatId && { startingChat: { connect: { id: startingChatId } } }),
         ...(chatId && { chat: { connect: { id: chatId } } }),
@@ -67,7 +65,7 @@ export class ChatMessageRepository {
             resultMessageChoice: { where: { userId: { in: userIds } } }
           }
         },
-        sliderProps: true,
+        // sliderProps: true,
         nextMessage: true,
         infoPopUps: true,
         prevMessages: true,
@@ -87,7 +85,7 @@ export class ChatMessageRepository {
       where: { id },
       include: {
         nextChoices: true,
-        sliderProps: true,
+        // sliderProps: true,
         infoPopUps: true
       }
     });
@@ -97,7 +95,6 @@ export class ChatMessageRepository {
   public async updateChatMessage(id: string, {
     prevMessageIds,
     chatId,
-    sliderProps,
     infoPopUps,
     nextMessageId,
     nextChoices,

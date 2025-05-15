@@ -20,8 +20,8 @@ export class MessageSliderRepository {
     return this.messageSliderRepository.findUnique({ where: { id } });
   }
 
-  public async findAllMessageSlidersByMessageId(chatMessageId: string): Promise<MessageSliderEntity[]> {
-    return this.messageSliderRepository.findMany({where: {chatMessageId}})
+  public async findAllMessageSlidersByChatId(chatId: string): Promise<MessageSliderEntity[]> {
+    return this.messageSliderRepository.findMany({where: {chatId}})
   }
 
   public async updateMessageSlider(id: string, data: Partial<CreateUpdateSliderPropWithRelationDto>): Promise<MessageSliderEntity> {

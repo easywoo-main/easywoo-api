@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { MessageSliderService } from './message-slider.service';
 import { MessageSliderEntity } from './message-slider.entity';
@@ -27,14 +27,14 @@ export class MessageSliderController {
     return this.messageSliderService.findMessageSliderById(id);
   }
 
-  @Get('/message/:chatMessageId')
+  @Get()
   @ApiOperation({ summary: 'Fetch all message sliders by chat message ID' })
   @ApiResponse({ status: 200, description: 'Message sliders retrieved successfully', type: [MessageSliderEntity] })
   @ApiResponse({ status: 404, description: 'No message sliders found', type: ErrorResponse })
-  public async findAllMessageSlidersByMessageId(
-    @Param('chatMessageId') chatMessageId: string,
+  public async findAllMessageSlidersByChatId(
+    @Query('chatId') chatId: string,
   ): Promise<MessageSliderEntity[]> {
-    return this.messageSliderService.findAllMessageSlidersByMessageId(chatMessageId);
+    return this.messageSliderService.findAllMessageSlidersByChatId(chatId);
   }
 
   @Patch('/:id')

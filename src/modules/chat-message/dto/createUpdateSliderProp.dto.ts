@@ -8,6 +8,9 @@ export class CreateUpdateSliderPropDto {
   @ApiProperty({ description: 'Name of the slider property', example: 'Slider Name' })
   name: string;
 
+  @ApiProperty({ description: 'Text of the slider property', example: 'Slider Text' })
+  text: string;
+
   @ApiProperty({
     description: 'Type of the slider property',
     enum: SliderPropType,

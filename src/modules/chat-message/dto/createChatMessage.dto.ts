@@ -28,11 +28,6 @@ export class CreateChatMessageDto {
   timeout?: number;
 
   @ApiProperty({
-    description: 'List of slider properties associated with the message',
-    type: [CreateUpdateSliderPropDto],
-  })
-  sliderProps: CreateUpdateSliderPropDto[];
-  @ApiProperty({
     description: 'List of pop-up associated with the message',
     type: [CreateUpdateInfoPopupDto],
   })

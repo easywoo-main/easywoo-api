@@ -20,12 +20,6 @@ export class ChatRepository {
   }
 
   public async findAllChats(pageRequest: PageRequest): Promise<ChatEntity[]> {
-    // const [count, chats] = await Promise.all([
-    //   this.prisma.chat.count({         where: this.getWhereChats(pageRequest),}),
-    // ]);
-    //
-    // return pageRequest.toPageResponse<ChatEntity>(chats, count);
-
     return this.chatRepository.findMany({
       where: this.getWhereChats(pageRequest),
       ...pageRequest.getFilter()
@@ -68,7 +62,15 @@ export class ChatRepository {
     return this.chatRepository.update({
         where: { id: chatId },
         data: { users: { connect: { id: userId } } },
-        include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true, infoPopUps: true}}}
+      include: {
+        startMessage: {
+          include: {
+            nextMessage: true,
+            nextChoices: true, /*sliderProps: true,*/
+            infoPopUps: true
+          }
+        }
+      }
       }
     );
   }

@@ -1,7 +1,7 @@
 import { ChatEntity } from '../chat.entity';
-import { ChatMessageEntity } from '../../chat-message/chat-message.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ChatMessageWithRelationsDto } from '../../chat-message/dto/messageWithRelations.dto';
+import { MessageSliderEntity } from '../../message-slider/message-slider.entity';
 
 
 export class ChatWithMessageDto extends ChatEntity {
@@ -10,4 +10,10 @@ export class ChatWithMessageDto extends ChatEntity {
     type: ChatMessageWithRelationsDto,
   })
   startMessage: ChatMessageWithRelationsDto;
+
+  @ApiPropertyOptional({
+    description: 'Props of Slider',
+    type: [MessageSliderEntity]
+  })
+  sliderProps?: MessageSliderEntity[];
 }

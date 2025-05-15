@@ -14,13 +14,13 @@ export class MessageSliderService {
     return this.messageSliderRepository.createMessageSlider(data);
   }
 
-  public async bulkUpsertMessageSlider(chatMessageId: string, data: CreateUpdateSliderPropDto[]) {
+  public async bulkUpsertMessageSlider(chatId: string, data: CreateUpdateSliderPropDto[]) {
     return Promise.all(
       data.map((messageSlider)=>{
         if(!messageSlider.id){
-          return this.createMessageSlider({...messageSlider, chatMessageId})
+          return this.createMessageSlider({...messageSlider, chatId})
         }
-        return this.updateMessageSlider(messageSlider.id, {...messageSlider, chatMessageId})
+        return this.updateMessageSlider(messageSlider.id, {...messageSlider, chatId})
       })
     )
   }
@@ -30,8 +30,8 @@ export class MessageSliderService {
     return this.messageSliderRepository.findMessageSliderById(id);
   }
 
-  public async findAllMessageSlidersByMessageId(chatMessageId: string): Promise<MessageSliderEntity[]> {
-    return this.messageSliderRepository.findAllMessageSlidersByMessageId(chatMessageId);
+  public async findAllMessageSlidersByChatId(chatId: string): Promise<MessageSliderEntity[]> {
+    return this.messageSliderRepository.findAllMessageSlidersByChatId(chatId);
   }
 
   public async updateMessageSlider(

@@ -2,6 +2,9 @@ import { $Enums, SliderProp } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MessageSliderEntity implements SliderProp {
+    @ApiProperty({ description: 'The text of the slider' })
+
+    text: string;
     @ApiProperty({ description: 'The name of the slider' })
     name: string;
 
@@ -17,6 +20,7 @@ export class MessageSliderEntity implements SliderProp {
     @ApiProperty({ description: 'The date the slider was last updated' })
     updatedAt: Date;
 
-    @ApiProperty({ description: 'The ID of the related chat message', format:"uuid  " })
-    chatMessageId: string;
+    @ApiProperty({ description: 'The ID of the related chat ', format:"uuid" })
+    chatId: string;
+
 }

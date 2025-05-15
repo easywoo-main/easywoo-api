@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateUpdateSliderPropDto } from '../../chat-message/dto/createUpdateSliderProp.dto';
 
 export class CreateChatDto {
   @ApiProperty({ description: 'The name of the chat' })
@@ -18,4 +19,9 @@ export class CreateChatDto {
 
   @ApiProperty({description: "Course enabled / disabled"})
   isDisabled: boolean;
+  @ApiProperty({
+    description: 'List of slider properties associated with the message',
+    type: [CreateUpdateSliderPropDto],
+  })
+  sliderProps: CreateUpdateSliderPropDto[];
 }
