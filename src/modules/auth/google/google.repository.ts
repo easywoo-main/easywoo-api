@@ -1,14 +1,18 @@
-import { PrismaService } from '../../../database/prisma.service';
+import { Repository } from '../../../database/repository.service';
 import { GoogleUser } from '@prisma/client';
 import { GoogleCreateDto } from './dtos/googleCreate.dto';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class GoogleRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly  googleRepository: Prisma.GoogleUserDelegate;
+  constructor(repository: Repository) {
+    this.googleRepository = repository.googleUser
+  }
 
   public async findOneByEmail(email: string) {
-    return this.prisma.googleUser.findUnique({
+    return this.googleRepository.findUnique({
       where: {
         email,
       },
@@ -19,7 +23,7 @@ export class GoogleRepository {
   }
 
   public async updateGoogleUser(id: string, googleDto: Partial<GoogleUser>) {
-    return this.prisma.googleUser.update({
+    return this.googleRepository.update({
       where: {
         id,
       },
@@ -28,7 +32,7 @@ export class GoogleRepository {
   }
 
   public async createGoogleUser(googleDto: GoogleCreateDto) {
-    return this.prisma.googleUser.create({
+    return this.googleRepository.create({
       data: googleDto,
     });
   }

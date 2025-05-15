@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
 import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 import { ChatMessageEntity } from './chat-message.entity';
@@ -11,8 +11,11 @@ import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class ChatMessageRepository {
-  constructor(private readonly prisma: PrismaService) {
+  private readonly  chatMessageRepository: Prisma.ChatMessageDelegate;
+  constructor(repository: Repository) {
+    this.chatMessageRepository = repository.chatMessage
   }
+
 
   public async createChatMessage({
                                    prevMessageIds,
@@ -24,7 +27,7 @@ export class ChatMessageRepository {
                                    infoPopUps,
                                    ...data
                                  }: CreateChatMessageDto): Promise<ChatMessageEntity> {
-    return this.prisma.chatMessage.create({
+    return this.chatMessageRepository.create({
       data: {
         ...data,
         ...(nextChoices && { nextChoices: { createMany: { data: nextChoices, skipDuplicates: true } } }),
@@ -56,7 +59,7 @@ export class ChatMessageRepository {
 
 
   public async findChatMessageById(id: string, userIds: string[]): Promise<ChatMessageWithRelationsDto> {
-    return this.prisma.chatMessage.findUnique({
+    return this.chatMessageRepository.findUnique({
       where: { id },
       include: {
         nextChoices: {
@@ -80,7 +83,7 @@ export class ChatMessageRepository {
   }
 
   public async findChatMessagesWithPropsById(id: string): Promise<ChatMessageWithPropsDto> {
-    return this.prisma.chatMessage.findUnique({
+    return this.chatMessageRepository.findUnique({
       where: { id },
       include: {
         nextChoices: true,
@@ -100,7 +103,7 @@ export class ChatMessageRepository {
     nextChoices,
     ...data
   }: Partial<UpdateChatMessageDto>): Promise<ChatMessageEntity> {
-    return this.prisma.chatMessage.update({
+    return this.chatMessageRepository.update({
       where: { id },
       data: {
         ...data,
@@ -125,20 +128,20 @@ export class ChatMessageRepository {
   }
 
   public async deleteChatMessage(id: string): Promise<ChatMessageEntity> {
-    return this.prisma.chatMessage.delete({
+    return this.chatMessageRepository.delete({
       where: { id }
     });
   }
 
   public async findMessagesWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest): Promise<ChatMessageEntity[]> {
-    return this.prisma.chatMessage.findMany({
+    return this.chatMessageRepository.findMany({
       where: this.getWhereWithoutNextId(chatMessageId, chatId, pageRequest.search),
       ...pageRequest.getFilter()
     });
   }
 
   public async countMessagesWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
-    return this.prisma.chatMessage.count({
+    return this.chatMessageRepository.count({
       where: this.getWhereWithoutNextId(chatMessageId, chatId, pageRequest.search)
     });
   }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../database/prisma.service';
+import { Repository } from '../../../../database/repository.service';
 import { StepChatMessageEntity } from './step-chat-message.entity';
 import { CreateStepChatMessageDtoWithUserId } from './dtos/createStepChatMessageWithUserId.dto';
 import { Prisma } from '.prisma/client';
@@ -8,18 +8,21 @@ import { PageRequest } from '../../../../utils/page-request.utils';
 
 @Injectable()
 export class StepChatMessageRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly  stepChatMessageRepository: Prisma.StepChatMessageDelegate;
+  constructor(repository: Repository) {
+    this.stepChatMessageRepository = repository.stepChatMessage
+  }
 
   public async createStepChatMessage(data: CreateStepChatMessageDtoWithUserId): Promise<StepChatMessageEntity> {
-    return this.prisma.stepChatMessage.create({data});
+    return this.stepChatMessageRepository.create({data});
   }
 
   public async getStepChatMessagesByUserId(userId: string): Promise<StepChatMessageEntity[]> {
-    return this.prisma.stepChatMessage.findMany({where: {userId}});
+    return this.stepChatMessageRepository.findMany({where: {userId}});
   }
 
   public async getAllStepChatMessageByChatMessageId(chatMessageId: string, pageRequest: PageRequest): Promise<StepChatMessageDto[]> {
-    return this.prisma.stepChatMessage.findMany({
+    return this.stepChatMessageRepository.findMany({
       where: {
         chatMessageId: chatMessageId,
         ...this.getWhereProp(pageRequest)
@@ -30,7 +33,7 @@ export class StepChatMessageRepository {
   }
 
   public async getCountStepChatMessage(chatMessageId: string, pageRequest: PageRequest) {
-    return this.prisma.stepChatMessage.count({
+    return this.stepChatMessageRepository.count({
       where: {
         chatMessageId: chatMessageId,
         ...this.getWhereProp(pageRequest)

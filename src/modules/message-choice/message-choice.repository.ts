@@ -1,44 +1,35 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
 import { MessageChoiceEntity } from './messageChoice.entity';
 import { CreateMessageChoiceWithRelationDto } from './dto/createMessageChoiceWithRelation.dto';
 import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class MessageChoiceRepository {
-  constructor(private readonly prisma: PrismaService) {
+  private readonly messageChoiceRepository: Prisma.MessageChoiceDelegate;
+  constructor(repository: Repository) {
+    this.messageChoiceRepository = repository.messageChoice
   }
-
-  public async createMessageChoice({
-                                     prevMessageId,
-                                     ...data
-                                   }: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
-    return this.prisma.messageChoice.create({
-      data: { ...data, prevMessage: { connect: { id: prevMessageId } } }
+  public async createMessageChoice(data: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
+    return this.messageChoiceRepository.create({
+      data
     });
   }
 
-  public async updateMessageChoice(id: string, {
-    prevMessageId,
-    nextMessageId,
-    ...data
-  }: Partial<UpdateMessageChoiceDto>): Promise<MessageChoiceEntity> {
-    return this.prisma.messageChoice.update({
+  public async updateMessageChoice(id: string, data: Partial<UpdateMessageChoiceDto>): Promise<MessageChoiceEntity> {
+    return this.messageChoiceRepository.update({
       where: { id },
-      data: {
-        ...data,
-        ...(prevMessageId && { prevMessage: { connect: { id: prevMessageId } } }),
-        ...(nextMessageId && { nextMessage: { connect: { id: nextMessageId } } })
-      }
+      data
     });
   }
 
   public async deleteMessageChoice(id: string): Promise<MessageChoiceEntity> {
-    return this.prisma.messageChoice.delete({ where: { id } });
+    return this.messageChoiceRepository.delete({ where: { id } });
   }
 
   public async findMessageChoiceById(id: string, userIds?: string[]): Promise<MessageChoiceEntity> {
-    return this.prisma.messageChoice.findUnique({
+    return this.messageChoiceRepository.findUnique({
       where: { id },
       include: {
         nextMessage: true,

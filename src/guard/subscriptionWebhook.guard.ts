@@ -2,14 +2,17 @@ import { CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/co
 import { ConfigService } from '@nestjs/config';
 
 export class SubscriptionWebhookGuard implements CanActivate {
-    constructor(private readonly configService: ConfigService) {}
+  private readonly SUBSCRIPTION_WEBHOOK_TOKEN: string;
+    constructor(configService: ConfigService) {
+      this.SUBSCRIPTION_WEBHOOK_TOKEN = configService.get<string>('SUBSCRIPTION_WEBHOOK_TOKEN')
+    }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
 
         const token = request.headers?.authorization?.split(' ')?.pop();
 
-        if (token !== this.configService.get<string>('SUBSCRIPTION_WEBHOOK_TOKEN')) {
+        if (token !== this.SUBSCRIPTION_WEBHOOK_TOKEN) {
           throw new UnauthorizedException("Access denied. You are not authorized to access this resource");
         }
 

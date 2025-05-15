@@ -5,13 +5,16 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EasywooApiService {
+  private readonly EASYWOO_API: string;
   constructor(
     private readonly httpService: HttpService,
-    private readonly configService: ConfigService,
-  ) {}
+    configService: ConfigService,
+  ) {
+   this.EASYWOO_API = configService.get<string>('EASYWOO_API');
+  }
 
   public async generateReport(questionnaire: Record<string, any>) {
-    const url = this.configService.get<string>('EASYWOO_API');
+    const url = this.EASYWOO_API
     const formData = new URLSearchParams();
 
     Object.entries(questionnaire).forEach(([key, value]: [string, any]) => {

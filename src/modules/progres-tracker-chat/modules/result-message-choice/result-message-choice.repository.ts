@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../database/prisma.service';
+import { Repository } from '../../../../database/repository.service';
 import { ResultMessageChoiceEntity } from './result-message-choice.entity';
 import { CreateResultMessageChoiceDtoWithUserId } from './dtos/createResultMessageChoiceWithUserId.dto';
 import { Prisma } from '.prisma/client';
@@ -8,14 +8,17 @@ import { PageRequest } from '../../../../utils/page-request.utils';
 
 @Injectable()
 export class ResultMessageChoiceRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly resultMessageChoiceRepository: Prisma.ResultMessageChoiceDelegate;
+  constructor(repository: Repository) {
+    this.resultMessageChoiceRepository = repository.resultMessageChoice
+  }
 
   public async createResultMessageChoice(data: CreateResultMessageChoiceDtoWithUserId): Promise<ResultMessageChoiceEntity> {
-    return this.prisma.resultMessageChoice.create({data});
+    return this.resultMessageChoiceRepository.create({data});
   }
 
   public async getCountResultMessageChoice(messageChoiceId: string, pageRequest: PageRequest) {
-    return this.prisma.resultMessageChoice.count({
+    return this.resultMessageChoiceRepository.count({
       where: {
         messageChoiceId: messageChoiceId,
         ...this.getWhereProp(pageRequest),
@@ -24,7 +27,7 @@ export class ResultMessageChoiceRepository {
   }
 
   public async getAllResultMessageChoiceByMessageChoiceId(messageChoiceId: string, pageRequest: PageRequest): Promise<ResultMessageChoiceDto[]> {
-    return this.prisma.resultMessageChoice.findMany({
+    return this.resultMessageChoiceRepository.findMany({
       where: {
         messageChoiceId: messageChoiceId,
         ...this.getWhereProp(pageRequest),

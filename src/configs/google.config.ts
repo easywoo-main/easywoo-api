@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class GoogleClient extends OAuth2Client {
-  constructor(private readonly configService: ConfigService) {
+  constructor(configService: ConfigService) {
     super({
       clientId: configService.get<string>('GOOGLE_CLIENT_ID'),
     });

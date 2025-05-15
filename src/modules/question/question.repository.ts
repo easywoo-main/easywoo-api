@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
 import { QuestionDto } from './dtos/question.dto';
 import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class QuestionRepository {
-  constructor(private readonly prisma: PrismaService) {}
-
+  private readonly  questionRepository: Prisma.QuestionDelegate;
+  constructor(repository: Repository) {
+    this.questionRepository = repository.question;
+  }
   public async getAllQuestions(step?: number): Promise<QuestionDto[]> {
-    return this.prisma.question.findMany({
+    return this.questionRepository.findMany({
       where: {
         ...(step && { step })
       },
@@ -23,7 +25,7 @@ export class QuestionRepository {
   }
 
   public async getOneQuestion(questionId: string): Promise<QuestionDto> {
-    return this.prisma.question.findUnique({
+    return this.questionRepository.findUnique({
       where: {
         id: questionId,
       },

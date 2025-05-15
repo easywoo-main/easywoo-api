@@ -11,7 +11,7 @@ export class TokenService {
   private readonly REFRESH_TOKEN_EXPIRE: number;
   private readonly JWT_SECRET_KEY: string;
 
-  constructor(private readonly configService: ConfigService) {
+  constructor(configService: ConfigService) {
     this.ACCESS_TOKEN_EXPIRE = configService.get<number>('ACCESS_TOKEN_EXPIRE')!;
     this.REFRESH_TOKEN_EXPIRE = configService.get<number>('REFRESH_TOKEN_EXPIRE')!;
     this.JWT_SECRET_KEY = configService.get<string>('JWT_SECRET_KEY')!;

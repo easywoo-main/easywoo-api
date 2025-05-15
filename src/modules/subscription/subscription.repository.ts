@@ -1,37 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class SubscriptionRepository {
 
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly subscriptionRepository: Prisma.SubscriptionDelegate;
+  constructor(repository: Repository) {
+    this.subscriptionRepository = repository.subscription
+  }
 
   async getSubscriptionById(id: string) {
-    return this.prisma.subscription.findUnique({
+    return this.subscriptionRepository.findUnique({
       where: { id },
     });
   }
   async getSubscriptions() {
-    return this.prisma.subscription.findMany();
+    return this.subscriptionRepository.findMany();
   }
   async createSubscription(data: any) {
-    return this.prisma.subscription.create({
+    return this.subscriptionRepository.create({
       data,
     });
   }
   async updateSubscription(id: string, data: any) {
-    return this.prisma.subscription.update({
+    return this.subscriptionRepository.update({
       where: { id },
       data,
     });
   }
   async deleteSubscription(id: string) {
-    return this.prisma.subscription.delete({
+    return this.subscriptionRepository.delete({
       where: { id },
     });
   }
   async getSubscriptionByUserId(userId: string) {
-    return this.prisma.subscription.findMany({
+    return this.subscriptionRepository.findMany({
       where: { userId },
     });
   }

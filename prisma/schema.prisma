@@ -25,15 +25,15 @@ model User {
   googleUserId String? @unique @map("google_user_id")
   appleUserId  String? @unique @map("apple_user_id")
 
-  googleUser             GoogleUser?              @relation(fields: [googleUserId], references: [id])
-  appleUser              AppleUser?               @relation(fields: [appleUserId], references: [id])
-  chats                  Chat[]                   @relation("user_chats")
+  googleUser             GoogleUser?             @relation(fields: [googleUserId], references: [id])
+  appleUser              AppleUser?              @relation(fields: [appleUserId], references: [id])
+  chats                  Chat[]                  @relation("user_chats")
   subscription           Subscription[]
   resultSliderProp       ResultSliderProp[]
   resultMessageChoice    ResultMessageChoice[]
   stepChatMessage        StepChatMessage[]
   report                 Report[]
-  userTextMessageAnswers UserTextMessageAnswers[]
+  userTextMessageAnswers UserTextMessageAnswer[]
 
   @@map("users")
 }
@@ -96,9 +96,9 @@ model Subscription {
   chat Chat @relation(fields: [chatId], references: [id])
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("subscriptions")
   @@index([chatId])
   @@index([userId])
+  @@map("subscriptions")
 }
 
 model Report {
@@ -111,8 +111,8 @@ model Report {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("reports")
   @@index([userId])
+  @@map("reports")
 }
 
 enum QuestionsType {
@@ -262,11 +262,11 @@ model ChatMessage {
   nextMessage  ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id])
   prevMessages ChatMessage[] @relation("MessageToNext")
 
-  chat                   Chat                     @relation("ChatMessages", fields: [chatId], references: [id])
-  startingChat           Chat?                    @relation("StartMessage")
-  nextChoices            MessageChoice[]          @relation("MessageToPrev")
-  prevChoices            MessageChoice[]          @relation("MessageToNext")
-  userTextMessageAnswers UserTextMessageAnswers[]
+  chat                   Chat                    @relation("ChatMessages", fields: [chatId], references: [id])
+  startingChat           Chat?                   @relation("StartMessage")
+  nextChoices            MessageChoice[]         @relation("MessageToPrev")
+  prevChoices            MessageChoice[]         @relation("MessageToNext")
+  userTextMessageAnswers UserTextMessageAnswer[]
   stepChatMessages       StepChatMessage[]
   infoPopUps             InfoPopUp[]
 
@@ -293,8 +293,8 @@ model SliderProp {
   chatMessage      ChatMessage        @relation(fields: [chatMessageId], references: [id])
   ResultSliderProp ResultSliderProp[]
 
-  @@map("slider_props")
   @@index([chatMessageId])
+  @@map("slider_props")
 }
 
 model MessageChoice {
@@ -349,8 +349,8 @@ model InfoPopUp {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("info_pop_ups")
   @@index([chatMessageId])
+  @@map("info_pop_ups")
 }
 
 model ResultSliderProp {
@@ -365,9 +365,9 @@ model ResultSliderProp {
   sliderProp SliderProp @relation(fields: [sliderPropId], references: [id])
   user       User       @relation(fields: [userId], references: [id])
 
-  @@map("result_slider_props")
   @@index([userId])
   @@index([sliderPropId])
+  @@map("result_slider_props")
 }
 
 model ResultMessageChoice {
@@ -381,9 +381,9 @@ model ResultMessageChoice {
   messageChoice MessageChoice @relation(fields: [messageChoiceId], references: [id])
   user          User          @relation(fields: [userId], references: [id])
 
-  @@map("result_message_choices")
   @@index([userId])
   @@index([messageChoiceId])
+  @@map("result_message_choices")
 }
 
 model StepChatMessage {
@@ -397,12 +397,12 @@ model StepChatMessage {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("step_chat_messages")
   @@index([userId])
   @@index([chatMessageId])
+  @@map("step_chat_messages")
 }
 
-model UserTextMessageAnswers {
+model UserTextMessageAnswer {
   id            String @id @default(uuid())
   userId        String @map("user_id")
   chatMessageId String @map("chat_message_id")
@@ -414,7 +414,7 @@ model UserTextMessageAnswers {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  @@map("user_text_message_answers")
   @@index(userId)
   @@index(chatMessageId)
+  @@map("user_text_message_answers")
 }

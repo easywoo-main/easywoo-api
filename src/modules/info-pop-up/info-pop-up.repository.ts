@@ -1,30 +1,34 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
 import { CreateUpdateInfoPopupDto } from './dtos/createUpdateInfoPopup.dto';
 import { InfoPopUpEntity } from './info-pop-up.entity';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class InfoPopUpRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  private readonly  infoPopUpRepository: Prisma.InfoPopUpDelegate;
+  constructor(repository: Repository) {
+    this.infoPopUpRepository = repository.infoPopUp
+  }
 
   public async createInfoPopUp(data: CreateUpdateInfoPopupDto): Promise<InfoPopUpEntity> {
-    return this.prisma.infoPopUp.create({ data });
+    return this.infoPopUpRepository.create({ data });
   }
 
   public async findInfoPopUpById(id: string): Promise<InfoPopUpEntity> {
-    return this.prisma.infoPopUp.findUnique({ where: { id } });
+    return this.infoPopUpRepository.findUnique({ where: { id } });
   }
 
   public async findAllInfoPopUpsByChatMessageId(chatMessageId: string): Promise<InfoPopUpEntity[]> {
-    return this.prisma.infoPopUp.findMany({where: { chatMessageId }});
+    return this.infoPopUpRepository.findMany({where: { chatMessageId }});
   }
 
   public async updateInfoPopUp(id: string, data: Partial<CreateUpdateInfoPopupDto>): Promise<InfoPopUpEntity> {
-    return this.prisma.infoPopUp.update({ where: { id }, data });
+    return this.infoPopUpRepository.update({ where: { id }, data });
   }
 
   public async deleteInfoPopUp(id: string): Promise<InfoPopUpEntity> {
-    return this.prisma.infoPopUp.delete({ where: { id } });
+    return this.infoPopUpRepository.delete({ where: { id } });
   }
 
 }

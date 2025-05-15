@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../database/prisma.service';
+import { Repository } from '../../../../database/repository.service';
 import { CreateUpdateTextMessageAnswerDto } from './create-update-text-message-answer.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserTextMessageAnswerRepository {
-  constructor(private readonly prisma: PrismaService) {
+  private readonly  userTextMessageAnswerRepository: Prisma.UserTextMessageAnswerDelegate;
+  constructor(repository: Repository) {
+    this.userTextMessageAnswerRepository = repository.userTextMessageAnswer
   }
 
   public async createTextMessageAnswer(data: CreateUpdateTextMessageAnswerDto) {
-    return this.prisma.userTextMessageAnswers.create({
+    return this.userTextMessageAnswerRepository.create({
       data
     });
   }

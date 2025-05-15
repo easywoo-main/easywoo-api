@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
 import { CreateChatDto } from './dto/createChat.dto';
 import { Prisma } from '.prisma/client';
 import { ChatEntity } from './chat.entity';
@@ -9,13 +9,12 @@ import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class ChatRepository {
-  constructor(
-    private readonly prisma: PrismaService
-  ) {
+  private readonly  chatRepository: Prisma.ChatDelegate;
+  constructor(repository: Repository) {
+    this.chatRepository = repository.chat
   }
-
   public async findChatById(id: string): Promise<ChatEntity> {
-    return this.prisma.chat.findUnique({
+    return this.chatRepository.findUnique({
       where: { id }
     });
   }
@@ -27,14 +26,14 @@ export class ChatRepository {
     //
     // return pageRequest.toPageResponse<ChatEntity>(chats, count);
 
-    return this.prisma.chat.findMany({
+    return this.chatRepository.findMany({
       where: this.getWhereChats(pageRequest),
       ...pageRequest.getFilter()
     });
   }
 
   public async countChats(pageRequest: PageRequest) {
-    return this.prisma.chat.count({ where: this.getWhereChats(pageRequest) });
+    return this.chatRepository.count({ where: this.getWhereChats(pageRequest) });
   }
 
   private getWhereChats(pageRequest: PageRequest): Prisma.ChatWhereInput {
@@ -47,26 +46,26 @@ export class ChatRepository {
   }
 
   public async createChat(data: CreateChatDto): Promise<ChatEntity> {
-    return this.prisma.chat.create({
+    return this.chatRepository.create({
       data
     });
   }
 
   public async updateChat(id: string, data: Partial<UpdateChatDto>): Promise<ChatEntity> {
-    return this.prisma.chat.update({
+    return this.chatRepository.update({
       where: { id },
       data
     });
   }
 
   public async deleteChat(chatId: string): Promise<ChatEntity> {
-    return this.prisma.chat.delete({
+    return this.chatRepository.delete({
       where: { id: chatId }
     });
   }
 
   public async createRelationWithUser(chatId: string, userId: string): Promise<ChatWithMessageDto> {
-    return this.prisma.chat.update({
+    return this.chatRepository.update({
         where: { id: chatId },
         data: { users: { connect: { id: userId } } },
         include: {startMessage: {include: {nextMessage: true, nextChoices: true, sliderProps: true, infoPopUps: true}}}

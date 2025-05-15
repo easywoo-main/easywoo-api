@@ -13,17 +13,18 @@ import { QuestionWithUserAnswerDto } from '../question/dtos/QuestionWithUserAnsw
 import { EasywooApiService } from './modules/easywoo-api/easywoo-api.service';
 import * as cheerio from 'cheerio';
 import { QuestionnaireAnswerCreateDto } from '../question-answer/dtos/questionnaireAnswerCreate.dto';
-import { PrismaService } from '../../database/prisma.service';
+import { Repository } from '../../database/repository.service';
+import { Prisma } from '.prisma/client';
 
 @Injectable()
 export class ReportRepository {
-  constructor(
-    private readonly prisma: PrismaService
-  ) {
+  private readonly reportRepository: Prisma.ReportDelegate;
+  constructor(repository: Repository) {
+    this.reportRepository = repository.report
   }
 
   public async createReport(answersIds: string[], userId?: string) {
-    return this.prisma.report.create({
+    return this.reportRepository.create({
       data: {
         userId,
         answer: {
