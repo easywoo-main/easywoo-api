@@ -19,8 +19,8 @@ export class ChatMessageRepository {
 
   public async createChatMessage({
                                    prevMessageIds,
-                                   chatId,
-                                   startingChatId,
+                                   // chatId,
+                                   // startingChatId,
                                    prevChoiceIds,
                                    nextChoices,
                                    infoPopUps,
@@ -31,8 +31,8 @@ export class ChatMessageRepository {
         ...data,
         ...(nextChoices && { nextChoices: { createMany: { data: nextChoices, skipDuplicates: true } } }),
         ...(infoPopUps && { infoPopUps: { create: infoPopUps } }),
-        ...(startingChatId && { startingChat: { connect: { id: startingChatId } } }),
-        ...(chatId && { chat: { connect: { id: chatId } } }),
+        // ...(startingChatId && { startingChat: { connect: { id: startingChatId } } }),
+        // ...(chatId && { chat: { connect: { id: chatId } } }),
         ...(prevMessageIds && {
           prevMessages: {
             connect: prevMessageIds.map((id) => {
@@ -50,7 +50,7 @@ export class ChatMessageRepository {
             })
           }
         })
-      }
+      } as Prisma.ChatMessageUncheckedCreateInput
 
     });
   }

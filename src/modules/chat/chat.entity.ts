@@ -23,6 +23,9 @@ export class ChatEntity implements Chat {
   @ApiProperty({ description: 'The number of free steps available in the chat' })
   freeSteps: number;
 
+  @ApiProperty({ description: 'Formula' })
+  formula: string;
+
   @ApiProperty({ description: 'ID of the starting message in the chat', format: 'uuid' })
   startMessageId: string;
 

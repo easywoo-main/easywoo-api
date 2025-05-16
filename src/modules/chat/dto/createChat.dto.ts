@@ -24,4 +24,7 @@ export class CreateChatDto {
     type: [CreateUpdateSliderPropDto],
   })
   sliderProps: CreateUpdateSliderPropDto[];
+
+  @ApiProperty({description: "Formula"})
+  formula: string;
 }
