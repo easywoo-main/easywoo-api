@@ -17,4 +17,10 @@ export class CreateUpdateSliderPropDto {
     example: SliderPropType.POSITIVE,
   })
   type: SliderPropType;
+
+  @ApiPropertyOptional({ description: 'Positive message' })
+  positiveMessage: string;
+
+  @ApiPropertyOptional({ description: 'Negative message', example: 'Slider Description' })
+  negativeMessage: string;
 }

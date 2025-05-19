@@ -285,6 +285,9 @@ model SliderProp {
   text String
   type SliderPropType
 
+  positiveMessage String? @map("positive_message")
+  negativeMessage String? @map("negative_message")
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
@@ -324,6 +327,9 @@ model Chat {
   isDisabled                Boolean @default(false) @map("is_disabled")
   startMessageId            String? @unique @map("start_message_id")
   formula                   String
+
+  therapistAvatar String? @map("therapist_avatar")
+  therapistName   String  @map("therapist_name")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

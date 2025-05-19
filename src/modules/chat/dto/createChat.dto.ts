@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { CreateUpdateSliderPropDto } from '../../chat-message/dto/createUpdateSliderProp.dto';
 
 export class CreateChatDto {
@@ -19,6 +19,7 @@ export class CreateChatDto {
 
   @ApiProperty({description: "Course enabled / disabled"})
   isDisabled: boolean;
+
   @ApiProperty({
     description: 'List of slider properties associated with the message',
     type: [CreateUpdateSliderPropDto],
@@ -27,4 +28,10 @@ export class CreateChatDto {
 
   @ApiProperty({description: "Formula"})
   formula: string;
+
+  @ApiPropertyOptional({description: "Therapist avatar URL"})
+  therapistAvatar: string
+
+  @ApiProperty({description: "Therapist name"})
+  therapistName: string;
 }

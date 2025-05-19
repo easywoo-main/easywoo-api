@@ -22,7 +22,7 @@ export class ChatMessageService {
     if (newChatMessage.type === MessageType.CHALLENGE) {
       newChatMessage.nextChoices = CHALLENGE_MESSAGE_CHOICE;
     }
-    return await this.chatMessageRepository.createChatMessage(newChatMessage);
+    return this.chatMessageRepository.createChatMessage(newChatMessage);
   }
 
   @CheckExists('Chat Message Not Found')

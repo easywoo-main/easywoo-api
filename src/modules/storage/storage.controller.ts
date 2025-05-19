@@ -1,4 +1,4 @@
-import { Controller, Post, UploadedFiles, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Query, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { ChatFilesInterceptor } from '../../interceptor/chatFilesInterceptor';
 import { StorageService } from './storage.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -14,7 +14,7 @@ export class StorageController {
   @ApiResponse({ status: 201, description: 'Files successfully uploaded' })
   @ApiResponse({ status: 400, description: 'Invalid file upload request' })
   @UseInterceptors(ChatFilesInterceptor("files"))
-  public async uploadChatMessageFiles(@UploadedFiles()  files: Express.Multer.File[]) {
+  public async uploadChatMessageFiles(@UploadedFiles()  files: Express.Multer.File[], @Query("folder") folder?: string) {
     return await this.storageService.uploadChatMessageFiles(files);
   }
 }

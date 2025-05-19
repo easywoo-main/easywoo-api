@@ -2,6 +2,8 @@ import { $Enums, SliderProp } from '@prisma/client';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class MessageSliderEntity implements SliderProp {
+    positiveMessage: string;
+    negativeMessage: string;
     @ApiProperty({ description: 'The text of the slider' })
 
     text: string;

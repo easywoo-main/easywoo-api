@@ -31,7 +31,7 @@ export class StorageService {
     return `${this.configService.get<string>('BASE_URL')}/${destination}/${fileName}`;
   }
 
-  public async uploadChatMessageFiles(files: Express.Multer.File[]) {
-    return Promise.all(files.map(async (file) => this.uploadFile(file, getChatMessagePath())));
+  public async uploadChatMessageFiles(files: Express.Multer.File[], folder:string = "") {
+    return Promise.all(files.map(async (file) => this.uploadFile(file, path.join(getChatMessagePath(), folder))));
   }
 }
