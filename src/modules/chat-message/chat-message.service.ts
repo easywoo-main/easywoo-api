@@ -27,7 +27,7 @@ export class ChatMessageService {
 
   @CheckExists('Chat Message Not Found')
   public async findChatMessageWithRelationById(chatMessageId: string, userIds?: string | string[]) {
-    return this.chatMessageRepository.findChatMessageById(
+    return this.chatMessageRepository.findChatMessageByIdRecursive(
       chatMessageId,
       userIds ? Array.isArray(userIds) ? userIds : [userIds]: []
     );

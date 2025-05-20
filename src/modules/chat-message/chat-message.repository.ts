@@ -55,6 +55,66 @@ export class ChatMessageRepository {
     });
   }
 
+  public async findChatMessageByIdRecursive(
+    id: string,
+    userIds: string[],
+    depth = 200 //todo
+  ): Promise<ChatMessageWithRelationsDto | null> {
+    if (depth <= 0) {
+      return null;
+    }
+
+    const message = await this.chatMessageRepository.findUnique({
+      where: { id },
+      include: {
+        nextChoices: {
+          include: {
+            resultMessageChoice: {
+              where: { userId: { in: userIds } },
+            },
+            // На цьому рівні не включаємо nextMessage чи nextChoices, бо їх будемо завантажувати рекурсивно вручну
+          },
+        },
+        nextMessage: true, // спочатку завантажуємо поверхнево
+        infoPopUps: true,
+        prevMessages: true,
+        stepChatMessages: {
+          where: {
+            user: {
+              id: { in: userIds },
+            },
+          },
+        },
+      },
+    });
+
+    if (!message) return null;
+
+    // Рекурсивно завантажуємо nextMessage (якщо він є)
+    if (message.nextMessage) {
+      message.nextMessage = await this.findChatMessageByIdRecursive(
+        message.nextMessage.id,
+        userIds,
+        depth - 1
+      );
+    }
+
+    // Рекурсивно завантажуємо nextMessage для кожного nextChoice
+    if (message.nextChoices && message.nextChoices.length > 0) {
+      for (const choice of message.nextChoices) {
+        if (choice.nextMessageId) {
+          // @ts-ignore
+          choice.nextMessage = await this.findChatMessageByIdRecursive(
+            choice.nextMessageId,
+            userIds,
+            depth - 1
+          );
+        }
+      }
+    }
+
+    return message;
+  }
 
   public async findChatMessageById(id: string, userIds: string[]): Promise<ChatMessageWithRelationsDto> {
     return this.chatMessageRepository.findUnique({

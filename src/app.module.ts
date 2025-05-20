@@ -16,6 +16,7 @@ import { StorageModule } from './modules/storage/storage.module';
 import { MessageSliderModule } from './modules/message-slider/message-slider.module';
 import { ProgressTrackerChatModule } from './modules/progres-tracker-chat/progress-tracker-chat.module';
 import { InfoPopUpModule } from './modules/info-pop-up/info-pop-up.module';
+import { PaintPointModule } from './modules/paint-point/paint-point.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { InfoPopUpModule } from './modules/info-pop-up/info-pop-up.module';
     MessageSliderModule,
     ProgressTrackerChatModule,
     InfoPopUpModule,
+    PaintPointModule,
   ],
   controllers: [],
   providers: [],
