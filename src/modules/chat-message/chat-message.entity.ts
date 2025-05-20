@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { $Enums, ChatMessage, MessageType } from '@prisma/client';
 
 export class ChatMessageEntity implements ChatMessage {
+  isAllowManualTime: boolean;
+  isOfferRestart: boolean;
   @ApiProperty({ description: 'Unique identifier of the chat message' })
   id: string;
 
