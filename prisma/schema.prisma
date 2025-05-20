@@ -317,16 +317,28 @@ model MessageChoice {
   @@map("message_choices")
 }
 
+enum GraphType {
+  LINE
+  BAR
+  PIE
+  DOUGHNUT
+  RADAR
+  POLAR_AREA
+  BUBBLE
+  SCATTER
+}
+
 model Chat {
-  id                        String  @id @default(uuid())
+  id                        String    @id @default(uuid())
   name                      String
-  freeSteps                 Int     @map("free_steps")
+  freeSteps                 Int       @map("free_steps")
   price                     Float
-  landingUrl                String? @map("landing_url")
-  hasIndividualConsultation Boolean @default(false) @map("has_individual_consultation")
-  isDisabled                Boolean @default(false) @map("is_disabled")
-  startMessageId            String? @unique @map("start_message_id")
+  landingUrl                String?   @map("landing_url")
+  hasIndividualConsultation Boolean   @default(false) @map("has_individual_consultation")
+  isDisabled                Boolean   @default(false) @map("is_disabled")
+  startMessageId            String?   @unique @map("start_message_id")
   formula                   String
+  graphType                 GraphType @default(LINE) @map("graph_type")
 
   therapistAvatar String? @map("therapist_avatar")
   therapistName   String  @map("therapist_name")

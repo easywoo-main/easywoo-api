@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Chat } from '@prisma/client';
+import { Chat, GraphType } from '@prisma/client';
 
 export class ChatEntity implements Chat {
+  graphType: GraphType;
   therapistAvatar: string;
   therapistName: string;
   @ApiProperty({description: "Landing page URL"})
