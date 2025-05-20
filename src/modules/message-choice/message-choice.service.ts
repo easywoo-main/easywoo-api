@@ -5,6 +5,7 @@ import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
 import { CheckExists } from '../../decorators';
 import { ChatMessageService } from '../chat-message/chat-message.service';
 import { MessageType } from '@prisma/client';
+import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class MessageChoiceService {
@@ -35,5 +36,14 @@ export class MessageChoiceService {
   @CheckExists('MessageChoice not found')
   public async findMessageChoiceById(id: string) {
     return this.messageChoiceRepository.findMessageChoiceById(id);
+  }
+
+  public async findChoiceWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
+    const [messageChoice, count] = await Promise.all([
+      this.messageChoiceRepository.findChoiceWithoutNextId(chatMessageId,chatId, pageRequest),
+      this.messageChoiceRepository.countChoiceWithoutNextId(chatMessageId, chatId, pageRequest)
+    ]);
+
+    return pageRequest.toPageResponse(messageChoice, count);
   }
 }

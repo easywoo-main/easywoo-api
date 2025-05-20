@@ -4,6 +4,7 @@ import { MessageChoiceEntity } from './messageChoice.entity';
 import { CreateMessageChoiceWithRelationDto } from './dto/createMessageChoiceWithRelation.dto';
 import { UpdateMessageChoiceDto } from './dto/updateMessageChoice.dto';
 import { Prisma } from '.prisma/client';
+import { PageRequest } from '../../utils/page-request.utils';
 
 @Injectable()
 export class MessageChoiceRepository {
@@ -35,6 +36,39 @@ export class MessageChoiceRepository {
         nextMessage: true,
         ...(userIds && { resultMessageChoice: { where: { user: { id: { in: userIds } } } } })
       }
+    });
+  }
+
+  public async findChoiceWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
+    return this.messageChoiceRepository.findMany({
+      where: this.getWhereFilter(chatMessageId, chatId, pageRequest.search),
+      ...pageRequest.getFilter()
+    });
+  }
+
+  private getWhereFilter(chatMessageId: string, chatId: string, search: string): Prisma.MessageChoiceWhereInput {
+    return {
+      prevMessage: { chatId: chatId },
+      OR: [
+        { nextMessageId: null },
+        { nextMessageId: chatMessageId }
+      ],
+      ...(search && {
+        id: {
+          mode: 'insensitive',
+          contains: search
+        },
+        name: {
+          mode: 'insensitive',
+          contains: search
+        },
+      })
+    };
+  }
+
+  public countChoiceWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
+    return this.messageChoiceRepository.count({
+      where: this.getWhereFilter(chatMessageId, chatId, pageRequest.search)
     });
   }
 }
