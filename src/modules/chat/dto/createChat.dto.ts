@@ -38,5 +38,7 @@ export class CreateChatDto {
 
   @ApiProperty({description: "Therapist name"})
   therapistName: string;
-
+  
+  @ApiProperty({ description: 'List of paint points associated with the chat' })
+  paintPoints: string[];
 }

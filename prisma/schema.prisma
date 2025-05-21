@@ -340,6 +340,7 @@ model Chat {
   isDisabled                Boolean   @default(false) @map("is_disabled")
   startMessageId            String?   @unique @map("start_message_id")
   formula                   String
+  paintPoints               String[]  @map("paint_points")
   graphType                 GraphType @default(LINE) @map("graph_type")
 
   therapistAvatar String? @map("therapist_avatar")

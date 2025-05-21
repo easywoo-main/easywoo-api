@@ -2,9 +2,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Chat, GraphType } from '@prisma/client';
 
 export class ChatEntity implements Chat {
-  graphType: GraphType;
-  therapistAvatar: string;
-  therapistName: string;
   @ApiProperty({description: "Landing page URL"})
   landingUrl: string;
 
@@ -31,6 +28,18 @@ export class ChatEntity implements Chat {
 
   @ApiProperty({ description: 'ID of the starting message in the chat', format: 'uuid' })
   startMessageId: string;
+
+  @ApiProperty({ description: 'List of paint points associated with the chat' })
+  paintPoints: string[];
+
+  @ApiProperty({ description: 'Type of graph associated with the chat' })
+  graphType: GraphType;
+
+  @ApiProperty({ description: 'URL of the therapist\'s avatar' })
+  therapistAvatar: string;
+
+  @ApiProperty({ description: 'Name of the therapist' })
+  therapistName: string;
 
   @ApiProperty({ description: 'Timestamp when the chat was created' })
   createdAt: Date;

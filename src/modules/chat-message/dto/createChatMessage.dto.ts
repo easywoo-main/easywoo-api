@@ -65,4 +65,5 @@ export class CreateChatMessageDto {
     type: [CreateMessageChoiceDto],
   })
   nextChoices: CreateMessageChoiceDto[];
+
 }
