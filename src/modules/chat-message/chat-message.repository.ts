@@ -8,6 +8,7 @@ import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
 import { MessageType } from '@prisma/client';
 import { Prisma } from '.prisma/client';
 import { PageRequest } from '../../utils/page-request.utils';
+import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -72,10 +73,9 @@ export class ChatMessageRepository {
             resultMessageChoice: {
               where: { userId: { in: userIds } },
             },
-            // На цьому рівні не включаємо nextMessage чи nextChoices, бо їх будемо завантажувати рекурсивно вручну
           },
         },
-        nextMessage: true, // спочатку завантажуємо поверхнево
+        nextMessage: true,
         infoPopUps: true,
         prevMessages: true,
         stepChatMessages: {
@@ -99,7 +99,6 @@ export class ChatMessageRepository {
       );
     }
 
-    // Рекурсивно завантажуємо nextMessage для кожного nextChoice
     if (message.nextChoices && message.nextChoices.length > 0) {
       for (const choice of message.nextChoices) {
         if (choice.nextMessageId) {
@@ -190,20 +189,32 @@ export class ChatMessageRepository {
     });
   }
 
-  public async findMessagesWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest): Promise<ChatMessageEntity[]> {
+  public async findMessagesWithoutNextId(filterChatMessage: FilterChatMessage): Promise<ChatMessageEntity[]> {
     return this.chatMessageRepository.findMany({
-      where: this.getWhereWithoutNextId(chatMessageId, chatId, pageRequest.search),
-      ...pageRequest.getFilter()
+      where: {
+        chatId: filterChatMessage.chatId,
+        id: {not: filterChatMessage.chatMessageId},
+      },
+      include: {
+        prevMessages: {where: {id: filterChatMessage.chatMessageId}},
+        prevChoices: {where: {id: filterChatMessage.messageChoiceId}}
+
+      },
+      ...filterChatMessage.getFilter(),
+      orderBy: {prevMessages: {_count: "desc"} }
     });
   }
 
-  public async countMessagesWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
+  public async countMessagesWithoutNextId(filterChatMessage: FilterChatMessage) {
     return this.chatMessageRepository.count({
-      where: this.getWhereWithoutNextId(chatMessageId, chatId, pageRequest.search)
+      where: {
+        chatId: filterChatMessage.chatId,
+        id: {not: filterChatMessage.chatMessageId}
+      },
     });
   }
 
-  private getWhereWithoutNextId(
+  private getWhere(
     chatMessageId: string,
     chatId: string,
     search: string

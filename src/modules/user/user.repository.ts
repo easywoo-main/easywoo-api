@@ -48,11 +48,11 @@ export class UserRepository {
 
   public async getAllUserByChatId(chatId: string, pageRequest: PageRequest) {
     return this.userRepository.findMany({
-      where: {
-        chats: { some: { id: chatId } },
-        ...this.getWhereProp(pageRequest)
-      },
-      ...pageRequest.getFilter()
+      // where: {
+      //   chats: { some: { id: chatId } },
+      //   ...this.getWhereProp(pageRequest)
+      // },
+      // ...pageRequest.getFilter()
     });
   }
 

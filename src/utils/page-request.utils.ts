@@ -25,11 +25,19 @@ export class PageRequest {
     return new PageResponse<T>(this, content, count);
   }
 
-  getFilter(){
+  getFilter(...searchFields: string[]) {
     return {
+      // ...(searchFields && {
+      //   where: searchFields.map(searchField => ({
+      //     [searchField]: {
+      //       contains: this.search,
+      //       mode: 'insensitive'
+      //     }
+      //   }))
+      // }),
       skip: this.skip,
       take: this.pageSize,
       orderBy: this.sortBy,
-    }
+    };
   }
 }

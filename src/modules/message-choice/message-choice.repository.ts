@@ -41,18 +41,14 @@ export class MessageChoiceRepository {
 
   public async findChoiceWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
     return this.messageChoiceRepository.findMany({
-      where: this.getWhereFilter(chatMessageId, chatId, pageRequest.search),
+      where: this.getWhereFilter(chatMessageId, pageRequest.search),
       ...pageRequest.getFilter()
     });
   }
 
-  private getWhereFilter(chatMessageId: string, chatId: string, search: string): Prisma.MessageChoiceWhereInput {
+  private getWhereFilter(chatMessageId: string, search: string): Prisma.MessageChoiceWhereInput {
     return {
-      prevMessage: { chatId: chatId },
-      OR: [
-        { nextMessageId: null },
-        { nextMessageId: chatMessageId }
-      ],
+      prevMessage: { id: chatMessageId },
       ...(search && {
         id: {
           mode: 'insensitive',
@@ -68,7 +64,7 @@ export class MessageChoiceRepository {
 
   public countChoiceWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
     return this.messageChoiceRepository.count({
-      where: this.getWhereFilter(chatMessageId, chatId, pageRequest.search)
+      where: this.getWhereFilter(chatMessageId, pageRequest.search)
     });
   }
 }
