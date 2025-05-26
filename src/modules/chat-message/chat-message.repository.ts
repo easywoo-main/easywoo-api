@@ -136,7 +136,7 @@ export class ChatMessageRepository {
       where: { id },
       data: {
         ...data,
-        sliderProp: { connect: sliderPropIds.map((id) => ({ id })) },
+        ...(sliderPropIds && {sliderProp: { connect: sliderPropIds.map((id) => ({ id })) }}),
         ...(prevMessageIds
           && {
             prevMessages: {
@@ -169,8 +169,7 @@ export class ChatMessageRepository {
       },
       include: {
         prevMessages: {where: {id: filterChatMessage.chatMessageId}},
-        prevChoices: {where: {id: filterChatMessage.messageChoiceId}}
-
+        prevChoices: {where: {id: filterChatMessage.messageChoiceId}},
       },
       ...filterChatMessage.getFilter(),
       orderBy: {prevMessages: {_count: "desc"} }

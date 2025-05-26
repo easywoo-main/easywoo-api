@@ -254,7 +254,7 @@ model ChatMessage {
   medias            String[]
   question          String
   type              MessageType @default(TEXT)
-  timeout           Int?        @default(0)
+  timeouts          Int[]
   isAllowManualTime Boolean     @default(false) @map("is_allow_manyal_time")
   isCourseEnd       Boolean     @default(false) @map("is_course_end")
   isOfferRestart    Boolean     @default(false) @map("is_offer_restart")

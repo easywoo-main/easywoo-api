@@ -7,7 +7,7 @@ export class ChatMessageEntity implements ChatMessage {
     todoList: string[];
     question: string;
     type: $Enums.MessageType;
-    timeout: number;
+    timeouts: number[];
     isAllowManualTime: boolean;
     isCourseEnd: boolean;
     isOfferRestart: boolean;

@@ -9,7 +9,7 @@ export class CreateChatMessageDto {
   todoList: string[];
   image: string[];
   media: string[];
-  timeout?: number;
+  timeouts?: number[];
   type?: MessageType;
 
 
