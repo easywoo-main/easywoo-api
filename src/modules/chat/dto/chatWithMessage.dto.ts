@@ -10,10 +10,4 @@ export class ChatWithMessageDto extends ChatEntity {
     type: ChatMessageWithRelationsDto,
   })
   startMessage: ChatMessageWithRelationsDto;
-
-  @ApiPropertyOptional({
-    description: 'Props of Slider',
-    type: [MessageSliderEntity]
-  })
-  sliderProps?: MessageSliderEntity[];
 }

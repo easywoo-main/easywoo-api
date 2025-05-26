@@ -15,7 +15,6 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { MessageSliderModule } from './modules/message-slider/message-slider.module';
 import { ProgressTrackerChatModule } from './modules/progres-tracker-chat/progress-tracker-chat.module';
-import { InfoPopUpModule } from './modules/info-pop-up/info-pop-up.module';
 import { PaintPointModule } from './modules/paint-point/paint-point.module';
 import { SliderPropModule } from './modules/slider-prop/slider-prop.module';
 
@@ -39,7 +38,7 @@ import { SliderPropModule } from './modules/slider-prop/slider-prop.module';
     StorageModule,
     MessageSliderModule,
     ProgressTrackerChatModule,
-    InfoPopUpModule,
+    // InfoPopUpModule,
     PaintPointModule,
     SliderPropModule,
   ],

@@ -52,7 +52,7 @@ export class ChatMessageController {
   @ApiResponse({ status: 404, description: 'Chat message not found', type: ErrorResponse })
   public async updateChatMessage(
     @Param('id') id: string,
-    @Body() updateChatMessageDto: Partial<UpdateChatMessageDto>
+    @Body() updateChatMessageDto: UpdateChatMessageDto
   ) {
     return this.chatMessageService.updateChatMessageById(id, updateChatMessageDto);
   }

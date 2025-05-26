@@ -31,27 +31,27 @@ export class ProgressTrackerChatService {
 
   public async saveStep(chatMessageId: string, createUserStepDto: CreateUserStepDto, userId: string){
     const currencyChatMessage = await this.chatMessageService.findChatMessageWithRelationById(chatMessageId);
+    //todo
+    // await this.stepChatMessageService.createStepChatMessage(chatMessageId, userId);
 
-    await this.stepChatMessageService.createStepChatMessage(chatMessageId, userId);
-
-    if ([MessageType.CHALLENGE, MessageType.QUESTION_SINGLE].includes(currencyChatMessage.type as any)) {
-      await this.resultMessageChoiceService.createResultMessageChoice(createUserStepDto.messageChoiceId, userId)
-
-      const messageChoice = await this.messageChoiceService.findMessageChoiceById(createUserStepDto.messageChoiceId);
-      return messageChoice.nextMessageId;
-    }
-
-    if (MessageType.QUESTION_SLIDERS === currencyChatMessage.type) {
-      await this.resultSliderPropService.createManyResultSliderProp(createUserStepDto.sliderProps, userId)
-    }
-
-    if (MessageType.QUESTION_TEXT_FIELD === currencyChatMessage.type) {
-      await this.userTextMessageAnswerService.createTextMessageAnswer({
-        chatMessageId,
-        userId,
-        answer: createUserStepDto.textAnswer,
-      });
-    }
+    // if ([MessageType.CHALLENGE, MessageType.QUESTION_SINGLE].includes(currencyChatMessage.type as any)) {
+    //   await this.resultMessageChoiceService.createResultMessageChoice(createUserStepDto.messageChoiceId, userId)
+    //
+    //   const messageChoice = await this.messageChoiceService.findMessageChoiceById(createUserStepDto.messageChoiceId);
+    //   return messageChoice.nextMessageId;
+    // }
+    //
+    // if (MessageType.QUESTION_SLIDERS === currencyChatMessage.type) {
+    //   await this.resultSliderPropService.createManyResultSliderProp(createUserStepDto.sliderProps, userId)
+    // }
+    //
+    // if (MessageType.QUESTION_TEXT_FIELD === currencyChatMessage.type) {
+    //   await this.userTextMessageAnswerService.createTextMessageAnswer({
+    //     chatMessageId,
+    //     userId,
+    //     answer: createUserStepDto.textAnswer,
+    //   });
+    // }
 
     return currencyChatMessage.nextMessageId
 

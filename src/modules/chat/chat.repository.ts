@@ -66,12 +66,11 @@ export class ChatRepository {
         startMessage: {
           include: {
             nextMessage: true,
-            nextChoices: true, /*sliderProps: true,*/
-            infoPopUps: true
+            nextChoices: true
           }
         }
       }
-      }
+    }
     );
   }
 }

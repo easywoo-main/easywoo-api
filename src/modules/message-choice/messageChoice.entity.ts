@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import {MessageChoice } from '@prisma/client';
 
 export class MessageChoiceEntity implements MessageChoice {
+    text: string;
+    info: string;
     @ApiProperty({ description: 'The name of the message choice' })
     name: string;
 

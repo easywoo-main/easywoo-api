@@ -6,7 +6,6 @@ import { CheckExists } from '../../decorators';
 import { MessageSliderService } from '../message-slider/message-slider.service';
 import { MessageType } from '@prisma/client';
 import { CHALLENGE_MESSAGE_CHOICE } from '../message-choice/message-choice.constants';
-import { InfoPopUpService } from '../info-pop-up/info-pop-up.service';
 import { PageRequest } from '../../utils/page-request.utils';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 
@@ -14,15 +13,10 @@ import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 export class ChatMessageService {
   constructor(
     private readonly chatMessageRepository: ChatMessageRepository,
-    private readonly messageSliderService: MessageSliderService,
-    private readonly infoPopUpService: InfoPopUpService
   ) {
   }
 
   public async createChatMessage(newChatMessage: CreateChatMessageDto) {
-    if (newChatMessage.type === MessageType.CHALLENGE) {
-      newChatMessage.nextChoices = CHALLENGE_MESSAGE_CHOICE;
-    }
     return this.chatMessageRepository.createChatMessage(newChatMessage);
   }
 
@@ -39,14 +33,8 @@ export class ChatMessageService {
     return this.chatMessageRepository.findChatMessagesWithPropsById(chatMessageId);
   }
 
-  public async updateChatMessageById(chatMessageId: string, chatMessage: Partial<UpdateChatMessageDto>) {
+  public async updateChatMessageById(chatMessageId: string, chatMessage: UpdateChatMessageDto) {
     await this.findChatMessageWithRelationById(chatMessageId);
-
-    await Promise.all([
-      this.infoPopUpService.bulkUpsertPopUp(chatMessageId, chatMessage?.infoPopUps ?? [])
-    ]);
-
-    delete chatMessage.infoPopUps;
 
     return this.chatMessageRepository.updateChatMessage(chatMessageId, chatMessage);
   }

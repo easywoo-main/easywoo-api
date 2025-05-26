@@ -4,5 +4,10 @@ import { CreateMessageChoiceDto } from './createMessageChoice.dto';
 export class CreateMessageChoiceWithRelationDto extends CreateMessageChoiceDto {
   @ApiProperty({ description: 'Identifier of the previous message linked to this choice', format: 'uuid' })
   prevMessageId: string;
+
+  text: string;
+
+  info: string;
+  file: string
 }
 
