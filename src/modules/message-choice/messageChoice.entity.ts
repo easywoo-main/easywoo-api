@@ -3,9 +3,9 @@ import {MessageChoice } from '@prisma/client';
 
 export class MessageChoiceEntity implements MessageChoice {
     text: string;
-    info: string;
-    @ApiProperty({ description: 'The name of the message choice' })
-    name: string;
+    infoText: string;
+    // @ApiProperty({ description: 'The name of the message choice' })
+    // name: string;
 
     @ApiProperty({ description: 'The unique identifier of the message choice', format: 'uuid' })
     id: string;

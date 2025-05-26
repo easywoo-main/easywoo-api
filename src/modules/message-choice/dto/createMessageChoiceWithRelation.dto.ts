@@ -7,7 +7,7 @@ export class CreateMessageChoiceWithRelationDto extends CreateMessageChoiceDto {
 
   text: string;
 
-  info: string;
+  infoText: string;
   file: string
 }
 

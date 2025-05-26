@@ -13,15 +13,17 @@ export class MessageChoiceRepository {
     this.messageChoiceRepository = repository.messageChoice
   }
   public async createMessageChoice(data: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
+    console.log('Creating new message choice', data);
     return this.messageChoiceRepository.create({
-      data
+      data: data as Prisma.MessageChoiceUncheckedCreateInput
     });
   }
 
   public async updateMessageChoice(id: string, data: Partial<UpdateMessageChoiceDto>): Promise<MessageChoiceEntity> {
+    console.log("Updater", data)
     return this.messageChoiceRepository.update({
       where: { id },
-      data
+      data: data as Prisma.MessageChoiceUncheckedUpdateInput
     });
   }
 

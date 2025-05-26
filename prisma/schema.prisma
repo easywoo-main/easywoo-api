@@ -316,11 +316,11 @@ model SliderProp {
 }
 
 model MessageChoice {
-  id   String  @id @default(uuid())
-  name String?
-  text String
-  info String
-  file String?
+  id       String  @id @default(uuid())
+  // name String?
+  text     String
+  infoText String  @map("info_text")
+  file     String?
 
   prevMessageId String  @map("prev_message_id")
   nextMessageId String? @map("next_message_id")
@@ -332,7 +332,7 @@ model MessageChoice {
   prevMessage         ChatMessage           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
   resultMessageChoice ResultMessageChoice[]
 
-  @@unique([name, prevMessageId])
+  // @@unique([name, prevMessageId])
   @@map("message_choices")
 }
 
