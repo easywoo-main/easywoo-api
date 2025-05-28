@@ -7,6 +7,8 @@ import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
 import { Prisma } from '.prisma/client';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
+import { ChatMessage } from '@prisma/client';
+import { CreateChatMessageWithRelationDto } from './dto/createChatMessageWithRelation.dto';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -19,31 +21,24 @@ export class ChatMessageRepository {
   public async createChatMessage({
                                    sliderPropIds,
                                    startingChatId,
-                                   prevMessageIds,
-                                   prevChoiceIds,
+    answers,
                                    ...data
-                                 }: CreateChatMessageDto): Promise<ChatMessageEntity> {
+                                 }: CreateChatMessageWithRelationDto): Promise<ChatMessageEntity> {
     return this.chatMessageRepository.create({
       data: {
         ...data,
+        ...(answers && { nextChoices: {create: answers} }),
         sliderProp: { connect: sliderPropIds.map((id) => ({ id })) },
-        ...(prevMessageIds
-          && {
-            prevMessages: {
-              connect: prevMessageIds.map((id) => ({ id }))
-            }
-          }),
-        ...(prevChoiceIds
-          && {
-            prevChoices: {
-              connect: prevChoiceIds.map((id) => ({ id }))
-            }
-          }),
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
         )
-      },
+      } as Prisma.ChatMessageUncheckedCreateInput,
     });
+  }
+
+  public async findChatMessageByStepIdAndChatId(stepId: number, chatId: string): Promise<ChatMessage> {
+    return this.chatMessageRepository.findUnique({where: {stepId_chatId:{stepId, chatId}}})
+
   }
 
   public async findChatMessageByIdRecursive(
@@ -120,35 +115,21 @@ export class ChatMessageRepository {
     {
       sliderPropIds,
       startingChatId,
-      prevMessageIds,
-      prevChoiceIds,
       ...data
     }: UpdateChatMessageDto
   ): Promise<ChatMessageEntity> {
     console.log({
       sliderPropIds,
       startingChatId,
-      prevMessageIds,
-      prevChoiceIds,
+      // answers,
       ...data
     });
     return this.chatMessageRepository.update({
       where: { id },
       data: {
         ...data,
+        // ...(answers && { nextChoices: {create: answers} }),
         ...(sliderPropIds && {sliderProp: { connect: sliderPropIds.map((id) => ({ id })) }}),
-        ...(prevMessageIds
-          && {
-            prevMessages: {
-              connect: prevMessageIds.map((id) => ({ id }))
-            }
-          }),
-        ...(prevChoiceIds
-          && {
-            prevChoices: {
-              connect: prevChoiceIds.map((id) => ({ id }))
-            }
-          }),
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
         )

@@ -26,28 +26,28 @@ export class MessageChoiceController {
     return await this.messageChoiceService.findMessageChoiceById(id);
   }
 
-  @Get()
-  @ApiOperation({ summary: 'Get all message choice where next id null' })
-  @ApiResponse({ status: 200, description: 'Message choice retrieved successfully.', type: [MessageChoiceEntity] })
-  public async findAllMessageChoice(@Query('chatMessageId') chatMessageId: string, @Query("chatId") chatId: string,  @Query() pageRequest: PageRequest) {
-    return this.messageChoiceService.findChoiceWithoutNextId(chatMessageId,chatId, pageRequest);
-  }
-  @Patch(':id')
-  @ApiOperation({ summary: 'Update a message choice by ID' })
-  @ApiResponse({ status: 200, description: 'Message choice updated successfully.', type: MessageChoiceEntity })
-  @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
-  public async updateMessageChoice(
-    @Param('id') id: string,
-    @Body() data: UpdateMessageChoiceDto,
-  ) {
-    return this.messageChoiceService.updateMessageChoice(id, data);
-  }
+  // @Get()
+  // @ApiOperation({ summary: 'Get all message choice where next id null' })
+  // @ApiResponse({ status: 200, description: 'Message choice retrieved successfully.', type: [MessageChoiceEntity] })
+  // public async findAllMessageChoice(@Query('chatMessageId') chatMessageId: string, @Query("chatId") chatId: string,  @Query() pageRequest: PageRequest) {
+  //   return this.messageChoiceService.findChoiceWithoutNextId(chatMessageId,chatId, pageRequest);
+  // }
+  // @Patch(':id')
+  // @ApiOperation({ summary: 'Update a message choice by ID' })
+  // @ApiResponse({ status: 200, description: 'Message choice updated successfully.', type: MessageChoiceEntity })
+  // @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
+  // public async updateMessageChoice(
+  //   @Param('id') id: string,
+  //   @Body() data: UpdateMessageChoiceDto,
+  // ) {
+  //   return this.messageChoiceService.updateMessageChoice(id, data);
+  // }
 
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete a message choice by ID' })
-  @ApiResponse({ status: 200, description: 'Message choice deleted successfully.', type: MessageChoiceEntity })
-  @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
-  public async deleteMessageChoice(@Param('id') id: string) {
-    return this.messageChoiceService.deleteMessageChoice(id);
-  }
+  // @Delete(':id')
+  // @ApiOperation({ summary: 'Delete a message choice by ID' })
+  // @ApiResponse({ status: 200, description: 'Message choice deleted successfully.', type: MessageChoiceEntity })
+  // @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
+  // public async deleteMessageChoice(@Param('id') id: string) {
+  //   return this.messageChoiceService.deleteMessageChoice(id);
+  // }
 }

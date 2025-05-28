@@ -13,7 +13,6 @@ export class MessageChoiceRepository {
     this.messageChoiceRepository = repository.messageChoice
   }
   public async createMessageChoice(data: CreateMessageChoiceWithRelationDto): Promise<MessageChoiceEntity> {
-    console.log('Creating new message choice', data);
     return this.messageChoiceRepository.create({
       data: data as Prisma.MessageChoiceUncheckedCreateInput
     });

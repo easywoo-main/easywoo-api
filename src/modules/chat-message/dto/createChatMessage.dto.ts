@@ -9,8 +9,9 @@ export class CreateChatMessageDto {
   todoList: string[];
   image: string[];
   media: string[];
-  timeouts?: number[];
+  timeouts: number[];
   type?: MessageType;
+  stepId: number
 
 
   isCourseEnd: boolean;
@@ -18,12 +19,10 @@ export class CreateChatMessageDto {
   isAllowManualTime: boolean;
   isComment: boolean;
   isBarometer: boolean;
+  isGraph: boolean;
 
-  nextMessageId?: string | null;
+  startingChatId?: string | null;
   chatId: string;
-  startingChatId?: string;
-
   sliderPropIds?: string[] = [];
-  prevMessageIds?: string[] = [];
-  prevChoiceIds?: string[] = [];
+
 }

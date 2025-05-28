@@ -11,8 +11,8 @@ export class ChatEntity implements Chat {
     isDisabled: boolean;
     startMessageId: string;
     formula: string;
+    masterGraph: string;
     paintPoints: string[];
-    graphType: $Enums.GraphType;
     therapistAvatar: string;
     therapistName: string;
     createdAt: Date;

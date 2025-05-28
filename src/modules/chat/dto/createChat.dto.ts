@@ -30,8 +30,7 @@ export class CreateChatDto {
   @ApiProperty({description: "Formula"})
   formula: string;
 
-  @ApiProperty({description: "graph type"})
-  graphType: GraphType;
+  masterGraph: string;
 
   @ApiPropertyOptional({description: "Therapist avatar URL"})
   therapistAvatar: string

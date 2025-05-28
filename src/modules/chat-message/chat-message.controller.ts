@@ -16,6 +16,7 @@ import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 import { PageRequest } from '../../utils/page-request.utils';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
+import { CreateChatMessageWithAnswersDto } from './dto/createChatMessageWithAnswers.dto';
 
 @Controller('chat-message')
 export class ChatMessageController {
@@ -26,7 +27,7 @@ export class ChatMessageController {
   @ApiOperation({ summary: 'Create a new chat message' })
   @ApiResponse({ status: 201, description: 'Chat message successfully created', type: ChatMessageEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
-  public async createChatMessage(@Body() createChatMessageDto: CreateChatMessageDto) {
+  public async createChatMessage(@Body() createChatMessageDto: CreateChatMessageWithAnswersDto) {
     return this.chatMessageService.createChatMessage(createChatMessageDto);
   }
 

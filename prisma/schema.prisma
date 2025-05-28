@@ -245,6 +245,7 @@ enum MessageType {
 
 model ChatMessage {
   id                String      @id @default(uuid())
+  stepId            Int         @map("step_id")
   stepName          String      @map("step_name")
   introText         String      @map("intro_name")
   introImages       String[]    @map("intro_image")
@@ -260,6 +261,7 @@ model ChatMessage {
   isOfferRestart    Boolean     @default(false) @map("is_offer_restart")
   isComment         Boolean     @default(false) @map("is_comment")
   isBarometer       Boolean     @default(false) @map("is_barometer")
+  isGraph           Boolean     @default(false) @map("is_graph")
 
   chatId           String  @map("chat_id")
   nextMessageId    String? @map("next_message_id")
@@ -283,6 +285,7 @@ model ChatMessage {
   // infoPopUp              InfoPopUp[]
 
   @@unique([stepName, chatId])
+  @@unique([stepId, chatId])
   @@index([chatId])
   @@map("chat_messages")
 }
@@ -317,10 +320,8 @@ model SliderProp {
 
 model MessageChoice {
   id       String  @id @default(uuid())
-  // name String?
   text     String
   infoText String  @map("info_text")
-  file     String?
 
   prevMessageId String  @map("prev_message_id")
   nextMessageId String? @map("next_message_id")
@@ -332,7 +333,6 @@ model MessageChoice {
   prevMessage         ChatMessage           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
   resultMessageChoice ResultMessageChoice[]
 
-  // @@unique([name, prevMessageId])
   @@map("message_choices")
 }
 
@@ -358,7 +358,7 @@ model Chat {
   startMessageId            String?   @unique @map("start_message_id")
   formula                   String
   paintPoints               String[]  @map("paint_points")
-  graphType                 GraphType @default(LINE) @map("graph_type")
+  masterGraph               String    @map("master_graph")
 
   therapistAvatar String? @map("therapist_avatar")
   therapistName   String  @map("therapist_name")
