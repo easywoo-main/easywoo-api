@@ -10,9 +10,6 @@ export class MessageChoiceEntity implements MessageChoice {
     @ApiProperty({ description: 'The unique identifier of the message choice', format: 'uuid' })
     id: string;
 
-    @ApiProperty({ description: 'The file associated with the message choice' })
-    file: string;
-
     @ApiProperty({ description: 'The ID of the previous message', format: 'uuid', nullable: true })
     prevMessageId: string;
 

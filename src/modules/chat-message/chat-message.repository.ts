@@ -18,7 +18,6 @@ export class ChatMessageRepository {
 
 
   public async createChatMessage({
-                                   sliderPropIds,
                                    startingChatId,
                                    nextChoices,
                                    ...data
@@ -27,7 +26,6 @@ export class ChatMessageRepository {
       data: {
         ...data,
         ...(nextChoices && { nextChoices: {create: nextChoices} }),
-        sliderProp: { connect: sliderPropIds.map((id) => ({ id })) },
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
         )
@@ -49,6 +47,7 @@ export class ChatMessageRepository {
         nextChoices: {include: {nextMessage: true}},
         nextMessage: true,
         restartMessage: true,
+        // sliderProp: true,
       }
     });
   }
@@ -67,23 +66,16 @@ export class ChatMessageRepository {
   public async updateChatMessage(
     id: string,
     {
-      sliderPropIds,
       startingChatId,
       nextChoices,
       ...data
     }: UpdateChatMessageWithRelationDto
   ): Promise<ChatMessageEntity> {
-    console.log({
-      sliderPropIds,
-      startingChatId,
-      ...data
-    });
     return this.chatMessageRepository.update({
       where: { id },
       data: {
         ...data,
         // ...(answers && { nextChoices: {create: answers} }),
-        ...(sliderPropIds && {sliderProp: { connect: sliderPropIds.map((id) => ({ id })) }}),
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
         )

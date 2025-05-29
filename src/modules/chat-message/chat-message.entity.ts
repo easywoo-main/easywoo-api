@@ -1,6 +1,7 @@
 import { $Enums, ChatMessage, MessageType } from '@prisma/client';
 
 export class ChatMessageEntity implements ChatMessage {
+    sliderPropId: string;
     id: string;
     nextMessageId: string;
     createdAt: Date;

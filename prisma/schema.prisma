@@ -266,6 +266,7 @@ model ChatMessage {
   chatId           String  @map("chat_id")
   nextMessageId    String? @map("next_message_id")
   restartMessageId String? @map("restart_message_id")
+  sliderPropId      String?  @map("slider_prop_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -277,12 +278,11 @@ model ChatMessage {
 
   chat                   Chat                    @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   startingChat           Chat?                   @relation("StartMessage")
-  sliderProp             SliderProp[]
+  sliderProp             SliderProp?              @relation("SliderPropChatMessage", fields: [sliderPropId], references: [id])
   nextChoices            MessageChoice[]         @relation("MessageToPrev")
   prevChoices            MessageChoice[]         @relation("MessageToNext")
   userTextMessageAnswers UserTextMessageAnswer[]
   stepChatMessages       StepChatMessage[]
-  // infoPopUp              InfoPopUp[]
 
   @@unique([stepName, chatId])
   @@unique([stepId, chatId])
@@ -312,7 +312,7 @@ model SliderProp {
   chatId           String
   chat             Chat               @relation(fields: [chatId], references: [id], onDelete: Cascade)
   resultSliderProp ResultSliderProp[]
-  chatMessage      ChatMessage[]
+  chatMessages ChatMessage[] @relation("SliderPropChatMessage")
 
   @@index([chatId])
   @@map("slider_props")

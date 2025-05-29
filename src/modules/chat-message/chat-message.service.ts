@@ -32,7 +32,6 @@ export class ChatMessageService {
       createChatMessageWithRelationDto.restartMessageId = nextMessage.id;
     }
 
-
     if (answers?.length > 0) {
       await Promise.all(answers.map(async ({goToStep, ...answer}) => {
          const nextMessage =  await this.findChatMessageByStepIdAndChatId(goToStep, newChatMessage.chatId);
@@ -40,7 +39,6 @@ export class ChatMessageService {
 
       }));
     }
-    console.log(createChatMessageWithRelationDto);
     return this.chatMessageRepository.createChatMessage(createChatMessageWithRelationDto);
   }
 
