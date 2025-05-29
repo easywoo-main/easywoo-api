@@ -8,6 +8,5 @@ import { ChatMessageModule } from '../chat-message/chat-message.module';
   controllers: [MessageChoiceController],
   providers: [MessageChoiceService, MessageChoiceRepository],
   exports: [MessageChoiceService],
-  imports:[ChatMessageModule]
 })
 export class MessageChoiceModule {}

@@ -1,14 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from '../../database/repository.service';
-import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
 import { ChatMessageEntity } from './chat-message.entity';
-import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
 import { Prisma } from '.prisma/client';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 import { ChatMessage } from '@prisma/client';
 import { CreateChatMessageWithRelationDto } from './dto/createChatMessageWithRelation.dto';
+import { UpdateChatMessageWithRelationDto } from './dto/updateChatMessageWithRelation.dto';
 
 @Injectable()
 export class ChatMessageRepository {
@@ -21,13 +20,13 @@ export class ChatMessageRepository {
   public async createChatMessage({
                                    sliderPropIds,
                                    startingChatId,
-    answers,
+                                   nextChoices,
                                    ...data
                                  }: CreateChatMessageWithRelationDto): Promise<ChatMessageEntity> {
     return this.chatMessageRepository.create({
       data: {
         ...data,
-        ...(answers && { nextChoices: {create: answers} }),
+        ...(nextChoices && { nextChoices: {create: nextChoices} }),
         sliderProp: { connect: sliderPropIds.map((id) => ({ id })) },
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
@@ -41,62 +40,17 @@ export class ChatMessageRepository {
 
   }
 
-  public async findChatMessageByIdRecursive(
+  public async findChatMessageById(
     id: string,
-    userIds: string[],
-    depth = 200 //todo
-  ): Promise<ChatMessageWithRelationsDto | null> {
-    if (depth <= 0) {
-      return null;
-    }
-
-    const message = await this.chatMessageRepository.findUnique({
+  ): Promise<ChatMessageWithRelationsDto> {
+    return this.chatMessageRepository.findUnique({
       where: { id },
       include: {
-        nextChoices: {
-          include: {
-            resultMessageChoice: {
-              where: { userId: { in: userIds } },
-            },
-          },
-        },
+        nextChoices: {include: {nextMessage: true}},
         nextMessage: true,
-        prevMessages: true,
-        stepChatMessages: {
-          where: {
-            user: {
-              id: { in: userIds },
-            },
-          },
-        },
-      },
-    });
-
-    if (!message) return null;
-
-    // Рекурсивно завантажуємо nextMessage (якщо він є)
-    if (message.nextMessage) {
-      message.nextMessage = await this.findChatMessageByIdRecursive(
-        message.nextMessage.id,
-        userIds,
-        depth - 1
-      );
-    }
-
-    if (message.nextChoices && message.nextChoices.length > 0) {
-      for (const choice of message.nextChoices) {
-        if (choice.nextMessageId) {
-          // @ts-ignore
-          choice.nextMessage = await this.findChatMessageByIdRecursive(
-            choice.nextMessageId,
-            userIds,
-            depth - 1
-          );
-        }
+        restartMessage: true,
       }
-    }
-
-    return message;
+    });
   }
 
   public async findChatMessagesWithPropsById(id: string): Promise<ChatMessageWithPropsDto> {
@@ -115,13 +69,13 @@ export class ChatMessageRepository {
     {
       sliderPropIds,
       startingChatId,
+      nextChoices,
       ...data
-    }: UpdateChatMessageDto
+    }: UpdateChatMessageWithRelationDto
   ): Promise<ChatMessageEntity> {
     console.log({
       sliderPropIds,
       startingChatId,
-      // answers,
       ...data
     });
     return this.chatMessageRepository.update({
@@ -146,12 +100,12 @@ export class ChatMessageRepository {
     return this.chatMessageRepository.findMany({
       where: {
         chatId: filterChatMessage.chatId,
-        id: {not: filterChatMessage.chatMessageId},
+        // id: {not: filterChatMessage.chatMessageId},
       },
-      include: {
-        prevMessages: {where: {id: filterChatMessage.chatMessageId}},
-        prevChoices: {where: {id: filterChatMessage.messageChoiceId}},
-      },
+      // include: {
+      //   prevMessages: {where: {id: filterChatMessage.chatMessageId}},
+      //   prevChoices: {where: {id: filterChatMessage.messageChoiceId}},
+      // },
       ...filterChatMessage.getFilter(),
       orderBy: {prevMessages: {_count: "desc"} }
     });
@@ -161,7 +115,7 @@ export class ChatMessageRepository {
     return this.chatMessageRepository.count({
       where: {
         chatId: filterChatMessage.chatId,
-        id: {not: filterChatMessage.chatMessageId}
+        // id: {not: filterChatMessage.chatMessageId}
       },
     });
   }

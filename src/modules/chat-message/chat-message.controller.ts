@@ -9,12 +9,10 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ChatMessageService } from './chat-message.service';
-import { CreateChatMessageDto } from './dto/createChatMessage.dto';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
 import { ChatMessageEntity } from './chat-message.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
-import { PageRequest } from '../../utils/page-request.utils';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 import { CreateChatMessageWithAnswersDto } from './dto/createChatMessageWithAnswers.dto';
 
@@ -36,8 +34,8 @@ export class ChatMessageController {
   @ApiOperation({ summary: 'Fetch a chat message by ID' })
   @ApiResponse({ status: 200, description: 'Chat message retrieved successfully', type: ChatMessageWithRelationsDto })
   @ApiResponse({ status: 404, description: 'Chat message not found', type: ErrorResponse })
-  public async findChatMessageById(@Param('id') id: string, @Query('userIds[]') userIds?: string | string[]) {
-    return this.chatMessageService.findChatMessageWithRelationById(id, userIds);
+  public async findChatMessageById(@Param('id') id: string) {
+    return this.chatMessageService.findChatMessageWithRelationById(id);
   }
 
   @Get()

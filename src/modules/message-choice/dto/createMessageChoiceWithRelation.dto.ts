@@ -6,6 +6,7 @@ export class CreateMessageChoiceWithRelationDto extends CreateMessageChoiceDto {
     description: 'Identifier of the next message linked to this choice',
     format: 'uuid',
   })
-  nextMessageId: string;
+  nextMessageId?: string;
+  prevMessageId?: string;
 }
 

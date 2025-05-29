@@ -18,8 +18,7 @@ export class MessageChoiceRepository {
     });
   }
 
-  public async updateMessageChoice(id: string, data: Partial<UpdateMessageChoiceDto>): Promise<MessageChoiceEntity> {
-    console.log("Updater", data)
+  public async updateMessageChoice(id: string, data: UpdateMessageChoiceDto): Promise<MessageChoiceEntity> {
     return this.messageChoiceRepository.update({
       where: { id },
       data: data as Prisma.MessageChoiceUncheckedUpdateInput

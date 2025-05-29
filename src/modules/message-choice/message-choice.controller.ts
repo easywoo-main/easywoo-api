@@ -18,13 +18,6 @@ export class MessageChoiceController {
     return this.messageChoiceService.createMessageChoice(data);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get a message choice by ID' })
-  @ApiResponse({ status: 200, description: 'Message choice retrieved successfully.', type: MessageChoiceEntity })
-  @ApiNotFoundResponse({ description: 'Message choice not found.', type: ErrorResponse })
-  public async findMessageChoiceById(@Param('id') id: string, @Query('userIds[]') userIds?: string | string[]) {
-    return await this.messageChoiceService.findMessageChoiceById(id);
-  }
 
   // @Get()
   // @ApiOperation({ summary: 'Get all message choice where next id null' })

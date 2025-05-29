@@ -5,5 +5,6 @@ import { CreateChatMessageDto } from './createChatMessage.dto';
 
 export class CreateChatMessageWithRelationDto extends CreateChatMessageDto{
   nextMessageId?: string | null;
-  answers?: CreateMessageChoiceWithRelationDto[] = [];
+  nextChoices?: CreateMessageChoiceWithRelationDto[] = [];
+  restartMessageId?: string | null;
 }

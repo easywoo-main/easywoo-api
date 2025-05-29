@@ -18,6 +18,9 @@ export class MessageChoiceService {
     return this.messageChoiceRepository.createMessageChoice(data);
   }
 
+  public async updateMessageChoice(id: string, data: UpdateMessageChoiceDto) {
+    return this.messageChoiceRepository.updateMessageChoice(id, data)
+  }
   @CheckExists('MessageChoice not found')
   public async findMessageChoiceById(id: string) {
     return this.messageChoiceRepository.findMessageChoiceById(id);
