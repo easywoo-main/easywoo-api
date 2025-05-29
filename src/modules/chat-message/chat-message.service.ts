@@ -23,19 +23,23 @@ export class ChatMessageService {
                                    ...newChatMessage
                                  }: CreateChatMessageWithAnswersDto) {
     const createChatMessageWithRelationDto: CreateChatMessageWithRelationDto = newChatMessage;
-    if (goToStep) {
-      const nextMessage = await this.findChatMessageByStepIdAndChatId(goToStep, newChatMessage.chatId);
-      createChatMessageWithRelationDto.nextMessageId = nextMessage.id
+
+    if (goToStep !== undefined) {
+      createChatMessageWithRelationDto.nextMessageId = await this.getChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, goToStep);
     }
-    if (restartFrom) {
-      const nextMessage = await this.findChatMessageByStepIdAndChatId(restartFrom, newChatMessage.chatId);
-      createChatMessageWithRelationDto.restartMessageId = nextMessage.id;
+
+    if (restartFrom !== undefined) {
+      createChatMessageWithRelationDto.restartMessageId = await this.getChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, restartFrom);
     }
 
     if (answers?.length > 0) {
-      await Promise.all(answers.map(async ({goToStep, ...answer}) => {
-         const nextMessage =  await this.findChatMessageByStepIdAndChatId(goToStep, newChatMessage.chatId);
-        (createChatMessageWithRelationDto.nextChoices ??= []).push({ ...answer, nextMessageId: nextMessage.id });
+      await Promise.all(answers.map(async ({goToStep: answerGoToStep, ...answer}) => {
+        let nextMessageId: string | null;
+
+        if (answerGoToStep !== undefined) {
+          nextMessageId = await this.getChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, answerGoToStep);
+        }
+        (createChatMessageWithRelationDto.nextChoices ??= []).push({ ...answer, nextMessageId});
 
       }));
     }
