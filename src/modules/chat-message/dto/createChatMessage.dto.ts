@@ -23,5 +23,5 @@ export class CreateChatMessageDto {
 
   startingChatId?: string | null;
   chatId: string;
-  sliderPropId: string | null;
+  sliderPropIds: string[];
 }

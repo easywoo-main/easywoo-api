@@ -278,7 +278,7 @@ model ChatMessage {
 
   chat                   Chat                    @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   startingChat           Chat?                   @relation("StartMessage")
-  sliderProp             SliderProp?              @relation("SliderPropChatMessage", fields: [sliderPropId], references: [id])
+  sliderProps             SliderProp[]            @relation("slider_prop_chat_message")
   nextChoices            MessageChoice[]         @relation("MessageToPrev")
   prevChoices            MessageChoice[]         @relation("MessageToNext")
   userTextMessageAnswers UserTextMessageAnswer[]
@@ -312,7 +312,7 @@ model SliderProp {
   chatId           String
   chat             Chat               @relation(fields: [chatId], references: [id], onDelete: Cascade)
   resultSliderProp ResultSliderProp[]
-  chatMessages ChatMessage[] @relation("SliderPropChatMessage")
+  chatMessages ChatMessage[] @relation("slider_prop_chat_message")
 
   @@index([chatId])
   @@map("slider_props")

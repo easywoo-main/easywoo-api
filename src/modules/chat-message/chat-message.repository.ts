@@ -20,22 +20,23 @@ export class ChatMessageRepository {
   public async createChatMessage({
                                    startingChatId,
                                    nextChoices,
+                                   sliderPropIds,
                                    ...data
                                  }: CreateChatMessageWithRelationDto): Promise<ChatMessageEntity> {
     return this.chatMessageRepository.create({
       data: {
         ...data,
-        ...(nextChoices && { nextChoices: {create: nextChoices} }),
+        ...(nextChoices && { nextChoices: { create: nextChoices } }),
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
-        )
+        ),
+        ...(sliderPropIds && { sliderProps: { connect: sliderPropIds.map(id => ({ id })) } }),
       } as Prisma.ChatMessageUncheckedCreateInput,
     });
   }
 
   public async findChatMessageByStepIdAndChatId(stepId: number, chatId: string): Promise<ChatMessage> {
     return this.chatMessageRepository.findUnique({where: {stepId_chatId:{stepId, chatId}}})
-
   }
 
   public async findChatMessageById(
@@ -47,7 +48,7 @@ export class ChatMessageRepository {
         nextChoices: {include: {nextMessage: true}},
         nextMessage: true,
         restartMessage: true,
-        // sliderProp: true,
+        sliderProps: true,
       }
     });
   }
@@ -68,6 +69,7 @@ export class ChatMessageRepository {
     {
       startingChatId,
       nextChoices,
+      sliderPropIds,
       ...data
     }: UpdateChatMessageWithRelationDto
   ): Promise<ChatMessageEntity> {
@@ -75,7 +77,7 @@ export class ChatMessageRepository {
       where: { id },
       data: {
         ...data,
-        // ...(answers && { nextChoices: {create: answers} }),
+        ...(sliderPropIds && { sliderProps: { connect: sliderPropIds.map(id => ({ id })) } }),
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
         )
@@ -99,7 +101,7 @@ export class ChatMessageRepository {
       //   prevChoices: {where: {id: filterChatMessage.messageChoiceId}},
       // },
       ...filterChatMessage.getFilter(),
-      orderBy: {prevMessages: {_count: "desc"} }
+      // orderBy: {prevMessages: {_count: "desc"} }
     });
   }
 

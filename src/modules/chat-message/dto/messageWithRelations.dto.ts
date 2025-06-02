@@ -12,5 +12,5 @@ export class ChatMessageWithRelationsDto extends ChatMessageWithPropsDto {
   })
   nextMessage?: ChatMessageEntity;
 
-  sliderProp?: SliderPropEntity;
+  sliderProps?: SliderPropEntity[];
 }
