@@ -39,6 +39,10 @@ export class MessageChoiceRepository {
     });
   }
 
+  public async findAllMessageChoiceIdsByGoToStep(goToStep:number, chatId: string) {
+    return this.messageChoiceRepository.findMany({where: {goToStep, prevMessage: {chatId}}, select: {id: true}})
+  }
+
   public async findChoiceWithoutNextId(chatMessageId: string, chatId: string, pageRequest: PageRequest) {
     return this.messageChoiceRepository.findMany({
       where: this.getWhereFilter(chatMessageId, pageRequest.search),

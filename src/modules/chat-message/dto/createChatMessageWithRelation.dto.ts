@@ -7,4 +7,5 @@ export class CreateChatMessageWithRelationDto extends CreateChatMessageDto{
   nextMessageId?: string | null;
   nextChoices?: CreateMessageChoiceWithRelationDto[] = [];
   restartMessageId?: string | null;
+  answersIds?: { id: string }[];
 }

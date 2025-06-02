@@ -8,11 +8,12 @@ import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 import { ChatMessage } from '@prisma/client';
 import { CreateChatMessageWithRelationDto } from './dto/createChatMessageWithRelation.dto';
 import { UpdateChatMessageWithRelationDto } from './dto/updateChatMessageWithRelation.dto';
+import { MessageChoiceRepository } from '../message-choice/message-choice.repository';
 
 @Injectable()
 export class ChatMessageRepository {
   private readonly  chatMessageRepository: Prisma.ChatMessageDelegate;
-  constructor(repository: Repository) {
+  constructor(repository: Repository, private readonly messageChoiceRepository: MessageChoiceRepository) {
     this.chatMessageRepository = repository.chatMessage
   }
 
@@ -31,6 +32,11 @@ export class ChatMessageRepository {
           && { startingChat: { connect: { id: startingChatId } } }
         ),
         ...(sliderPropIds && { sliderProps: { connect: sliderPropIds.map(id => ({ id })) } }),
+        ...(data.stepId && {
+          prevMessages: {connect: await this.getAllChatMessageIdsByGoToStep(data.stepId, data.chatId)},
+          checkpointMessage: {connect: await this.getAllChatMessageIdsByRestartFrom(data.stepId, data.chatId)},
+          prevChoices: {connect: await this.messageChoiceRepository.findAllMessageChoiceIdsByGoToStep(data.stepId, data.chatId)}
+        })
       } as Prisma.ChatMessageUncheckedCreateInput,
     });
   }
@@ -45,9 +51,9 @@ export class ChatMessageRepository {
     return this.chatMessageRepository.findUnique({
       where: { id },
       include: {
-        nextChoices: {include: {nextMessage: true}},
-        nextMessage: true,
-        restartMessage: true,
+        nextChoices: true,
+        // nextMessage: true,
+        // restartMessage: true,
         sliderProps: true,
       }
     });
@@ -70,6 +76,7 @@ export class ChatMessageRepository {
       startingChatId,
       nextChoices,
       sliderPropIds,
+      answersIds,
       ...data
     }: UpdateChatMessageWithRelationDto
   ): Promise<ChatMessageEntity> {
@@ -77,12 +84,27 @@ export class ChatMessageRepository {
       where: { id },
       data: {
         ...data,
-        ...(sliderPropIds && { sliderProps: { connect: sliderPropIds.map(id => ({ id })) } }),
+        ...(sliderPropIds && { sliderProps: { set: sliderPropIds.map(id => ({ id })) } }),
         ...(startingChatId
           && { startingChat: { connect: { id: startingChatId } } }
-        )
-      },
+        ),
+        nextChoices: { set: answersIds },
+        ...(data.stepId && {
+          prevMessages: {set: await this.getAllChatMessageIdsByGoToStep(data.stepId, data.chatId)},
+          checkpointMessage: {set: await this.getAllChatMessageIdsByRestartFrom(data.stepId, data.chatId)},
+          prevChoices: {set: await this.messageChoiceRepository.findAllMessageChoiceIdsByGoToStep(data.stepId, data.chatId)}
+        })
+      } as Prisma.ChatMessageUncheckedUpdateInput,
     });
+  }
+
+  public async getAllChatMessageIdsByGoToStep(goToStep:number, chatId: string) {
+    return this.chatMessageRepository.findMany({where: {goToStep, chatId}, select: {id: true}} )
+  }
+
+  private async getAllChatMessageIdsByRestartFrom(restartFrom: number, chatId: string){
+    return this.chatMessageRepository.findMany({where: {restartFrom, chatId}, select: {id: true}} )
+
   }
   public async deleteChatMessage(id: string): Promise<ChatMessageEntity> {
     return this.chatMessageRepository.delete({
@@ -94,14 +116,12 @@ export class ChatMessageRepository {
     return this.chatMessageRepository.findMany({
       where: {
         chatId: filterChatMessage.chatId,
-        // id: {not: filterChatMessage.chatMessageId},
       },
-      // include: {
-      //   prevMessages: {where: {id: filterChatMessage.chatMessageId}},
-      //   prevChoices: {where: {id: filterChatMessage.messageChoiceId}},
-      // },
       ...filterChatMessage.getFilter(),
-      // orderBy: {prevMessages: {_count: "desc"} }
+      orderBy: {stepId:"desc" },
+      include: {
+        nextChoices: true,
+      }
     });
   }
 
@@ -109,7 +129,6 @@ export class ChatMessageRepository {
     return this.chatMessageRepository.count({
       where: {
         chatId: filterChatMessage.chatId,
-        // id: {not: filterChatMessage.chatMessageId}
       },
     });
   }

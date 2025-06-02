@@ -7,6 +7,6 @@ import { ChatMessageModule } from '../chat-message/chat-message.module';
 @Module({
   controllers: [MessageChoiceController],
   providers: [MessageChoiceService, MessageChoiceRepository],
-  exports: [MessageChoiceService],
+  exports: [MessageChoiceService, MessageChoiceRepository],
 })
 export class MessageChoiceModule {}

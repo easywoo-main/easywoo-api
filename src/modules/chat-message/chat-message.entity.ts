@@ -1,6 +1,8 @@
 import { $Enums, ChatMessage, MessageType } from '@prisma/client';
 
 export class ChatMessageEntity implements ChatMessage {
+    goToStep: number;
+    restartFrom: number;
     sliderPropId: string;
     id: string;
     nextMessageId: string;

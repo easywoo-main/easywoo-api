@@ -256,6 +256,8 @@ model ChatMessage {
   question          String
   type              MessageType @default(TEXT)
   timeouts          Int[]
+  goToStep          Int?
+  restartFrom       Int?
   isAllowManualTime Boolean     @default(false) @map("is_allow_manyal_time")
   isCourseEnd       Boolean     @default(false) @map("is_course_end")
   isOfferRestart    Boolean     @default(false) @map("is_offer_restart")
@@ -274,7 +276,7 @@ model ChatMessage {
   restartMessage  ChatMessage?  @relation("MessageToRestart", fields: [restartMessageId], references: [id], onDelete: Cascade)
   nextMessage     ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
   prevMessages    ChatMessage[] @relation("MessageToNext")
-  chkpointMessage ChatMessage[] @relation("MessageToRestart")
+  checkpointMessage ChatMessage[] @relation("MessageToRestart")
 
   chat                   Chat                    @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   startingChat           Chat?                   @relation("StartMessage")
@@ -322,15 +324,16 @@ model MessageChoice {
   id       String  @id @default(uuid())
   text     String
   infoText String  @map("info_text")
+  goToStep          Int?
 
-  prevMessageId String  @map("prev_message_id")
+  prevMessageId String?  @map("prev_message_id")
   nextMessageId String? @map("next_message_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   nextMessage         ChatMessage?          @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
-  prevMessage         ChatMessage           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
+  prevMessage         ChatMessage?           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
   resultMessageChoice ResultMessageChoice[]
 
   @@map("message_choices")
