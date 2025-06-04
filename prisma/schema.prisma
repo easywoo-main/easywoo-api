@@ -38,6 +38,16 @@ model User {
   @@map("users")
 }
 
+model Admin {
+  id        String   @id @default(uuid())
+  userName  String   @map("user_name") @unique()
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
+
 model GoogleUser {
   id              String  @id @default(uuid())
   googleAccountId String  @unique @map("google_account_id")
@@ -322,8 +332,9 @@ model SliderProp {
 
 model MessageChoice {
   id       String  @id @default(uuid())
-  text     String
+  text String?
   infoText String  @map("info_text")
+  file String?
   goToStep          Int?
 
   prevMessageId String?  @map("prev_message_id")

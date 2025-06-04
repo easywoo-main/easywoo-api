@@ -45,6 +45,10 @@ export class ChatMessageRepository {
     return this.chatMessageRepository.findUnique({where: {stepId_chatId:{stepId, chatId}}})
   }
 
+  public async findChatMessageByStepNameAndChatId(stepName: string, chatId: string): Promise<ChatMessage> {
+    return this.chatMessageRepository.findUnique({where: {stepName_chatId:{stepName, chatId}}})
+  }
+
   public async findChatMessageById(
     id: string,
   ): Promise<ChatMessageWithRelationsDto> {
@@ -113,7 +117,7 @@ export class ChatMessageRepository {
   }
 
   public async findMessagesWithoutNextId(filterChatMessage: FilterChatMessage): Promise<ChatMessageEntity[]> {
-    return this.chatMessageRepository.findMany({
+   return this.chatMessageRepository.findMany({
       where: {
         chatId: filterChatMessage.chatId,
       },

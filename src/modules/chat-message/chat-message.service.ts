@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { ChatMessageRepository } from './chat-message.repository';
 import { CheckExists } from '../../decorators';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
@@ -7,6 +7,7 @@ import { CreateChatMessageWithRelationDto } from './dto/createChatMessageWithRel
 import { UpdateChatMessageWithAnswersDto } from './dto/updateChatMessageWithAnswers.dto';
 import { UpdateChatMessageWithRelationDto } from './dto/updateChatMessageWithRelation.dto';
 import { MessageChoiceService } from '../message-choice/message-choice.service';
+import { ChatMessageUniqueFieldsDto } from './dto/chatMessageUniqueFields.dto';
 
 @Injectable()
 export class ChatMessageService {
@@ -21,13 +22,15 @@ export class ChatMessageService {
                                    ...newChatMessage
                                  }: CreateChatMessageWithAnswersDto) {
     const createChatMessageWithRelationDto: CreateChatMessageWithRelationDto = newChatMessage;
+console.log("test")
+    await this.validateStepUniqueness({ ...newChatMessage, chatId: newChatMessage.chatId });
 
     if (newChatMessage.goToStep !== undefined) {
-      createChatMessageWithRelationDto.nextMessageId = await this.getChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, newChatMessage.goToStep);
+      createChatMessageWithRelationDto.nextMessageId = await this.findChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, newChatMessage.goToStep);
     }
 
     if (newChatMessage.restartFrom !== undefined) {
-      createChatMessageWithRelationDto.restartMessageId = await this.getChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, newChatMessage.restartFrom);
+      createChatMessageWithRelationDto.restartMessageId = await this.findChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, newChatMessage.restartFrom);
     }
 
     if (answers?.length > 0) {
@@ -35,7 +38,7 @@ export class ChatMessageService {
         let nextMessageId: string | null;
 
         if (answer.goToStep !== undefined) {
-          nextMessageId = await this.getChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, answer.goToStep);
+          nextMessageId = await this.findChatMessageIdByStepIdAndChatId(createChatMessageWithRelationDto.chatId, answer.goToStep);
         }
         (createChatMessageWithRelationDto.nextChoices ??= []).push({ ...answer, nextMessageId});
 
@@ -51,10 +54,6 @@ export class ChatMessageService {
     );
   }
 
-  public async findChatMessageByStepIdAndChatId(stepId: number, chatId: string) {
-    return this.chatMessageRepository.findChatMessageByStepIdAndChatId(stepId, chatId);
-  }
-
   @CheckExists('Chat Message Not Found')
   public async findChatMessagesWithPropsById(chatMessageId: string) {
     return this.chatMessageRepository.findChatMessagesWithPropsById(chatMessageId);
@@ -66,18 +65,16 @@ export class ChatMessageService {
   ) {
     const chatMessage = await this.findChatMessageWithRelationById(chatMessageId);
 
-    const updateDto: UpdateChatMessageWithRelationDto = { ...newChatMessage };
+    const updateDto: UpdateChatMessageWithRelationDto = newChatMessage;
 
-    if(updateDto.stepId){
-
-    }
+    await this.validateStepUniqueness({ ...updateDto, chatId: chatMessage.chatId }, chatMessageId);
 
     if (newChatMessage.goToStep !== undefined) {
-      updateDto.nextMessageId = await this.getChatMessageIdByStepIdAndChatId(chatMessage.chatId, newChatMessage.goToStep);
+      updateDto.nextMessageId = await this.findChatMessageIdByStepIdAndChatId(chatMessage.chatId, newChatMessage.goToStep);
     }
 
     if (newChatMessage.restartFrom !== undefined) {
-      updateDto.restartMessageId = await this.getChatMessageIdByStepIdAndChatId(chatMessage.chatId, newChatMessage.restartFrom);
+      updateDto.restartMessageId = await this.findChatMessageIdByStepIdAndChatId(chatMessage.chatId, newChatMessage.restartFrom);
     }
 
     updateDto.answersIds = [];
@@ -87,7 +84,7 @@ export class ChatMessageService {
           let nextMessageId: string | null;
 
           if (answer.goToStep !== undefined) {
-            nextMessageId = await this.getChatMessageIdByStepIdAndChatId(chatMessage.chatId, answer.goToStep);
+            nextMessageId = await this.findChatMessageIdByStepIdAndChatId(chatMessage.chatId, answer.goToStep);
           }
 
           if (answer.id) {
@@ -114,9 +111,34 @@ export class ChatMessageService {
     return this.chatMessageRepository.updateChatMessage(chatMessageId, updateDto);
   }
 
-  private async getChatMessageIdByStepIdAndChatId(chatId: string, stepId: number): Promise<string | null> {
+  private async validateStepUniqueness(message: ChatMessageUniqueFieldsDto, messageId?: string) {
+    if (!message) return;
+    if (message.stepId) {
+      const messageIdWhichHaveStepId = await this.findChatMessageIdByStepIdAndChatId(message.chatId, message.stepId);
+      console.log(messageIdWhichHaveStepId , messageId ?? messageIdWhichHaveStepId != messageId);
+      if (messageIdWhichHaveStepId && (messageId ?? messageIdWhichHaveStepId != messageId)) {
+        throw new ConflictException('The step id must be unique');
+      }
+    }
+
+    if (message.stepName) {
+      const messageIdWhichHaveStepName = await this.findChatMessageIdByStepNameAndChatId(message.chatId, message.stepName);
+      if (messageIdWhichHaveStepName && (messageId ?? messageIdWhichHaveStepName != messageId)) {
+        throw new ConflictException('The step name must be unique');
+      }
+    }
+
+  }
+
+  private async findChatMessageIdByStepIdAndChatId(chatId: string, stepId: number): Promise<string | null> {
     if (chatId === null || stepId === null) return null;
-    const chatMessage = await this.findChatMessageByStepIdAndChatId(stepId, chatId);
+    const chatMessage = await this.chatMessageRepository.findChatMessageByStepIdAndChatId(stepId, chatId);
+    return chatMessage?.id || null;
+  }
+
+  private async findChatMessageIdByStepNameAndChatId(chatId: string, stepName: string): Promise<string | null> {
+    if (chatId === null || stepName === null) return null;
+    const chatMessage = await this.chatMessageRepository.findChatMessageByStepNameAndChatId(stepName, chatId);
     return chatMessage?.id || null;
   }
 

@@ -11,7 +11,7 @@ export class StorageService {
 
   public async uploadFile(file: Express.Multer.File, targetPath: string) {
     const destination = targetPath || getPublicPath();
-    const folderPath = path.join(absoluteRootPath, destination);
+    const folderPath = path.join(destination);
 
     try {
       await fs.mkdir(folderPath, { recursive: true });

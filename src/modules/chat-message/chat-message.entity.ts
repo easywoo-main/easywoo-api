@@ -1,4 +1,4 @@
-import { $Enums, ChatMessage, MessageType } from '@prisma/client';
+import { $Enums, ChatMessage } from '@prisma/client';
 
 export class ChatMessageEntity implements ChatMessage {
     goToStep: number;

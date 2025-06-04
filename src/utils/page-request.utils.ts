@@ -15,11 +15,12 @@ export class PageRequest {
   })
   sortBy?: Record<string, 'desc' | 'asc'> = { id: 'desc' };
 
-  skip?: number = this.pageNumber * this.pageSize - this.pageSize;
-
   @ApiProperty({ description: 'Search query string', example: '', required: false })
   search?: string = "";
 
+  get skip(): number {
+    return this.pageNumber * this.pageSize - this.pageSize;
+  }
 
   toPageResponse<T>(content: T[], count: number): PageResponse<T> {
     return new PageResponse<T>(this, content, count);
@@ -27,14 +28,6 @@ export class PageRequest {
 
   getFilter(...searchFields: string[]) {
     return {
-      // ...(searchFields && {
-      //   where: searchFields.map(searchField => ({
-      //     [searchField]: {
-      //       contains: this.search,
-      //       mode: 'insensitive'
-      //     }
-      //   }))
-      // }),
       skip: this.skip,
       take: this.pageSize,
       orderBy: this.sortBy,
