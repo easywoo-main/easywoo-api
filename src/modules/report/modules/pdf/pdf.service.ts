@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
 import { v4 as uuidv4 } from 'uuid';
-import { getAbsoluteReportPath, getReportPath } from '../../../../utils/storage.utils';
+import { getReportPath } from '../../../../utils/storage.utils';
 import { ReportSectionDto } from '../../dto/reportSection.dto';
 import { PdfLocationDto } from './dto/pdfLocation.dto';
 import puppeteer from 'puppeteer';
@@ -34,7 +34,7 @@ export class PdfService {
       ],
     });
     const page = await browser.newPage();
-    const pdfPath = path.join(getAbsoluteReportPath(), `${fileName}.pdf`);
+    const pdfPath = path.join(getReportPath(), `${fileName}.pdf`);
 
     const directory = path.dirname(pdfPath);
     if (!fs.existsSync(directory)) {

@@ -1,12 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { RefreshToken } from './refresh.token.dto';
 
-export interface AccessToken {
-  accessToken: string;
-}
-
-
-export class AccessTokenImpl implements AccessToken {
+export class AccessToken {
   @ApiProperty({
     description: 'The access token',
     type: String,

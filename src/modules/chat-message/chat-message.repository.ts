@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from '../../database/repository.service';
-import { ChatMessageWithRelationsDto } from './dto/messageWithRelations.dto';
+import { ChatMessageWithRelationsDto } from './dto/messageWithProps.dto';
 import { ChatMessageEntity } from './chat-message.entity';
-import { ChatMessageWithPropsDto } from './dto/messageWithProps.dto';
+import { ChatMessageWithChoicesDto } from './dto/messageWithChoices.dto';
 import { Prisma } from '.prisma/client';
 import { FilterChatMessage } from './dto/filterChatMessageQuery.dto';
 import { ChatMessage } from '@prisma/client';
@@ -63,12 +63,11 @@ export class ChatMessageRepository {
     });
   }
 
-  public async findChatMessagesWithPropsById(id: string): Promise<ChatMessageWithPropsDto> {
+  public async findChatMessagesWithPropsById(id: string): Promise<ChatMessageWithChoicesDto> {
     return this.chatMessageRepository.findUnique({
       where: { id },
       include: {
         nextChoices: true,
-        // sliderProps: true,
       }
     });
   }

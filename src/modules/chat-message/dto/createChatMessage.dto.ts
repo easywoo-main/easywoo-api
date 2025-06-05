@@ -24,4 +24,7 @@ export class CreateChatMessageDto {
   startingChatId?: string | null;
   chatId: string;
   sliderPropIds: string[];
+
+  goToStep?: number;
+  restartFrom?: number;
 }

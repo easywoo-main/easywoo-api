@@ -22,7 +22,6 @@ export class ChatMessageService {
                                    ...newChatMessage
                                  }: CreateChatMessageWithAnswersDto) {
     const createChatMessageWithRelationDto: CreateChatMessageWithRelationDto = newChatMessage;
-console.log("test")
     await this.validateStepUniqueness({ ...newChatMessage, chatId: newChatMessage.chatId });
 
     if (newChatMessage.goToStep !== undefined) {

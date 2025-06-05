@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { SliderPropRepository } from './slider-prop.repository';
-import { SliderPropEntity } from './sliderProp.entity';
 
 @Injectable()
 export class SliderPropService {

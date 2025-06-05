@@ -26,7 +26,7 @@ export class PageRequest {
     return new PageResponse<T>(this, content, count);
   }
 
-  getFilter(...searchFields: string[]) {
+  getFilter() {
     return {
       skip: this.skip,
       take: this.pageSize,

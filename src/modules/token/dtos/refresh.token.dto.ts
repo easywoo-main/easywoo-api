@@ -1,11 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export interface RefreshToken {
-  refreshToken: string;
-}
-
-
-export class RefreshTokenImpl implements RefreshToken {
+export class RefreshToken {
   @ApiProperty({
     description: 'The refresh token',
     type: String,

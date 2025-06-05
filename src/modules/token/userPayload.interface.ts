@@ -1,4 +1,4 @@
-import { TokenType } from '../enums';
+import { TokenType } from "./token-type.enum";
 
 interface UserPayload {
   id?: string;

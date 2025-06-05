@@ -7,9 +7,11 @@ import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatEntity } from './chat.entity';
 import { AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
-import { UserPayload } from '../../interfaces';
-import { ChatMessageWithPropsDto } from '../chat-message/dto/messageWithProps.dto';
+import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
 import { PageRequest } from 'src/utils/page-request.utils';
+import { UserPayload } from '../token/userPayload.interface';
+import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
+import { pageRequestSchema } from '../../schemas/page-request.schema';
 
 @ApiTags('Chat')
 @Controller('chat')
@@ -28,8 +30,7 @@ export class ChatController {
   @Get()
   @ApiOperation({ summary: 'Fetch all chats with pagination' })
   @ApiResponse({ status: 200, description: 'Chats retrieved successfully', type: [ChatEntity] })
-  public async findAllChats(@Query() pageRequest: PageRequest) {
-    console.log(pageRequest);
+  public async findAllChats(@Query(new JoiValidationPipe(pageRequestSchema)) pageRequest: PageRequest) {
     return this.chatService.findAllChat(pageRequest);
   }
 
@@ -45,7 +46,7 @@ export class ChatController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Start a chat for a user' })
-  @ApiResponse({ status: 200, description: 'Chat started successfully', type: ChatMessageWithPropsDto })
+  @ApiResponse({ status: 200, description: 'Chat started successfully', type: ChatMessageWithChoicesDto })
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
   @ApiResponse({ status: 401, description: 'Unauthorized access', type: ErrorResponse })
   public async startChat(@Param('chatId') chatId: string, @UserDetails() user: UserPayload) {
@@ -59,7 +60,7 @@ export class ChatController {
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
   public async updateChat(
     @Param('chatId') chatId: string,
-    @Body() updateChatDto: Partial<UpdateChatDto>
+    @Body() updateChatDto: UpdateChatDto
   ) {
     return this.chatService.updateChat(chatId, updateChatDto);
   }

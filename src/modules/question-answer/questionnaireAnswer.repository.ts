@@ -16,13 +16,6 @@ export class QuestionnaireAnswerRepository {
       where: {
         id: answerId,
       },
-      // include: {
-      //   users: {
-      //     where: {
-      //       id: userId, //todo
-      //     },
-      //   },
-      // },
     });
   }
 }

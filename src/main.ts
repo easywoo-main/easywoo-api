@@ -1,11 +1,11 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
+import { Logger, VersioningType } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { globalPipe } from './pipes';
 import { globalFilter } from './errorHandler';
 import { swaggerSetup } from './utils/swagger.utils';
-import { getAbsolutePublicPath } from './utils/storage.utils';
+import { getPublicPath } from './utils/storage.utils';
 
 async function bootstrap() {
   const logger = new Logger(NestApplication.name);
@@ -21,12 +21,16 @@ async function bootstrap() {
   });
 
   // Global Prefix
-  app.setGlobalPrefix('api/v1', {
+  app.setGlobalPrefix('api', {
     exclude: ['/public', '/app'],
   });
+  app.enableVersioning({
+    defaultVersion: '1',
+    type: VersioningType.URI
+  })
 
   // Static Assets
-  app.useStaticAssets(getAbsolutePublicPath(), {
+  app.useStaticAssets(getPublicPath(), {
     prefix: '/public',
   });
 

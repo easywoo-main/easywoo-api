@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { CreateUpdateSliderPropDto } from '../../chat-message/dto/createUpdateSliderProp.dto';
+import { CreateSliderPropDto } from '../../message-slider/dto/createSliderProp.dto';
 import { GraphType } from '@prisma/client';
 
 export class CreateChatDto {
@@ -23,13 +23,14 @@ export class CreateChatDto {
 
   @ApiProperty({
     description: 'List of slider properties associated with the message',
-    type: [CreateUpdateSliderPropDto],
+    type: [CreateSliderPropDto],
   })
-  sliderProps: CreateUpdateSliderPropDto[];
+  sliderProps: CreateSliderPropDto[];
 
   @ApiProperty({description: "Formula"})
   formula: string;
 
+  @ApiProperty({description: "Master Graph Name"})
   masterGraph: string;
 
   @ApiPropertyOptional({description: "Therapist avatar URL"})

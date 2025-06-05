@@ -1,8 +1,8 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { TokenService } from '../token/token.service';
-import { UserPayload } from '../../interfaces';
-import { TokenType } from '../../enums';
+import { UserPayload } from '../token/userPayload.interface';
+import { TokenType } from '../token/token-type.enum';
 
 @Injectable()
 export class AuthService {

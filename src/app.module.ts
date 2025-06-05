@@ -15,13 +15,15 @@ import { SubscriptionModule } from './modules/subscription/subscription.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { MessageSliderModule } from './modules/message-slider/message-slider.module';
 import { ProgressTrackerChatModule } from './modules/progres-tracker-chat/progress-tracker-chat.module';
-import { PaintPointModule } from './modules/paint-point/paint-point.module';
 import { SliderPropModule } from './modules/slider-prop/slider-prop.module';
+import { CredentialsModule } from './modules/auth/credentials/credentials.module';
+import { envSchema } from './schemas/env.schema';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validationSchema: envSchema
     }),
     DatabaseModule,
     AuthModule,
@@ -39,8 +41,8 @@ import { SliderPropModule } from './modules/slider-prop/slider-prop.module';
     MessageSliderModule,
     ProgressTrackerChatModule,
     // InfoPopUpModule,
-    PaintPointModule,
     SliderPropModule,
+    CredentialsModule,
   ],
   controllers: [],
   providers: [],

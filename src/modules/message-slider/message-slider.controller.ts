@@ -2,8 +2,9 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestj
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { MessageSliderService } from './message-slider.service';
 import { MessageSliderEntity } from './message-slider.entity';
-import { CreateUpdateSliderPropWithRelationDto } from './dto/createUpdateSliderPropWithRelation.dto';
+import { CreateUpdateSliderPropDto } from './dto/createUpdateSliderProp.dto';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
+import { CreateSliderPropDto } from './dto/createSliderProp.dto';
 
 @Controller('message-slider')
 export class MessageSliderController {
@@ -14,7 +15,7 @@ export class MessageSliderController {
   @ApiResponse({ status: 201, description: 'Message slider successfully created', type: MessageSliderEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
   public async createMessageSlider(
-    @Body() data: CreateUpdateSliderPropWithRelationDto,
+    @Body() data: CreateSliderPropDto,
   ): Promise<MessageSliderEntity> {
     return this.messageSliderService.createMessageSlider(data);
   }
@@ -44,7 +45,7 @@ export class MessageSliderController {
   @ApiResponse({ status: 404, description: 'Message slider not found', type: ErrorResponse })
   public async updateMessageSlider(
     @Param('id') id: string,
-    @Body() data: Partial<CreateUpdateSliderPropWithRelationDto>,
+    @Body() data: Partial<CreateUpdateSliderPropDto>,
   ): Promise<MessageSliderEntity> {
     return this.messageSliderService.updateMessageSlider(id, data);
   }

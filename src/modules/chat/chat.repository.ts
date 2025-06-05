@@ -45,7 +45,7 @@ export class ChatRepository {
     });
   }
 
-  public async updateChat(id: string, data: Partial<UpdateChatDto>): Promise<ChatEntity> {
+  public async updateChat(id: string, data: UpdateChatDto): Promise<ChatEntity> {
     return this.chatRepository.update({
       where: { id },
       data

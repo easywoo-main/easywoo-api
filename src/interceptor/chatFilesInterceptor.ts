@@ -4,7 +4,6 @@ import { UnsupportedMediaTypeException } from '@nestjs/common';
 
 export const ChatFilesInterceptor = (fileName = "file") => {
   return FilesInterceptor(fileName, undefined, {
-    // limits: { fileSize: MAX_FILE_SIZE },
     fileFilter: (req, file, cb) => {
       if (ALLOWED_FILE_TYPES.includes(file.mimetype)) {
         cb(null, true);

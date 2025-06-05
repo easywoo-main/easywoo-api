@@ -1,11 +1,8 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { QuestionService } from './question.service';
-import { UserDetails } from '../../decorators';
-import { UserPayload } from '../../interfaces';
 import { QuestionnaireQuery } from './dtos/questionnaire.query';
 import { ApiBadRequestResponse, ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
-import { AuthGuard } from '../../guard';
 import { QuestionResponseDto } from './dtos/questionResponse.dto';
 
 @Controller('question')

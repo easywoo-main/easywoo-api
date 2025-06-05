@@ -45,42 +45,4 @@ export class UserRepository {
       data: userDto
     });
   }
-
-  public async getAllUserByChatId(chatId: string, pageRequest: PageRequest) {
-    return this.userRepository.findMany({
-      // where: {
-      //   chats: { some: { id: chatId } },
-      //   ...this.getWhereProp(pageRequest)
-      // },
-      // ...pageRequest.getFilter()
-    });
-  }
-
-  public async getCountUser(chatId: string, pageRequest: PageRequest) {
-    return this.userRepository.count({
-      where: {
-        chats: { some: { id: chatId } },
-        ...this.getWhereProp(pageRequest)
-      }
-    });
-  }
-
-  private getWhereProp(pageRequest: PageRequest): Prisma.UserWhereInput {
-    return {
-      ...(pageRequest.search && {
-        name: {
-          contains: pageRequest.search,
-          mode: 'insensitive'
-        },
-        email: {
-          contains: pageRequest.search,
-          mode: 'insensitive'
-        },
-        id: {
-          contains: pageRequest.search,
-          mode: 'insensitive'
-        }
-      })
-    };
-  }
 }

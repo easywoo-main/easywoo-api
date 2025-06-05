@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { absoluteRootPath, getChatMessagePath, getPublicPath } from '../../utils/storage.utils';
+import { getChatMessagePath, getPublicPath } from '../../utils/storage.utils';
 import * as fs from 'fs/promises';
 import * as path from 'node:path';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,28 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { MessageSliderRepository } from './message-slider.repository';
 import { MessageSliderEntity } from './message-slider.entity';
-import { CreateUpdateSliderPropWithRelationDto } from './dto/createUpdateSliderPropWithRelation.dto';
+import { CreateUpdateSliderPropDto } from './dto/createUpdateSliderProp.dto';
 import { CheckExists } from '../../decorators';
-import { CreateUpdateSliderPropDto } from '../chat-message/dto/createUpdateSliderProp.dto';
+import { CreateSliderPropDto } from './dto/createSliderProp.dto';
+import { UpdateSliderPropDto } from './dto/updateSliderProp.dto';
 
 @Injectable()
 export class MessageSliderService {
   constructor(private readonly messageSliderRepository: MessageSliderRepository) {
   }
 
-  public async createMessageSlider(data: CreateUpdateSliderPropWithRelationDto): Promise<MessageSliderEntity> {
+  public async createMessageSlider(data: CreateSliderPropDto): Promise<MessageSliderEntity> {
     return this.messageSliderRepository.createMessageSlider(data);
   }
 
-  public async bulkUpsertMessageSlider(chatId: string, data: CreateUpdateSliderPropDto[]) {
-    return Promise.all(
-      data.map((messageSlider)=>{
-        if(!messageSlider.id){
-          return this.createMessageSlider({...messageSlider, chatId})
-        }
-        return this.updateMessageSlider(messageSlider.id, {...messageSlider, chatId})
-      })
-    )
+  public async upsertMessageSlider( messageSlider: CreateUpdateSliderPropDto){
+    if(!messageSlider.id){
+      return this.createMessageSlider(messageSlider)
+    }
+    return this.updateMessageSlider(messageSlider.id, messageSlider)
   }
 
   @CheckExists('Slider not found')
@@ -36,7 +33,7 @@ export class MessageSliderService {
 
   public async updateMessageSlider(
     id: string,
-    data: Partial<CreateUpdateSliderPropWithRelationDto>
+    data: UpdateSliderPropDto
   ): Promise<MessageSliderEntity> {
     await this.findMessageSliderById(id);
     return this.messageSliderRepository.updateMessageSlider(id, data);

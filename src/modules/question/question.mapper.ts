@@ -5,17 +5,6 @@ import { QuestionResponseDto } from './dtos/questionResponse.dto';
 
 @Injectable()
 export class QuestionMapper {
-  public toDto(question: Question & { answers: (Answer & { users: User[] })[] }): QuestionDto {
-    return {
-      ...question,
-      answers: question.answers.map(({ users, ...answer }) => {
-        return {
-          isAnswered: !!users[0],
-          ...answer,
-        };
-      }),
-    };
-  }
 
   public toResponseDto(question: QuestionDto ): QuestionResponseDto {
     return {

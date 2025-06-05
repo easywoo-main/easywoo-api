@@ -3,10 +3,10 @@ import { ProgressTrackerChatService } from './progress-tracker-chat.service';
 import { CreateUserStepDto } from '../chat-message/dto/createUserStep.dto';
 import { AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
-import { UserPayload } from '../../interfaces';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
-import { ChatMessageWithPropsDto } from '../chat-message/dto/messageWithProps.dto';
+import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
+import { UserPayload } from '../token/userPayload.interface';
 
 @Controller('progress-tracker-chat')
 export class ProgressTrackerChatController {
@@ -36,7 +36,7 @@ export class ProgressTrackerChatController {
   @ApiResponse({
     status: 201,
     description: 'Next chat message retrieved successfully',
-    type: ChatMessageWithPropsDto
+    type: ChatMessageWithChoicesDto
   })
   @ApiResponse({
     status: 400,

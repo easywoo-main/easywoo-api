@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from '../../database/repository.service';
 import { Prisma } from '.prisma/client';
-
+//todo: subscription feature not yet implemented
 @Injectable()
 export class SubscriptionRepository {
 

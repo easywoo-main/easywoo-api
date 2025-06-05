@@ -1,8 +1,5 @@
-import { CanActivate, ExecutionContext, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { TokenService } from '../modules/token/token.service';
-import { UserPayload } from '../interfaces';
-import { TokenType } from '../enums';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { IS_PUBLIC_KEY } from '../decorators/isPublic.decorator';
 

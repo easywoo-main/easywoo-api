@@ -30,18 +30,22 @@ export class ChatService {
   }
 
   public async createChat(chatDto: CreateChatDto) {
-
     const sliderProps = chatDto?.sliderProps ?? [];
     delete chatDto.sliderProps;
     const chat = await this.chatRepository.createChat(chatDto);
-    await this.messageSliderService.bulkUpsertMessageSlider(chat.id, sliderProps);
+    await Promise.all(
+      sliderProps.map((messageSlider)=> (this.messageSliderService.createMessageSlider({...messageSlider, chatId: chat.id})))
+    )
     return chat;
 
   }
 
-  public async updateChat(chatId: string, chatDto: Partial<UpdateChatDto>) {
+  public async updateChat(chatId: string, chatDto: UpdateChatDto) {
     await this.findChatById(chatId);
-    await this.messageSliderService.bulkUpsertMessageSlider(chatId, chatDto?.sliderProps ?? []);
+
+    await Promise.all(
+      chatDto?.sliderProps?.map((messageSlider)=> (this.messageSliderService.upsertMessageSlider({...messageSlider, chatId})))
+    )
 
     delete chatDto.sliderProps;
     return this.chatRepository.updateChat(chatId, chatDto);

@@ -1,8 +1,6 @@
 import { CreateChatMessageDto } from './createChatMessage.dto';
-import { CreateMessageChoiceWithGoToStepDto } from '../../message-choice/dto/createMessageChoiceGoToStep.dto';
+import { CreateMessageChoiceDto } from '../../message-choice/dto/createMessageChoice.dto';
 
 export class CreateChatMessageWithAnswersDto extends CreateChatMessageDto {
-  answers?: CreateMessageChoiceWithGoToStepDto[];
-  goToStep?: number;
-  restartFrom?: number;
+  answers?: CreateMessageChoiceDto[];
 }

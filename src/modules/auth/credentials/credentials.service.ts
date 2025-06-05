@@ -3,12 +3,12 @@ import { TokenService } from '../../token/token.service';
 import { UserService } from '../../user/user.service';
 import { UserCreateDto } from '../../user/dto/userCreate.dto';
 import { User } from '@prisma/client';
-import { RefreshTokenImpl } from '../../token/dtos/refresh.token.dto';
-import { UserPayload } from '../../../interfaces';
-import { AccessTokenImpl } from '../../token/dtos/accessToken.dto';
-import { TokenType } from '../../../enums';
 import { UserAuthDto } from '../userAuth.dto';
 import { LoginDto } from './login.dto';
+import { RefreshToken } from '../../token/dtos/refresh.token.dto';
+import { AccessToken } from '../../token/dtos/accessToken.dto';
+import { UserPayload } from '../../token/userPayload.interface';
+import { TokenType } from '../../token/token-type.enum';
 
 @Injectable()
 export class CredentialsService {
@@ -47,7 +47,7 @@ export class CredentialsService {
     };
   }
 
-  public async refreshToken(body: RefreshTokenImpl): Promise<AccessTokenImpl> {
+  public async refreshToken(body: RefreshToken): Promise<AccessToken> {
     const userTokenPayload: UserPayload = await this.tokenService.verifyTokenByType(body.refreshToken, TokenType.REFRESH);
     const user: User = await this.userService.findUserById(userTokenPayload.id);
     const { accessToken } = await this.tokenService.generateAccessTokens(user);

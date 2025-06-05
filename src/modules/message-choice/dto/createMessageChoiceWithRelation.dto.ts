@@ -7,6 +7,11 @@ export class CreateMessageChoiceWithRelationDto extends CreateMessageChoiceDto {
     format: 'uuid',
   })
   nextMessageId?: string;
+
+  @ApiPropertyOptional({
+    description: 'Identifier of the prev message linked to this choice',
+    format: 'uuid',
+  })
   prevMessageId?: string;
 }
 

@@ -6,8 +6,6 @@ export class MessageChoiceEntity implements MessageChoice {
     goToStep: number;
     text: string;
     infoText: string;
-    // @ApiProperty({ description: 'The name of the message choice' })
-    // name: string;
 
     @ApiProperty({ description: 'The unique identifier of the message choice', format: 'uuid' })
     id: string;

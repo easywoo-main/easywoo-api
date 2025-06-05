@@ -13,7 +13,6 @@ export class QuestionService {
   ) {
   }
 
-
   public async getOneQuestion(questionId: string) {
     return this.questionnaireRepository.getOneQuestion(questionId);
   }
