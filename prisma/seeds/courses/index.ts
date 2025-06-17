@@ -1,0 +1,1 @@
+export { CourseSeed } from './courseSeed';

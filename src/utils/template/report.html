@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hello world!</title>
+</head>
+<body>
+<h1>Report</h1>
+<ul>
+  {{#each reportSection}}
+  <div>
+    <h2>{{this.name}}</h2>
+    <p>{{this.content}}</p>
+  </div>
+
+  {{/each}}
+</ul>
+</body>
+</html>

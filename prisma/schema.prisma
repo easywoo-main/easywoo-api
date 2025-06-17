@@ -1,0 +1,473 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String  @id @default(uuid())
+  email            String  @unique
+  name             String
+  password         String?
+  isVerified       Boolean @default(false) @map("is_verified")
+  hasQuizCompleted Boolean @default(false) @map("has_quiz_completed")
+  photo            String?
+
+  googleUserId String? @unique @map("google_user_id")
+  appleUserId  String? @unique @map("apple_user_id")
+
+  googleUser             GoogleUser?             @relation(fields: [googleUserId], references: [id])
+  appleUser              AppleUser?              @relation(fields: [appleUserId], references: [id])
+  chats                  Chat[]                  @relation("user_chats")
+  subscription           Subscription[]
+  resultSliderProp       ResultSliderProp[]
+  resultMessageChoice    ResultMessageChoice[]
+  stepChatMessage        StepChatMessage[]
+  report                 Report[]
+  userTextMessageAnswers UserTextMessageAnswer[]
+
+  @@map("users")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  userName  String   @map("user_name") @unique()
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("admins")
+}
+
+model GoogleUser {
+  id              String  @id @default(uuid())
+  googleAccountId String  @unique @map("google_account_id")
+  email           String  @unique
+  firstName       String  @map("first_name")
+  lastName        String  @map("last_name")
+  picture         String?
+  emailVerified   Boolean @default(false) @map("email_verified")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User?
+
+  @@map("google_users")
+}
+
+model AppleUser {
+  id            String  @id @default(uuid())
+  appleId       String  @unique @map("apple_id")
+  email         String  @unique
+  firstName     String  @map("first_name")
+  lastName      String  @map("last_name")
+  photo         String?
+  emailVerified Boolean @default(false) @map("email_verified")
+  userId        String? @unique @map("user_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User?
+
+  @@map("apple_users")
+}
+
+enum SubscriptionStatus {
+  ACTIVE    @map("active")
+  INACTIVE  @map("inactive")
+  CANCELLED @map("cancelled")
+
+  @@map("subscription_status")
+}
+
+model Subscription {
+  id        String             @id @default(uuid())
+  userId    String             @map("user_id")
+  chatId    String             @map("chat_id")
+  plan      String
+  status    SubscriptionStatus @default(ACTIVE)
+  startDate DateTime           @default(now()) @map("start_date")
+  endDate   DateTime           @map("end_date")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([chatId])
+  @@index([userId])
+  @@map("subscriptions")
+}
+
+model Report {
+  id     String  @id @default(uuid())
+  userId String? @map("user_id")
+
+  user   User?    @relation(fields: [userId], references: [id])
+  answer Answer[] @relation("report_answers")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("reports")
+}
+
+enum QuestionsType {
+  SINGLE   @map("single")
+  MULTIPLE @map("multiple")
+  SLIDER   @map("slider")
+
+  @@map("questions_type")
+}
+
+model Question {
+  id          String        @id @default(uuid())
+  step        Int
+  question    String        @unique
+  name        String        @unique
+  type        QuestionsType
+  midStepText String?       @map("mid_step_text")
+  easywooName String        @map("easywoo_name")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  answers Answer[]
+
+  @@index([step])
+  @@map("questions")
+}
+
+model Sentence {
+  id       String       @id @default(uuid())
+  sentence String
+  type     SentenceType
+
+  condition      Json
+  dbFindManyArgs Json? @map("db_find_many_args")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([sentence])
+  @@map("sentences")
+}
+
+enum SentenceType {
+  INTRO                @map("intro")
+  USER_INTRODUCTION    @map("user_introduction")
+  TARGET_AUDIENCE      @map("target_audience")
+  RELATIONSHIP_GOALS   @map("relationship_goals")
+  FINAL_CONSIDERATIONS @map("final_considerations")
+  EMOTIONAL_BAGGAGE    @map("emotional_baggage")
+  DEEP_DIVE            @map("deep_dive")
+  EASY_SOCIAL          @map("easy_social")
+  CARE_PLAN            @map("care_plan")
+
+  @@map("sentence_type")
+}
+
+model Answer {
+  id          String @id @default(uuid())
+  answer      String
+  name        String
+  easywooName String @map("easywoo_name")
+
+  questionId String @map("question_id")
+
+  evaluation Json?
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  question Question @relation(fields: [questionId], references: [id])
+  reports  Report[] @relation("report_answers")
+
+  @@unique([answer, questionId])
+  @@unique([name, questionId])
+  @@index(questionId)
+  @@map("answers")
+}
+
+model Course {
+  id      String       @id @default(uuid())
+  title   String
+  type    CourseType
+  status  CourseStatus
+  content String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  tags Tag[] @relation("course_tags")
+
+  @@map("courses")
+}
+
+enum CourseType {
+  JOB_LISTING @map("job_listing")
+
+  @@map("course_type")
+}
+
+enum CourseStatus {
+  PUBLISH @map("publish")
+
+  @@map("course_status")
+}
+
+model Tag {
+  id   String @id @default(uuid())
+  name String @unique
+  slug String @unique
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  courses Course[] @relation("course_tags")
+
+  @@map("tags")
+}
+
+enum MessageType {
+  TEXT      @map("text")
+  IMAGE     @map("image")
+  MEDIA     @map("media")
+  CHALLENGE @map("challenge")
+  QUESTION  @map("question")
+  GRAPH     @map("graph")
+
+  @@map("message_type")
+}
+
+model ChatMessage {
+  id                String      @id @default(uuid())
+  stepId            Int         @map("step_id")
+  stepName          String      @map("step_name")
+  introText         String      @map("intro_name")
+  introImages       String[]    @map("intro_image")
+  introMedias       String[]    @map("intro_media")
+  todoList          String[]    @map("to-do_list")
+  images            String[]
+  medias            String[]
+  question          String
+  type              MessageType @default(TEXT)
+  timeouts          Int[]
+  goToStep          Int?
+  restartFrom       Int?
+  isAllowManualTime Boolean     @default(false) @map("is_allow_manyal_time")
+  isCourseEnd       Boolean     @default(false) @map("is_course_end")
+  isOfferRestart    Boolean     @default(false) @map("is_offer_restart")
+  isComment         Boolean     @default(false) @map("is_comment")
+  isBarometer       Boolean     @default(false) @map("is_barometer")
+  isGraph           Boolean     @default(false) @map("is_graph")
+
+  chatId           String  @map("chat_id")
+  nextMessageId    String? @map("next_message_id")
+  restartMessageId String? @map("restart_message_id")
+  sliderPropId      String?  @map("slider_prop_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  restartMessage  ChatMessage?  @relation("MessageToRestart", fields: [restartMessageId], references: [id], onDelete: Cascade)
+  nextMessage     ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
+  prevMessages    ChatMessage[] @relation("MessageToNext")
+  checkpointMessage ChatMessage[] @relation("MessageToRestart")
+
+  chat                   Chat                    @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
+  startingChat           Chat?                   @relation("StartMessage")
+  sliderProps             SliderProp[]            @relation("slider_prop_chat_message")
+  nextChoices            MessageChoice[]         @relation("MessageToPrev")
+  prevChoices            MessageChoice[]         @relation("MessageToNext")
+  userTextMessageAnswers UserTextMessageAnswer[]
+  stepChatMessages       StepChatMessage[]
+
+  @@unique([stepName, chatId])
+  @@unique([stepId, chatId])
+  @@index([chatId])
+  @@map("chat_messages")
+}
+
+enum SliderPropType {
+  NEGATIVE @map("negative")
+  POSITIVE @map("positive")
+
+  @@map("slider_prop_type")
+}
+
+model SliderProp {
+  id   String         @id @default(uuid())
+  name String
+  text String
+  type SliderPropType
+
+  positiveMessage String? @map("positive_message")
+  negativeMessage String? @map("negative_message")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  chatId           String
+  chat             Chat               @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  resultSliderProp ResultSliderProp[]
+  chatMessages ChatMessage[] @relation("slider_prop_chat_message")
+
+  @@index([chatId])
+  @@map("slider_props")
+}
+
+model MessageChoice {
+  id       String  @id @default(uuid())
+  text String?
+  infoText String  @map("info_text")
+  file String?
+  goToStep          Int?
+
+  prevMessageId String?  @map("prev_message_id")
+  nextMessageId String? @map("next_message_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  nextMessage         ChatMessage?          @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
+  prevMessage         ChatMessage?           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
+  resultMessageChoice ResultMessageChoice[]
+
+  @@map("message_choices")
+}
+
+enum GraphType {
+  LINE
+  BAR
+  PIE
+  DOUGHNUT
+  RADAR
+  POLAR_AREA
+  BUBBLE
+  SCATTER
+}
+
+model Chat {
+  id                        String    @id @default(uuid())
+  name                      String
+  freeSteps                 Int       @map("free_steps")
+  price                     Float
+  landingUrl                String?   @map("landing_url")
+  hasIndividualConsultation Boolean   @default(false) @map("has_individual_consultation")
+  isDisabled                Boolean   @default(false) @map("is_disabled")
+  startMessageId            String?   @unique @map("start_message_id")
+  formula                   String
+  paintPoints               String[]  @map("paint_points")
+  masterGraph               String    @map("master_graph")
+
+  therapistAvatar String? @map("therapist_avatar")
+  therapistName   String  @map("therapist_name")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  startMessage ChatMessage?  @relation("StartMessage", fields: [startMessageId], references: [id])
+  messages     ChatMessage[] @relation("ChatMessages")
+
+  subscriptions Subscription[]
+  users         User[]         @relation("user_chats")
+  sliderProp    SliderProp[]
+
+  @@index([startMessageId])
+  @@map("chats")
+}
+
+// model InfoPopUp {
+//   id          String  @id @default(uuid())
+//   title       String
+//   description String? @map("description")
+//
+//   chatMessageId String      @map("chat_message_id")
+//   chatMessage   ChatMessage @relation(fields: [chatMessageId], references: [id])
+//
+//   createdAt DateTime @default(now()) @map("created_at")
+//   updatedAt DateTime @updatedAt @map("updated_at")
+//
+//   @@index([chatMessageId])
+//   @@map("info_pop_ups")
+// }
+
+model ResultSliderProp {
+  id           String @id @default(uuid())
+  result       String
+  userId       String @map("user_id")
+  sliderPropId String @map("slider_prop_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  sliderProp SliderProp @relation(fields: [sliderPropId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([sliderPropId])
+  @@map("result_slider_props")
+}
+
+model ResultMessageChoice {
+  id              String @id @default(uuid())
+  userId          String @map("user_id")
+  messageChoiceId String @map("message_choice_id")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  messageChoice MessageChoice @relation(fields: [messageChoiceId], references: [id])
+  user          User          @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([messageChoiceId])
+  @@map("result_message_choices")
+}
+
+model StepChatMessage {
+  id            String @id @default(uuid())
+  userId        String @map("user_id")
+  chatMessageId String @map("chat_message_id")
+
+  user        User        @relation(fields: [userId], references: [id])
+  chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@index([chatMessageId])
+  @@map("step_chat_messages")
+}
+
+model UserTextMessageAnswer {
+  id            String @id @default(uuid())
+  userId        String @map("user_id")
+  chatMessageId String @map("chat_message_id")
+  answer        String
+
+  user        User        @relation(fields: [userId], references: [id])
+  chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index(userId)
+  @@index(chatMessageId)
+  @@map("user_text_message_answers")
+}

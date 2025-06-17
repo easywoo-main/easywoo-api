@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "InfoPopUp" ALTER COLUMN "title" DROP DEFAULT;
