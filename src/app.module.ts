@@ -18,6 +18,7 @@ import { ProgressTrackerChatModule } from './modules/progres-tracker-chat/progre
 import { SliderPropModule } from './modules/slider-prop/slider-prop.module';
 import { CredentialsModule } from './modules/auth/credentials/credentials.module';
 import { envSchema } from './schemas/env.schema';
+import { AdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { envSchema } from './schemas/env.schema';
     ProgressTrackerChatModule,
     SliderPropModule,
     CredentialsModule,
+    AdminModule,
   ],
   controllers: [],
   providers: [],
