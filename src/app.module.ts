@@ -23,7 +23,7 @@ import { envSchema } from './schemas/env.schema';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      validationSchema: envSchema
+      // validationSchema: envSchema
     }),
     DatabaseModule,
     AuthModule,
