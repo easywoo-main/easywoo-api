@@ -30,5 +30,11 @@ export class CreateUserStepDto {
   })
   textAnswer?: string;
 
+  @ApiProperty({
+    description: 'Message id to which the user should be returned',
+    format: 'uuid',
+    required: false,
+  })
+  restartMessageId?: string;
 
 }

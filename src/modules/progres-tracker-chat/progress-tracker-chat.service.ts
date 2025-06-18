@@ -44,6 +44,10 @@ export class ProgressTrackerChatService {
       await this.stepChatMessageService.createStepChatMessage(chatMessage.id, userId);
     }
 
+    if (createAnswerDto.restartMessageId) {
+      return this.chatMessageService.findChatMessagesWithPropsById(createAnswerDto.restartMessageId);
+    }
+
     if (chatMessage.isCourseEnd || !nextChatMessageId){
       return new Success("Сhat ended")
     }

@@ -7,6 +7,7 @@ import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swag
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
 import { UserPayload } from '../token/userPayload.interface';
+import { Success } from '../../utils/success.utils';
 
 @Controller('progress-tracker-chat')
 export class ProgressTrackerChatController {
@@ -20,17 +21,11 @@ export class ProgressTrackerChatController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get the next chat message based on the current message and user input' })
-  @ApiParam({
-    name: 'chatMessageId',
-    description: 'ID of the current chat message',
-    required: true,
-    type: String
-  })
   @ApiResponse(
     {
       status: 200,
       description: 'Chat ended',
-      type: ErrorResponse
+      type: Success
     }
   )
   @ApiResponse({

@@ -40,7 +40,6 @@ import { envSchema } from './schemas/env.schema';
     StorageModule,
     MessageSliderModule,
     ProgressTrackerChatModule,
-    // InfoPopUpModule,
     SliderPropModule,
     CredentialsModule,
   ],

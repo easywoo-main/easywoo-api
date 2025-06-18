@@ -7,7 +7,7 @@ import { MessageChoiceWithRelation } from '../../message-choice/dto/messageChoic
 export class ChatMessageWithChoicesDto extends ChatMessageEntity {
   @ApiPropertyOptional({
     description: 'Array of next possible message choices related to this message',
-    type: [MessageChoiceWithRelation]
+    type: [MessageChoiceEntity]
   })
-  nextChoices?: MessageChoiceWithRelation[];
+  nextChoices?: MessageChoiceEntity[];
 }

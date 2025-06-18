@@ -8,6 +8,8 @@ import { MessageSliderModule } from '../message-slider/message-slider.module';
 @Module({
   controllers: [ChatController],
   providers: [ChatService, ChatRepository],
-  imports: [ ChatMessageModule, MessageSliderModule],
+  imports: [ChatMessageModule, MessageSliderModule],
+  exports: [ChatService],
 })
-export class ChatModule {}
+export class ChatModule {
+}

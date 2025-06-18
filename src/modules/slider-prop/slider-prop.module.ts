@@ -5,6 +5,7 @@ import { SliderPropRepository } from './slider-prop.repository';
 
 @Module({
   controllers: [SliderPropController],
-  providers: [SliderPropService, SliderPropRepository]
+  providers: [SliderPropService, SliderPropRepository],
+  exports: [SliderPropService],
 })
 export class SliderPropModule {}

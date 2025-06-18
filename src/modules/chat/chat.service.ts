@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ChatRepository } from './chat.repository';
 import { CheckExists } from '../../decorators';
 import { CreateChatDto } from './dto/createChat.dto';

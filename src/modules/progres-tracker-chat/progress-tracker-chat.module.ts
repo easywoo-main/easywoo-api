@@ -9,7 +9,9 @@ import { MessageChoiceModule } from '../message-choice/message-choice.module';
 import { UserTextMessageAnswerModule } from './modules/user-text-message-answer/user-text-message-answer.module';
 
 @Module({
-  imports: [StepChatMessageModule, ResultMessageChoiceModule, ResultSliderPropModule, ChatMessageModule, MessageChoiceModule, UserTextMessageAnswerModule],
+  imports: [StepChatMessageModule, ResultMessageChoiceModule,
+    ResultSliderPropModule,
+    ChatMessageModule, MessageChoiceModule, UserTextMessageAnswerModule],
   controllers: [ProgressTrackerChatController],
   providers: [ProgressTrackerChatService]
 })

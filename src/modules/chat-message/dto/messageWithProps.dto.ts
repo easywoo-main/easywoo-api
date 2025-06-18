@@ -7,5 +7,6 @@ import { SliderPropEntity } from '../../slider-prop/sliderProp.entity';
 
 
 export class ChatMessageWithRelationsDto extends ChatMessageWithChoicesDto {
+  @ApiPropertyOptional({ type: () => [SliderPropEntity], description: 'Slider properties related to the chat message' })
   sliderProps?: SliderPropEntity[];
 }
