@@ -10,8 +10,8 @@ export class AdminService {
   constructor(private readonly adminRepository: AdminRepository) {}
 
   @CheckExists("Admin not Found")
-  public async getByUserName(username: string): Promise<AdminEntity> {
-    return this.adminRepository.findAdminByUsername(username);
+  public async getByUserName(userName: string): Promise<AdminEntity> {
+    return this.adminRepository.findAdminByUsername(userName);
   }
 
   public async verifyAdminPassword(adminId: string, password: string): Promise<Success> {
