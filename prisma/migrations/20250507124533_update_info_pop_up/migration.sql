@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "InfoPopUp" ALTER COLUMN "file" DROP NOT NULL;
