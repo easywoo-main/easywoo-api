@@ -11,7 +11,7 @@ export const envSchema = Joi.object({
   DATABASE_USERNAME: Joi.string().required(),
   DATABASE_PASSWORD: Joi.string().required(),
   DATABASE_NAME: Joi.string().required(),
-  DATABASE_URL: Joi.string().uri().required(),
+  // DATABASE_URL: Joi.string().uri().required(),
 
   // ---------- JWT ----------
   JWT_SECRET_KEY: Joi.string().min(10).required(),
