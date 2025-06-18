@@ -14,7 +14,7 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
-      - backend
+      - api
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME} -d ${DATABASE_NAME}" ]
       interval: 10s
@@ -27,7 +27,7 @@ services:
     ports:
       - 8088:8080
     networks:
-      - backend
+      - api
 
   app:
     build:
@@ -47,9 +47,9 @@ services:
     env_file:
       - ../.env
     networks:
-      - backend
+      - api
 networks:
-  backend:
+  api:
 
 volumes:
   pg_data:
