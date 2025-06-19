@@ -1,18 +1,19 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatEntity } from './chat.entity';
-import { AuthGuard } from '../../guard';
+import { AdminGuard, AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
-import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
 import { PageRequest } from 'src/utils/page-request.utils';
 import { UserPayload } from '../token/userPayload.interface';
 import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
 import { pageRequestSchema } from '../../schemas/page-request.schema';
 import { ChatMessageWithRelationsDto } from '../chat-message/dto/messageWithProps.dto';
+import { ChatFilter } from './dto/chatFilter.dto';
+import { chatFilterSchema } from './schema/chatFilter.schema';
 
 @ApiTags('Chat')
 @Controller('chat')
@@ -20,7 +21,16 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {
   }
 
+  // @Get("/admin")
+  // @UseGuards(AdminGuard)
+  // @ApiOperation({ summary: 'Fetch all chats with pagination' })
+  // @ApiResponse({ status: 200, description: 'Chats retrieved successfully', type: [ChatEntity] })
+  // public async findAllAdminChats(@Query(new JoiValidationPipe(pageRequestSchema)) pageRequest: PageRequest) {
+  //   return this.chatService.findAllChat(pageRequest);
+  // }
+
   @Get('/:chatId')
+  @UseGuards(AdminGuard)
   @ApiOperation({ summary: 'Fetch a chat by ID' })
   @ApiResponse({ status: 200, description: 'Chat retrieved successfully', type: ChatEntity })
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
@@ -32,10 +42,20 @@ export class ChatController {
   @ApiOperation({ summary: 'Fetch all chats with pagination' })
   @ApiResponse({ status: 200, description: 'Chats retrieved successfully', type: [ChatEntity] })
   public async findAllChats(@Query(new JoiValidationPipe(pageRequestSchema)) pageRequest: PageRequest) {
-    return this.chatService.findAllChat(pageRequest);
+    return this.chatService.findAllUserChats(pageRequest);
+  }
+
+  @Get()
+  @Version("2")
+  @UseGuards(AdminGuard)
+  @ApiOperation({ summary: 'Fetch all admin chats with pagination' })
+  @ApiResponse({ status: 200, description: 'Chats retrieved successfully', type: [ChatEntity] })
+  public async findAllAdminChats(@Query(new JoiValidationPipe(chatFilterSchema)) chatFilter: ChatFilter) {
+    return this.chatService.findAllChats(chatFilter);
   }
 
   @Post()
+  @UseGuards(AdminGuard)
   @ApiOperation({ summary: 'Create a new chat' })
   @ApiResponse({ status: 201, description: 'Chat successfully created', type: ChatEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
@@ -55,6 +75,7 @@ export class ChatController {
   }
 
   @Patch('/:chatId')
+  @UseGuards(AdminGuard)
   @ApiOperation({ summary: 'Update a chat by ID' })
   @ApiResponse({ status: 200, description: 'Chat successfully updated', type: ChatEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
@@ -67,6 +88,7 @@ export class ChatController {
   }
 
   @Delete('/:chatId')
+  @UseGuards(AdminGuard)
   @ApiOperation({ summary: 'Delete a chat by ID' })
   @ApiResponse({ status: 200, description: 'Chat successfully deleted', type: ChatEntity })
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })

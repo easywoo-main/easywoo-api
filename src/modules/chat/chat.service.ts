@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ChatRepository } from './chat.repository';
 import { CheckExists } from '../../decorators';
 import { CreateChatDto } from './dto/createChat.dto';
@@ -6,6 +6,7 @@ import { UpdateChatDto } from './dto/updateChatDto';
 import { ChatMessageService } from '../chat-message/chat-message.service';
 import { PageRequest } from '../../utils/page-request.utils';
 import { MessageSliderService } from '../message-slider/message-slider.service';
+import { ChatFilter } from './dto/chatFilter.dto';
 
 @Injectable()
 export class ChatService {
@@ -15,7 +16,13 @@ export class ChatService {
     private readonly messageSliderService: MessageSliderService
   ) {}
 
-  public async findAllChat(pageRequest: PageRequest) {
+  public async findAllUserChats(pageRequest: PageRequest) {
+    const chatFilter: ChatFilter = pageRequest;
+    chatFilter.isDisabled = false
+    return this.findAllChats(chatFilter);
+  }
+
+  public async findAllChats(pageRequest: ChatFilter) {
     const [chats, count] = await Promise.all([
       this.chatRepository.findAllChats(pageRequest),
       this.chatRepository.countChats(pageRequest),

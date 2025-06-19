@@ -1,6 +1,6 @@
 
 
 export class AdminLoginDto {
-  username: string;
+  userName: string;
   password: string;
 }

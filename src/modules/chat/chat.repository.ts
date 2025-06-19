@@ -5,38 +5,30 @@ import { Prisma } from '.prisma/client';
 import { ChatEntity } from './chat.entity';
 import { UpdateChatDto } from './dto/updateChatDto';
 import { ChatWithMessageDto } from './dto/chatWithMessage.dto';
-import { PageRequest } from '../../utils/page-request.utils';
+import { ChatFilter } from './dto/chatFilter.dto';
 
 @Injectable()
 export class ChatRepository {
-  private readonly  chatRepository: Prisma.ChatDelegate;
+  private readonly chatRepository: Prisma.ChatDelegate;
+
   constructor(repository: Repository) {
-    this.chatRepository = repository.chat
+    this.chatRepository = repository.chat;
   }
+
   public async findChatById(id: string): Promise<ChatEntity> {
     return this.chatRepository.findUnique({
       where: { id }
     });
   }
 
-  public async findAllChats(pageRequest: PageRequest): Promise<ChatEntity[]> {
+  public async findAllChats(pageRequest: ChatFilter): Promise<ChatEntity[]> {
     return this.chatRepository.findMany({
-      where: this.getWhereChats(pageRequest),
-      ...pageRequest.getFilter()
+      where: this.getWhereChats(pageRequest), ...pageRequest.getFilter()
     });
   }
 
-  public async countChats(pageRequest: PageRequest) {
+  public async countChats(pageRequest: ChatFilter) {
     return this.chatRepository.count({ where: this.getWhereChats(pageRequest) });
-  }
-
-  private getWhereChats(pageRequest: PageRequest): Prisma.ChatWhereInput {
-    return {
-      name: {
-        contains: pageRequest.search || '',
-        mode: 'insensitive'
-      }
-    };
   }
 
   public async createChat(data: CreateChatDto): Promise<ChatEntity> {
@@ -47,8 +39,7 @@ export class ChatRepository {
 
   public async updateChat(id: string, data: UpdateChatDto): Promise<ChatEntity> {
     return this.chatRepository.update({
-      where: { id },
-      data
+      where: { id }, data
     });
   }
 
@@ -60,17 +51,21 @@ export class ChatRepository {
 
   public async createRelationWithUser(chatId: string, userId: string): Promise<ChatWithMessageDto> {
     return this.chatRepository.update({
-        where: { id: chatId },
-        data: { users: { connect: { id: userId } } },
-      include: {
+      where: { id: chatId }, data: { users: { connect: { id: userId } } }, include: {
         startMessage: {
           include: {
-            nextMessage: true,
-            nextChoices: true
+            nextMessage: true, nextChoices: true
           }
         }
       }
-    }
-    );
+    });
+  }
+
+  private getWhereChats(pageRequest: ChatFilter): Prisma.ChatWhereInput {
+    return {
+      name: {
+        contains: pageRequest.search || '', mode: 'insensitive'
+      }, ...(pageRequest.isDisabled !== undefined && { isDisabled: pageRequest.isDisabled })
+    };
   }
 }

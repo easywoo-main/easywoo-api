@@ -5,6 +5,7 @@ import { Logger } from '@nestjs/common';
 import { Repository } from '../../src/database/repository.service';
 
 const prisma = new Repository();
+prisma.useMiddleware()
 const logger: Logger = new Logger();
 
 (async function main() {

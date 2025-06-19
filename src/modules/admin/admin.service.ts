@@ -16,10 +16,16 @@ export class AdminService {
 
   public async verifyAdminPassword(adminId: string, password: string): Promise<Success> {
     const admin = await this.adminRepository.findAdminByIdWithPassword(adminId);
+    console.log(admin);
     const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid password');
     }
     return new Success('Password verified');
+  }
+
+  public async findAdminById(adminId: string) {
+    return await this.adminRepository.findAdminById(adminId);
+
   }
 }

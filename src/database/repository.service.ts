@@ -13,13 +13,20 @@ export class Repository extends PrismaClient implements OnModuleInit, OnModuleDe
         user: {
           password: true,
         },
+        admin: {
+          password: true
+        }
       },
     });
   }
 
   public async onModuleInit() {
-    this.$use(userMiddleware);
+    this.useMiddleware()
     await this.$connect();
+  }
+
+  public useMiddleware(): void {
+    this.$use(userMiddleware);
   }
 
   public async onModuleDestroy() {
