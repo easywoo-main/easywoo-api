@@ -19,6 +19,7 @@ import { SliderPropModule } from './modules/slider-prop/slider-prop.module';
 import { CredentialsModule } from './modules/auth/credentials/credentials.module';
 import { envSchema } from './schemas/env.schema';
 import { AdminModule } from './modules/admin/admin.module';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { AdminModule } from './modules/admin/admin.module';
     SliderPropModule,
     CredentialsModule,
     AdminModule,
+    RoleModule,
   ],
   controllers: [],
   providers: [],

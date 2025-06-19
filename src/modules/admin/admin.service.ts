@@ -4,6 +4,9 @@ import { Success } from '../../utils/success.utils';
 import { CheckExists } from '../../decorators';
 import { AdminRepository } from './admin.repository';
 import * as bcrypt from 'bcrypt';
+import { PageRequest } from '../../utils/page-request.utils';
+import { CreateAdminDto } from './dtos/createAdmin.dto';
+import { UpdateAdminDto } from './dtos/updateAdmin.dto';
 
 @Injectable()
 export class AdminService {
@@ -28,4 +31,25 @@ export class AdminService {
     return await this.adminRepository.findAdminById(adminId);
 
   }
+
+  async findAllAdminWithPagination(pageRequest: PageRequest) {
+    const [admins, count] = await Promise.all([
+      this.adminRepository.findAdminsWithPagination(pageRequest),
+      this.adminRepository.countAdminsWithPagination(pageRequest)
+    ])
+    return pageRequest.toPageResponse(admins, count);
+  }
+
+  public async createAdmin(createAdminDto: CreateAdminDto): Promise<AdminEntity> {
+    return this.adminRepository.createAdmin(createAdminDto);
+  }
+
+  public async updateAdmin(adminId: string, updateAdminDto: UpdateAdminDto): Promise<AdminEntity> {
+    return this.adminRepository.updateAdmin(adminId, updateAdminDto);
+  }
+
+  public async deleteAdmin(adminId: string): Promise<AdminEntity> {
+    return this.adminRepository.deleteAdmin(adminId);
+  }
+
 }

@@ -38,12 +38,29 @@ model User {
   @@map("users")
 }
 
+model Role {
+  id        String   @id @default(uuid())
+  name      String  @unique
+  isEditChat Boolean @default(false) @map("is_edit_chat")
+  isEditAdmin Boolean @default(false) @map("is_edit_admin")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  admins Admin[]
+
+  @@map("roles")
+}
+
 model Admin {
   id        String   @id @default(uuid())
   userName  String   @map("user_name") @unique()
   password  String
+  roleId    String
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  role Role @relation(fields: [roleId], references: [id])
 
   @@map("admins")
 }
@@ -390,6 +407,7 @@ model Chat {
   @@index([startMessageId])
   @@map("chats")
 }
+
 
 // model InfoPopUp {
 //   id          String  @id @default(uuid())
