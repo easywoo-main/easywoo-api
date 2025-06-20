@@ -22,4 +22,7 @@ export class RoleService {
   async getRoleById(id: string) {
     return this.roleRepository.getRoleById(id);
   }
+  async getRoleByName(name: string){
+    return this.roleRepository.getRoleByName(name);
+  }
 }

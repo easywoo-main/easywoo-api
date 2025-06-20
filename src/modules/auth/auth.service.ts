@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { TokenService } from '../token/token.service';
 import { UserPayload } from '../token/userPayload.interface';
@@ -6,6 +6,8 @@ import { TokenType } from '../token/token-type.enum';
 import { AdminPayload } from '../token/adminPayload.interface';
 import { Payload } from '../token/payload.interface';
 import { AdminService } from '../admin/admin.service';
+import { RoleService } from '../role/role.service';
+import { PermissionDto } from '../role/dtos/permission.dto';
 
 @Injectable()
 export class AuthService {
@@ -13,6 +15,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly adminService: AdminService,
     private readonly tokenService: TokenService,
+    private readonly roleService: RoleService
   ) {}
 
   public async verifyTokenUserToken(token?: string): Promise<UserPayload> {
@@ -52,7 +55,16 @@ export class AuthService {
 
   async verifyAdmin(user: AdminPayload): Promise<boolean> {
     const admin = await this.adminService.findAdminById(user.id);
-    console.log("verifyAdmin", admin);
     return true;
+  }
+
+  public async checkIfAdminHavePermission(roleId: string, permissionDto: PermissionDto): Promise<boolean> {
+    const role = await this.roleService.getRoleById(roleId);
+    for (const [key, value] of Object.entries(permissionDto)) {
+      if (value && !role[key]){
+        throw new ForbiddenException('Access denied. Invalid permission.');
+      }
+    }
+    return true
   }
 }

@@ -28,4 +28,8 @@ export class RoleRepository {
   public async getRoleById(id: string): Promise<RoleEntity> {
     return this.roleRepository.findUnique({ where: { id } });
   }
+
+  public async getRoleByName(name: string): Promise<RoleEntity> {
+    return this.roleRepository.findUnique({ where: { name } });
+  }
 }

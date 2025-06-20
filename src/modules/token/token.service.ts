@@ -89,6 +89,7 @@ export class TokenService {
     const adminToken: AdminPayload = {
       id: admin.id,
       userName: admin.userName,
+      roleId: admin.roleId,
     }
 
     const accessToken = this.generateTokenByType(adminToken, TokenType.ADMIN_ACCESS);

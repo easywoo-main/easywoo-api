@@ -7,10 +7,11 @@ import { UserModule } from '../user/user.module';
 import { TokenModule } from '../token/token.module';
 import { AdminCredentialsModule } from './admin-credentials/admin-credentials.module';
 import { AdminModule } from '../admin/admin.module';
+import { RoleModule } from '../role/role.module';
 
 @Global()
 @Module({
-  imports: [GoogleModule, AppleModule, CredentialsModule, TokenModule, UserModule, AdminCredentialsModule, AdminModule],
+  imports: [GoogleModule, AppleModule, CredentialsModule, TokenModule, UserModule, AdminCredentialsModule, AdminModule, RoleModule],
   providers: [AuthService],
   exports: [AuthService],
 })

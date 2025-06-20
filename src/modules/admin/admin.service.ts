@@ -21,6 +21,7 @@ export class AdminService {
     const admin = await this.adminRepository.findAdminByIdWithPassword(adminId);
     console.log(admin);
     const isPasswordValid = await bcrypt.compare(password, admin.password);
+    console.log(isPasswordValid)
     if (!isPasswordValid) {
       throw new BadRequestException('Invalid password');
     }

@@ -23,19 +23,21 @@ export class AdminSeed extends Seeder {
       {userName: "George", password: "CEpcgPdyVau4"},
       {userName: "Ester", password: "byqsHYAHrvyJ"},
       {userName: "Rauf", password: "9RhzPEqvWRGd"},
-      {userName: "Illia ", password: "8NsCtWjC3g3W"},
+      {userName: "Illia", password: "8NsCtWjC3g3W"},
       {userName: "Danila", password: "bhWcc7Pwtzbc"},
-      {userName: "Volodymyr ", password: "9sBmPdgbsaGk"},
+      {userName: "Volodymyr", password: "9sBmPdgbsaGk"},
     ]
 
     for (const admin of admins) {
-      await prisma.admin.upsert({
+      const existingAdmin = await prisma.admin.findUnique({
         where: {
           userName: admin.userName
-        },
-        create: {...admin, role: {connect: {name: roles[0].name}}},
-        update: {...admin, role: {connect: {name: roles[0].name}}},
-      })
+        }})
+      if (!existingAdmin ) {
+        await prisma.admin.create({data: {...admin,
+            role: {connect: {name: roles[0].name}
+        }}});
+      }
     }
   }
 }
