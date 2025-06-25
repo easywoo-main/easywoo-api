@@ -18,14 +18,14 @@ export class AppleService {
 
     let existingAppleUser = await this.findAppleUserByEmail(payload.email!);
     let existingUser = await this.userService.findUserByEmail(payload.email!);
-    //todo:
-    let googleUserDto: CreateAppleUserDto = {
-      appleId: '',
-      email: '',
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    }
+    const googleUserDto = {
+      appleId: '',  // You can store the apple ID if you want
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      middleName: '', // Optional
+    };
+
     const userDto: UserCreateDto = {
       name: payload.name,
       email: payload.email,
@@ -42,7 +42,7 @@ export class AppleService {
     if (existingUser && !existingAppleUser) {
       await this.createAppleUser(googleUserDto);
     }
-    const accessTokens = await this.tokenService.generateAccessTokens(existingUser);
+    const accessTokens = this.tokenService.generateAccessTokens(existingUser);
 
     return {
       user: existingUser,
@@ -59,7 +59,7 @@ export class AppleService {
   }
 
   public async updateGoogleUser(appleUserId: string, appleUserDto: CreateAppleUserDto): Promise<AppleUserEntity> {
-    return
+    return this.appleUserRepository.updateAppleUser(appleUserId, appleUserDto);
   }
 
 }

@@ -9,11 +9,15 @@ import { AppleService } from './apple.service';
 export class AppleController {
   constructor(private readonly appleService: AppleService) {}
 
+
   @Get()
+  @UseGuards(AuthGuard('apple'))
   @UseGuards(AuthGuard('apple'))
   @ApiOperation({ summary: 'Redirect to Apple authentication' })
   @ApiResponse({ status: 302, description: 'Redirecting to Apple login' })
-  public async appleAuth() {}
+  async appleAuth(@Req() _req: Request, @Res() _res: Response) {
+    // Apple authentication
+  }
 
   @Get('callback')
   @UseGuards(AuthGuard('apple'))
@@ -21,8 +25,8 @@ export class AppleController {
   @ApiResponse({ status: 200, description: 'User successfully authenticated' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiBearerAuth()
-  public async appleAuthRedirect(@Req() req: Request, @Res() res: Response) {
-    const applePayload = req.user;
-    return this.appleService.appleLogin(applePayload);
+  async appleAuthRedirect(@Req() req: Request) {
+    const { user } = req;
+    return this.appleService.appleLogin(user)
   }
 }

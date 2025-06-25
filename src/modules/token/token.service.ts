@@ -42,6 +42,8 @@ export class TokenService {
         return this.generateToken(data, this.ACCESS_TOKEN_EXPIRE, this.JWT_ADMIN_SECRET_KEY);
       case TokenType.ADMIN_REFRESH:
         return this.generateToken(data, this.REFRESH_TOKEN_EXPIRE, this.JWT_ADMIN_SECRET_KEY);
+      case TokenType.PASSWORD_RESET:
+        return this.generateToken(data, this.ACCESS_TOKEN_EXPIRE, this.JWT_SECRET_KEY);
     }
   }
 
@@ -92,7 +94,7 @@ export class TokenService {
 
   public generatePasswordResetTokens(user: UserEntity): AccessToken {
     const passwordResetToken = this.payloadMapper.userEntityToPasswordResetPayload(user);
-    const accessToken = this.generateTokenByType(passwordResetToken, TokenType.ADMIN_ACCESS);
+    const accessToken = this.generateTokenByType(passwordResetToken, TokenType.PASSWORD_RESET);
     return { accessToken };
 
   }

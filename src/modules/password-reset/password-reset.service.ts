@@ -10,6 +10,7 @@ import { PasswordResetDto } from './dtos/reset-password.dto';
 import { CheckExists } from '../../decorators';
 import { TokenService } from '../token/token.service';
 import { AccessToken } from '../token/dtos/accessToken.dto';
+import { SendResetPasswordEmailDto } from './dtos/send-reset-password-email.dto';
 
 @Injectable()
 export class PasswordResetService {
@@ -21,18 +22,17 @@ export class PasswordResetService {
   ) {
   }
 
-  public async sendResetEmail(email: string): Promise<Success> {
-    const user = await this.userService.findUserByEmail(email);
+  public async sendResetEmail(sendResetPasswordEmailDto: SendResetPasswordEmailDto): Promise<Success> {
+    const user = await this.userService.findUserByEmail(sendResetPasswordEmailDto.email);
 
     if (!user) throw new NotFoundException('User not found');
-
 
     const code = await this.createResetPassword(user.id);
 
     return this.emailService.sendEmail(user.email, {
       subject: "Password Reset",
       text: `Your code ${code.code}`
-    })
+    });
   }
 
   public async verifyCode(passwordResetDto: PasswordResetDto): Promise<AccessToken> {
@@ -48,6 +48,7 @@ export class PasswordResetService {
 
     return this.tokenService.generatePasswordResetTokens(user);
   }
+
   private async createResetPassword(userId: string): Promise<PasswordResetEntity> {
     const createPasswordReset: CreateResetPassword = {
       userId, code: codeGenerator()
