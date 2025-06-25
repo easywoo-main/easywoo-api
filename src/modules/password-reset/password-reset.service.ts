@@ -11,6 +11,9 @@ import { CheckExists } from '../../decorators';
 import { TokenService } from '../token/token.service';
 import { AccessToken } from '../token/dtos/accessToken.dto';
 import { SendResetPasswordEmailDto } from './dtos/send-reset-password-email.dto';
+import { PasswordResetStatus } from '@prisma/client';
+import { ResetPassword } from '../user/dto/resetPassword.dto';
+import { PasswordResetPayload } from '../token/payloads/passwordResetPayload.interface';
 
 @Injectable()
 export class PasswordResetService {
@@ -27,41 +30,39 @@ export class PasswordResetService {
 
     if (!user) throw new NotFoundException('User not found');
 
-    const code = await this.createResetPassword(user.id);
+    const resetPassword = await this.createResetPassword(user.id);
+    const token =  this.tokenService.generatePasswordResetTokens(resetPassword);
 
+    const redirectUrl = new URL(sendResetPasswordEmailDto.redirectUrl);
+    redirectUrl.searchParams.set('accessToken', token.accessToken);
     return this.emailService.sendEmail(user.email, {
       subject: "Password Reset",
-      text: `Your code ${code.code}`
+      text: `Please follow this link if you want to change your password: ${redirectUrl.toString()}`
     });
-  }
-
-  public async verifyCode(passwordResetDto: PasswordResetDto): Promise<AccessToken> {
-    const user = await this.userService.findUserByEmail(passwordResetDto.email);
-
-    const lastCode = await this.findLastResetPasswordByUserId(user.email);
-
-    if (lastCode.code !== passwordResetDto.code) {
-      throw new BadRequestException('Invalid code');
-    }
-
-    await this.deleteResetPassword(lastCode.id);
-
-    return this.tokenService.generatePasswordResetTokens(user);
   }
 
   private async createResetPassword(userId: string): Promise<PasswordResetEntity> {
     const createPasswordReset: CreateResetPassword = {
-      userId, code: codeGenerator()
+      userId,
+      status: PasswordResetStatus.IN_PROGRESS
     };
     return this.passwordResetRepository.createResetPassword(createPasswordReset);
   }
 
   public async deleteResetPassword(id: string): Promise<PasswordResetEntity> {
-    return this.passwordResetRepository.deleteResetPassword(id)
+    return this.passwordResetRepository.updateResetPassword(id,{status: PasswordResetStatus.SUCCESS});
   }
 
-  @CheckExists("Code not found")
-  public async findLastResetPasswordByUserId(userId: string): Promise<PasswordResetEntity> {
-    return this.passwordResetRepository.findLastResetPasswordByUserId(userId);
+  @CheckExists("Reset Password not found")
+  public async findResetPasswordInProgressById(id: string): Promise<PasswordResetEntity> {
+    return this.passwordResetRepository.findResetPasswordInProgressById(id);
+  }
+
+  public async updateUserPassword(resetPasswordId: string, resetPassword: ResetPassword) {
+    const passwordReset = await this.findResetPasswordInProgressById(resetPasswordId);
+    await this.userService.updateUser(passwordReset.userId, resetPassword)
+
+    await this.deleteResetPassword(passwordReset.id);
+    return new Success("Password updated successfully");
   }
 }

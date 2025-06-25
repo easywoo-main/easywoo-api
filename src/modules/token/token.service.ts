@@ -8,6 +8,7 @@ import { UserEntity } from '../user/user.entity';
 import { AdminEntity } from '../admin/admin.entity';
 import { PayloadMapper } from './payload.mapper';
 import { AccessToken } from './dtos/accessToken.dto';
+import { PasswordResetEntity } from '../password-reset/password-reset.entity';
 
 @Injectable()
 export class TokenService {
@@ -92,8 +93,8 @@ export class TokenService {
     return { accessToken, refreshToken };
   }
 
-  public generatePasswordResetTokens(user: UserEntity): AccessToken {
-    const passwordResetToken = this.payloadMapper.userEntityToPasswordResetPayload(user);
+  public generatePasswordResetTokens(resetPassword: PasswordResetEntity): AccessToken {
+    const passwordResetToken = this.payloadMapper.resetPasswordToPasswordResetPayload(resetPassword);
     const accessToken = this.generateTokenByType(passwordResetToken, TokenType.PASSWORD_RESET);
     return { accessToken };
 

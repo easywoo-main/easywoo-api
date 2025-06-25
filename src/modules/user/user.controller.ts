@@ -31,10 +31,4 @@ export class UserController {
   public async updateMe(@UserDetails() user: UserPayload, @Body() userDto: UserUpdateDto) {
     return await this.userService.updateUser(user.id, userDto);
   }
-
-  @Patch('/reset-password')
-  @UseGuards(PasswordResetGuard)
-  public async updatePassword(@UserDetails() user: PasswordResetPayload, @Body() resetPassword: ResetPassword){
-    return await this.userService.updateUser(user.id, resetPassword);
-  }
 }

@@ -66,11 +66,17 @@ model Admin {
   @@map("admins")
 }
 
+enum PasswordResetStatus {
+  SUCCESS
+  IN_PROGRESS
+  CANCELLED
+}
+
 model PasswordReset {
   id  String @id@default(uuid())
-  code  String
   userId  String
-  
+  status    PasswordResetStatus
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

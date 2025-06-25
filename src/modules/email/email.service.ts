@@ -16,15 +16,15 @@ export class EmailService {
   }
 
   public async sendEmail(emailRecipient: string, mail: Mail) {
-    const mailOptions = {
-      from: this.SENDER_EMAIL,
-      to: emailRecipient,
-      subject: mail.subject,
-      text: mail.text,
-    };
+      const mailOptions = {
+        from: this.SENDER_EMAIL,
+        to: emailRecipient,
+        subject: mail.subject,
+        text: mail.text,
+      };
 
-    await this.emailClient.sendMail(mailOptions);
+      await this.emailClient.sendMail(mailOptions);
 
-    return new Success("Email sent successfully.");
+      return new Success("Email sent successfully.");
   }
 }

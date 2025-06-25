@@ -1,5 +1,6 @@
+import { PasswordResetStatus } from '@prisma/client';
+
 export class CreateResetPassword {
   userId: string;
-  code: string;
-
+  status: PasswordResetStatus;
 }

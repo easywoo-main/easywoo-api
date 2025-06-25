@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateResetPassword } from './dtos/create-reset-password.dto';
 import { Repository } from 'src/database/repository.service';
-import { Prisma } from '@prisma/client';
+import { PasswordResetStatus, Prisma } from '@prisma/client';
 import { PasswordResetEntity } from './password-reset.entity';
+import { UpdateResetPassword } from './dtos/update-reset-password.dto';
 
 @Injectable()
 export class PasswordResetRepository {
@@ -18,15 +19,14 @@ export class PasswordResetRepository {
     return this.passwordResetRepository.create({data});
   }
 
-  public async findLastResetPasswordByUserId(userId: string): Promise<PasswordResetEntity> {
-    return this.passwordResetRepository.findFirst({
-      where: { userId: userId },
-      orderBy: { createdAt: 'desc' }
+  public async findResetPasswordInProgressById(resetPasswordId: string): Promise<PasswordResetEntity> {
+    return this.passwordResetRepository.findUnique({
+      where: { id: resetPasswordId, status:  PasswordResetStatus.IN_PROGRESS},
     });
   }
 
-  public async deleteResetPassword(id: string): Promise<PasswordResetEntity> {
-    return this.passwordResetRepository.delete({where: { id }});
+  public async updateResetPassword(id: string, data: UpdateResetPassword ): Promise<PasswordResetEntity> {
+    return this.passwordResetRepository.update({where: { id }, data});
 
   }
 }

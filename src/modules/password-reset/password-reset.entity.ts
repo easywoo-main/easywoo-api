@@ -1,9 +1,9 @@
-import { PasswordReset } from '@prisma/client';
+import { $Enums, PasswordReset } from '@prisma/client';
 
 export class PasswordResetEntity implements PasswordReset {
     id: string;
-    code: string;
     userId: string;
+    status: $Enums.PasswordResetStatus;
     createdAt: Date;
     updatedAt: Date;
 }

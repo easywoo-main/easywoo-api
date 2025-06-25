@@ -4,6 +4,8 @@ import { UserEntity } from '../user/user.entity';
 import { AdminEntity } from '../admin/admin.entity';
 import { AdminPayload } from './payloads/adminPayload.interface';
 import { PasswordResetPayload } from './payloads/passwordResetPayload.interface';
+import { ResetPassword } from '../user/dto/resetPassword.dto';
+import { PasswordResetEntity } from '../password-reset/password-reset.entity';
 
 @Injectable()
 export class PayloadMapper {
@@ -24,10 +26,10 @@ export class PayloadMapper {
     }
   }
 
-  public userEntityToPasswordResetPayload(userEntity: UserEntity): PasswordResetPayload {
+  public resetPasswordToPasswordResetPayload(resetPassword: PasswordResetEntity): PasswordResetPayload {
     return{
-      id: userEntity.id,
-      email: userEntity.email,
+      id: resetPassword.userId,
+      resetPasswordId: resetPassword.id,
     };
   }
 

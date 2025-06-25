@@ -25,6 +25,6 @@ export class UserCreateDto {
   @IsOptional()
   password?: string;
 
-  appleUserId?: string;
-  googleUserId?: string;
+  appleUserId?: string | null;
+  googleUserId?: string | null;
 }

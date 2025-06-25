@@ -1,8 +1,17 @@
 import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiOkResponse,
+  ApiUnauthorizedResponse
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
 import { AppleService } from './apple.service';
+import { UserDetails } from '../../../decorators';
+import { UserAuthDto } from '../userAuth.dto';
 
 @ApiTags('Auth')
 @Controller('auth/apple')
@@ -11,7 +20,6 @@ export class AppleController {
 
 
   @Get()
-  @UseGuards(AuthGuard('apple'))
   @UseGuards(AuthGuard('apple'))
   @ApiOperation({ summary: 'Redirect to Apple authentication' })
   @ApiResponse({ status: 302, description: 'Redirecting to Apple login' })
@@ -22,11 +30,11 @@ export class AppleController {
   @Get('callback')
   @UseGuards(AuthGuard('apple'))
   @ApiOperation({ summary: 'Handle Apple authentication callback' })
-  @ApiResponse({ status: 200, description: 'User successfully authenticated' })
-  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @ApiOkResponse({ type: UserAuthDto, description: 'Successful login' })
+  @ApiUnauthorizedResponse({ description: 'Unauthorized' })
   @ApiBearerAuth()
-  async appleAuthRedirect(@Req() req: Request) {
-    const { user } = req;
+  async appleAuthRedirect(@UserDetails() user: any, @Req() req: Request) {
+    console.log(req);
     return this.appleService.appleLogin(user)
   }
 }
