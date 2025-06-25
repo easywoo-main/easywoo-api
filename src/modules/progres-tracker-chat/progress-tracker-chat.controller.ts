@@ -6,7 +6,7 @@ import { UserDetails } from '../../decorators';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
-import { UserPayload } from '../token/userPayload.interface';
+import { UserPayload } from '../token/payloads/userPayload.interface';
 import { Success } from '../../utils/success.utils';
 
 @Controller('progress-tracker-chat')

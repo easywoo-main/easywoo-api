@@ -3,11 +3,11 @@ import { ConfigService } from '@nestjs/config';
 import { Tokens } from './dtos/tokens.dto';
 import { TokenType } from './token-type.enum';
 import { JwtService } from '@nestjs/jwt';
-import { UserPayload } from './userPayload.interface';
-import { Payload } from './payload.interface';
-import { AdminPayload } from './adminPayload.interface';
+import { Payload } from './payloads/payload.interface';
 import { UserEntity } from '../user/user.entity';
 import { AdminEntity } from '../admin/admin.entity';
+import { PayloadMapper } from './payload.mapper';
+import { AccessToken } from './dtos/accessToken.dto';
 
 @Injectable()
 export class TokenService {
@@ -18,6 +18,7 @@ export class TokenService {
 
   constructor(
     private readonly jwtService: JwtService,
+    private readonly payloadMapper: PayloadMapper,
     configService: ConfigService) {
     this.ACCESS_TOKEN_EXPIRE = configService.get<number>('ACCESS_TOKEN_EXPIRE')!;
     this.REFRESH_TOKEN_EXPIRE = configService.get<number>('REFRESH_TOKEN_EXPIRE')!;
@@ -73,28 +74,26 @@ export class TokenService {
     return data;
   }
 
-  public async generateAccessTokens(user: UserEntity): Promise<Tokens> {
-    const tokenUser = {
-      id: user.id,
-      email: user.email,
-      isVerified: user.isVerified,
-    } as UserPayload;
+  public generateAccessTokens(user: UserEntity): Tokens {
+    const userPayload = this.payloadMapper.userEntityToUserPayload(user);
 
-    const accessToken = this.generateTokenByType(tokenUser, TokenType.ACCESS);
-    const refreshToken = this.generateTokenByType(tokenUser, TokenType.REFRESH)
+    const accessToken = this.generateTokenByType(userPayload, TokenType.ACCESS);
+    const refreshToken = this.generateTokenByType(userPayload, TokenType.REFRESH)
     return { accessToken, refreshToken };
   }
 
-  public async generateAdminAccessTokens(admin: AdminEntity): Promise<Tokens> {
-    const adminToken: AdminPayload = {
-      id: admin.id,
-      userName: admin.userName,
-      roleId: admin.roleId,
-    }
-
-    const accessToken = this.generateTokenByType(adminToken, TokenType.ADMIN_ACCESS);
-    const refreshToken = this.generateTokenByType(adminToken, TokenType.ADMIN_REFRESH)
+  public generateAdminAccessTokens(admin: AdminEntity): Tokens {
+    const adminPayload = this.payloadMapper.adminEntityToAdminPayload(admin);
+    const accessToken = this.generateTokenByType(adminPayload, TokenType.ADMIN_ACCESS);
+    const refreshToken = this.generateTokenByType(adminPayload, TokenType.ADMIN_REFRESH)
 
     return { accessToken, refreshToken };
+  }
+
+  public generatePasswordResetTokens(user: UserEntity): AccessToken {
+    const passwordResetToken = this.payloadMapper.userEntityToPasswordResetPayload(user);
+    const accessToken = this.generateTokenByType(passwordResetToken, TokenType.ADMIN_ACCESS);
+    return { accessToken };
+
   }
 }

@@ -4,7 +4,7 @@ import { SubscriptionWebhookGuard } from '../../guard';
 import { AuthGuard } from '../../guard';
 import { SubscriptionDto } from './dto/subscription.dto';
 import { Success } from '../../utils/success.utils';
-import { UserPayload } from '../token/userPayload.interface';
+import { UserPayload } from '../token/payloads/userPayload.interface';
 
 @Controller('subscription')
 export class SubscriptionController {

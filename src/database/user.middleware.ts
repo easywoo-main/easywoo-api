@@ -10,7 +10,6 @@ export async function userMiddleware(params: Prisma.MiddlewareParams, next: (par
     }
 
     if (data?.password) {
-      console.log("admin:name: ", data?.userName)
       data.password = await bcrypt.hash(data.password, SALT_ROUND);
       console.log(params.args.data || params.args.create || params.args.update)
 
@@ -20,6 +19,5 @@ export async function userMiddleware(params: Prisma.MiddlewareParams, next: (par
       params.args.where.email = params.args.where.email.toLowerCase();
     }
   }
-  console.log(params)
   return await next(params);
 }

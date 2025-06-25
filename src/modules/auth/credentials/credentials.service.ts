@@ -7,7 +7,7 @@ import { UserAuthDto } from '../userAuth.dto';
 import { LoginDto } from './login.dto';
 import { RefreshToken } from '../../token/dtos/refresh.token.dto';
 import { AccessToken } from '../../token/dtos/accessToken.dto';
-import { UserPayload } from '../../token/userPayload.interface';
+import { UserPayload } from '../../token/payloads/userPayload.interface';
 import { TokenType } from '../../token/token-type.enum';
 
 @Injectable()

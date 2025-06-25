@@ -4,7 +4,7 @@ import { ResultSliderPropService } from './result-slider-prop.service';
 import { ErrorResponse } from '../../../../errorHandler/errorResponse.dto';
 import { ResultSliderPropEntity } from './result-slider-prop.entity';
 import { UserDetails } from '../../../../decorators';
-import { UserPayload } from '../../../token/userPayload.interface';
+import { UserPayload } from '../../../token/payloads/userPayload.interface';
 import { AuthGuard } from '../../../../guard';
 import { ChartFilter } from './dtos/sliderPropsQuery.dto';
 

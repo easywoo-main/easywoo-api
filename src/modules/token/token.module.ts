@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { JwtModule } from '@nestjs/jwt';
+import { PayloadMapper } from './payload.mapper';
 
 @Module({
   imports: [
@@ -8,7 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
       global: true,
     }),
   ],
-  providers: [TokenService],
+  providers: [TokenService, PayloadMapper],
   exports: [TokenService],
 })
 export class TokenModule {}

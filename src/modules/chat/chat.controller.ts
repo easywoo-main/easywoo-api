@@ -8,7 +8,7 @@ import { ChatEntity } from './chat.entity';
 import { AdminGuard, AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
 import { PageRequest } from 'src/utils/page-request.utils';
-import { UserPayload } from '../token/userPayload.interface';
+import { UserPayload } from '../token/payloads/userPayload.interface';
 import { JoiValidationPipe } from '../../pipes/joi-validation.pipe';
 import { pageRequestSchema } from '../../schemas/page-request.schema';
 import { ChatMessageWithRelationsDto } from '../chat-message/dto/messageWithProps.dto';

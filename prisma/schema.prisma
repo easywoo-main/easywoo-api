@@ -34,6 +34,7 @@ model User {
   stepChatMessage        StepChatMessage[]
   report                 Report[]
   userTextMessageAnswers UserTextMessageAnswer[]
+  passwordReset          PasswordReset[]
 
   @@map("users")
 }
@@ -65,6 +66,17 @@ model Admin {
   @@map("admins")
 }
 
+model PasswordReset {
+  id  String @id@default(uuid())
+  code  String
+  userId  String
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+}
+
 model GoogleUser {
   id              String  @id @default(uuid())
   googleAccountId String  @unique @map("google_account_id")
@@ -88,6 +100,7 @@ model AppleUser {
   email         String  @unique
   firstName     String  @map("first_name")
   lastName      String  @map("last_name")
+  middleName    String? @map("middle_name")
   photo         String?
   emailVerified Boolean @default(false) @map("email_verified")
   userId        String? @unique @map("user_id")

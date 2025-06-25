@@ -20,6 +20,8 @@ import { CredentialsModule } from './modules/auth/credentials/credentials.module
 import { envSchema } from './schemas/env.schema';
 import { AdminModule } from './modules/admin/admin.module';
 import { RoleModule } from './modules/role/role.module';
+import { EmailModule } from './modules/email/email.module';
+import { PasswordResetModule } from './modules/password-reset/password-reset.module';
 
 @Module({
   imports: [
@@ -46,6 +48,8 @@ import { RoleModule } from './modules/role/role.module';
     CredentialsModule,
     AdminModule,
     RoleModule,
+    EmailModule,
+    PasswordResetModule,
   ],
   controllers: [],
   providers: [],

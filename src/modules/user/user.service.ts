@@ -44,7 +44,7 @@ export class UserService {
     return this.userRepository.findUserById(userId);
   }
 
-  async updateUser(userId: string, updateUser: Partial<UserEntity>) {
+  public async updateUser(userId: string, updateUser: Partial<UserCreateDto>) {
     await this.findUserById(userId);
     return await this.userRepository.updateUser(userId, updateUser);
   }

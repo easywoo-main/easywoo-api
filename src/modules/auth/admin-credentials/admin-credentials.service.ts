@@ -6,7 +6,7 @@ import { TokenService } from '../../token/token.service';
 import { AdminEntity } from '../../admin/admin.entity';
 import { Tokens } from '../../token/dtos/tokens.dto';
 import { RefreshToken } from '../../token/dtos/refresh.token.dto';
-import { AdminPayload } from '../../token/adminPayload.interface';
+import { AdminPayload } from '../../token/payloads/adminPayload.interface';
 import { TokenType } from '../../token/token-type.enum';
 
 @Injectable()

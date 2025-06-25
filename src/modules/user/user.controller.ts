@@ -6,7 +6,10 @@ import { ApiBearerAuth, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/s
 import { UserEntity } from './user.entity';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { AuthGuard } from '../../guard';
-import { UserPayload } from '../token/userPayload.interface';
+import { UserPayload } from '../token/payloads/userPayload.interface';
+import { PasswordResetGuard } from '../../guard/passwordReset.guard';
+import { PasswordResetPayload } from '../token/payloads/passwordResetPayload.interface';
+import { ResetPassword } from './dto/resetPassword.dto';
 
 @Controller('user')
 export class UserController {
@@ -27,5 +30,11 @@ export class UserController {
   @UseGuards(AuthGuard)
   public async updateMe(@UserDetails() user: UserPayload, @Body() userDto: UserUpdateDto) {
     return await this.userService.updateUser(user.id, userDto);
+  }
+
+  @Patch('/reset-password')
+  @UseGuards(PasswordResetGuard)
+  public async updatePassword(@UserDetails() user: PasswordResetPayload, @Body() resetPassword: ResetPassword){
+    return await this.userService.updateUser(user.id, resetPassword);
   }
 }

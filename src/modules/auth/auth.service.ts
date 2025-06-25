@@ -1,13 +1,14 @@
 import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { TokenService } from '../token/token.service';
-import { UserPayload } from '../token/userPayload.interface';
+import { UserPayload } from '../token/payloads/userPayload.interface';
 import { TokenType } from '../token/token-type.enum';
-import { AdminPayload } from '../token/adminPayload.interface';
-import { Payload } from '../token/payload.interface';
+import { AdminPayload } from '../token/payloads/adminPayload.interface';
+import { Payload } from '../token/payloads/payload.interface';
 import { AdminService } from '../admin/admin.service';
 import { RoleService } from '../role/role.service';
 import { PermissionDto } from '../role/dtos/permission.dto';
+import { PasswordResetPayload } from '../token/payloads/passwordResetPayload.interface';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,11 @@ export class AuthService {
 
   public async verifyAdminToken(token?: string): Promise<AdminPayload> {
     return this.verifyToken<AdminPayload>(TokenType.ADMIN_ACCESS, token);
+  }
+
+  public async verifyResetPasswordToken(token?: string): Promise<PasswordResetPayload> {
+    return this.verifyToken<PasswordResetPayload>(TokenType.PASSWORD_RESET, token);
+
   }
 
 
