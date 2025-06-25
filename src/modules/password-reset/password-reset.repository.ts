@@ -7,26 +7,31 @@ import { UpdateResetPassword } from './dtos/update-reset-password.dto';
 
 @Injectable()
 export class PasswordResetRepository {
-  private readonly passwordResetRepository: Prisma.PasswordResetDelegate
+  private readonly passwordResetRepository: Prisma.PasswordResetDelegate;
 
-  constructor(
-    databaseService: Repository
-    ) {
-    this.passwordResetRepository = databaseService.passwordReset
+  constructor(databaseService: Repository) {
+    this.passwordResetRepository = databaseService.passwordReset;
   }
 
   public async createResetPassword(data: CreateResetPassword): Promise<PasswordResetEntity> {
-    return this.passwordResetRepository.create({data});
+    return this.passwordResetRepository.create({ data });
   }
 
   public async findResetPasswordInProgressById(resetPasswordId: string): Promise<PasswordResetEntity> {
     return this.passwordResetRepository.findUnique({
-      where: { id: resetPasswordId, status:  PasswordResetStatus.IN_PROGRESS},
+      where: { id: resetPasswordId, status: PasswordResetStatus.IN_PROGRESS }
     });
   }
 
-  public async updateResetPassword(id: string, data: UpdateResetPassword ): Promise<PasswordResetEntity> {
-    return this.passwordResetRepository.update({where: { id }, data});
+  public async updateResetPassword(id: string, data: UpdateResetPassword): Promise<PasswordResetEntity> {
+    return this.passwordResetRepository.update({ where: { id }, data });
 
+  }
+
+  public async cancelAllActiveResets(userId: string) {
+    return this.passwordResetRepository.updateMany({
+      where: { userId, status: PasswordResetStatus.IN_PROGRESS },
+      data: {status: PasswordResetStatus.CANCELLED}
+    });
   }
 }

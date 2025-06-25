@@ -29,7 +29,7 @@ export class PasswordResetService {
     const user = await this.userService.findUserByEmail(sendResetPasswordEmailDto.email);
 
     if (!user) throw new NotFoundException('User not found');
-
+    await this.cancelAllActiveResets(user.id);
     const resetPassword = await this.createResetPassword(user.id);
     const token =  this.tokenService.generatePasswordResetTokens(resetPassword);
 
@@ -47,6 +47,10 @@ export class PasswordResetService {
       status: PasswordResetStatus.IN_PROGRESS
     };
     return this.passwordResetRepository.createResetPassword(createPasswordReset);
+  }
+
+  public async cancelAllActiveResets(userId: string): Promise<void> {
+    await this.passwordResetRepository.cancelAllActiveResets(userId);
   }
 
   public async deleteResetPassword(id: string): Promise<PasswordResetEntity> {
