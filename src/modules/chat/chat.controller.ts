@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, Ve
 import { ChatService } from './chat.service';
 import { CreateChatDto } from './dto/createChat.dto';
 import { UpdateChatDto } from './dto/updateChatDto';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiOkResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatEntity } from './chat.entity';
 import { AdminGuard, AuthGuard } from '../../guard';
@@ -31,6 +31,7 @@ export class ChatController {
 
   @Get('/:chatId')
   @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Fetch a chat by ID' })
   @ApiResponse({ status: 200, description: 'Chat retrieved successfully', type: ChatEntity })
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
@@ -48,6 +49,7 @@ export class ChatController {
   @Get()
   @Version("2")
   @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Fetch all admin chats with pagination' })
   @ApiResponse({ status: 200, description: 'Chats retrieved successfully', type: [ChatEntity] })
   public async findAllAdminChats(@Query(new JoiValidationPipe(chatFilterSchema)) chatFilter: ChatFilter) {
@@ -56,6 +58,7 @@ export class ChatController {
 
   @Post()
   @UseGuards(AdminGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new chat' })
   @ApiResponse({ status: 201, description: 'Chat successfully created', type: ChatEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
@@ -77,7 +80,7 @@ export class ChatController {
   @Patch('/:chatId')
   @UseGuards(AdminGuard)
   @ApiOperation({ summary: 'Update a chat by ID' })
-  @ApiResponse({ status: 200, description: 'Chat successfully updated', type: ChatEntity })
+  @ApiOkResponse({ description: 'Chat successfully updated', type: ChatEntity })
   @ApiResponse({ status: 400, description: 'Invalid input data', type: ErrorResponse })
   @ApiResponse({ status: 404, description: 'Chat not found', type: ErrorResponse })
   public async updateChat(

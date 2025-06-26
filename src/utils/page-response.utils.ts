@@ -1,4 +1,5 @@
 import { PageRequest } from './page-request.utils';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class PageResponse<T> {
   readonly search?: string;

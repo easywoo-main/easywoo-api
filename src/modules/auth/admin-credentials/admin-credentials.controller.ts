@@ -6,13 +6,16 @@ import { UserAuthDto } from '../userAuth.dto';
 import { ErrorResponse } from '../../../errorHandler/errorResponse.dto';
 import { RefreshToken } from '../../token/dtos/refresh.token.dto';
 import { AccessToken } from '../../token/dtos/accessToken.dto';
+import { AdminAuthDto } from './dtos/admin-auth.dto';
 
 @Controller('admin-credentials')
 export class AdminCredentialsController {
   constructor(private readonly adminCredentialsService: AdminCredentialsService) {}
 
   @Post("login")
-  public async login(@Body() adminLoginDto: AdminLoginDto) {
+  @ApiOperation({ summary: 'Admin login' })
+  @ApiOkResponse({ type: AdminAuthDto})
+  public async login(@Body() adminLoginDto: AdminLoginDto): Promise<AdminAuthDto> {
     return this.adminCredentialsService.login(adminLoginDto);
   }
 

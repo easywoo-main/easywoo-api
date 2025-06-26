@@ -1,9 +1,9 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ProgressTrackerChatService } from './progress-tracker-chat.service';
 import { CreateUserStepDto } from '../chat-message/dto/createUserStep.dto';
 import { AuthGuard } from '../../guard';
 import { UserDetails } from '../../decorators';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
 import { UserPayload } from '../token/payloads/userPayload.interface';
@@ -21,9 +21,8 @@ export class ProgressTrackerChatController {
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get the next chat message based on the current message and user input' })
-  @ApiResponse(
+  @ApiOkResponse(
     {
-      status: 200,
       description: 'Chat ended',
       type: Success
     }

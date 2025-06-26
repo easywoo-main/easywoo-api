@@ -32,7 +32,6 @@ export class AppleController {
   @ApiOperation({ summary: 'Handle Apple authentication callback' })
   @ApiOkResponse({ type: UserAuthDto, description: 'Successful login' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  @ApiBearerAuth()
   async appleAuthRedirect(@UserDetails() user: any, @Req() req: Request) {
     console.log(req);
     return this.appleService.appleLogin(user)

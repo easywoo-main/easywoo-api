@@ -34,7 +34,7 @@ export class PasswordResetService {
     const token =  this.tokenService.generatePasswordResetTokens(resetPassword);
 
     const redirectUrl = new URL(sendResetPasswordEmailDto.redirectUrl);
-    redirectUrl.searchParams.set('accessToken', token.accessToken);
+    redirectUrl.searchParams.set('token', token.accessToken);
     return this.emailService.sendEmail(user.email, {
       subject: "Password Reset",
       text: `Please follow this link if you want to change your password: ${redirectUrl.toString()}`
