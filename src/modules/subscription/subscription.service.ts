@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { SubscriptionRepository } from './subscription.repository';
 import { CreateSubscriptionDto } from './dtos/createSubscription.dto';
@@ -10,15 +10,10 @@ import { CheckExists } from '../../decorators';
 @Injectable()
 export class SubscriptionService {
   constructor(private readonly subscriptionRepository: SubscriptionRepository,
-              private readonly userService: UserService,
-              private readonly chatService: ChatService) {
+  ) {
   }
 
   public async createSubscription(subscription: CreateSubscriptionDto): Promise<SubscriptionEntity> {
-    await Promise.all([
-      this.userService.findUserById(subscription.userId),
-      this.chatService.findChatById(subscription.chatId)
-    ])
     return this.subscriptionRepository.createSubscription(subscription);
   }
 
@@ -37,6 +32,16 @@ export class SubscriptionService {
 
   public async getSubscriptionById(subscriptionId: string): Promise<SubscriptionEntity> {
     return this.subscriptionRepository.getSubscriptionById(subscriptionId);
+  }
+
+  public async checkExists(chatId: string, userId: string): Promise<SubscriptionEntity> {
+    const subscription = await this.subscriptionRepository.getSubscriptionByChatIdAndUserId(chatId, userId);
+
+    if (subscription.endDate && subscription.endDate < new Date()) {
+      throw new ForbiddenException('Subscription has expired.');
+    }
+
+    return subscription;
   }
 
 }

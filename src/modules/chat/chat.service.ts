@@ -7,13 +7,15 @@ import { ChatMessageService } from '../chat-message/chat-message.service';
 import { PageRequest } from '../../utils/page-request.utils';
 import { MessageSliderService } from '../message-slider/message-slider.service';
 import { ChatFilter } from './dto/chatFilter.dto';
+import { SubscriptionService } from '../subscription/subscription.service';
 
 @Injectable()
 export class ChatService {
   constructor(
     private readonly chatRepository: ChatRepository,
     private readonly chatMessageService: ChatMessageService,
-    private readonly messageSliderService: MessageSliderService
+    private readonly messageSliderService: MessageSliderService,
+    private readonly subscriptionService: SubscriptionService,
   ) {}
 
   public async findAllUserChats(pageRequest: PageRequest) {
@@ -64,6 +66,8 @@ export class ChatService {
   }
 
   public async startChat(chatId: string, userId: string) {
+    await this.subscriptionService.checkExists(chatId, userId);
+
     const chat = await this.findChatById(chatId);
     await this.chatRepository.createRelationWithUser(chatId, userId);
     return this.chatMessageService.findChatMessageWithRelationById(chat.startMessageId);

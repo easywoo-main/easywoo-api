@@ -7,12 +7,12 @@ import { ProgressTrackerChatService } from './progress-tracker-chat.service';
 import { ChatMessageModule } from '../chat-message/chat-message.module';
 import { MessageChoiceModule } from '../message-choice/message-choice.module';
 import { UserTextMessageAnswerModule } from './modules/user-text-message-answer/user-text-message-answer.module';
+import { SubscriptionModule } from '../subscription/subscription.module';
 
 @Module({
-  imports: [StepChatMessageModule, ResultMessageChoiceModule,
-    ResultSliderPropModule,
-    ChatMessageModule, MessageChoiceModule, UserTextMessageAnswerModule],
+  imports: [StepChatMessageModule, ResultMessageChoiceModule, ResultSliderPropModule, ChatMessageModule, MessageChoiceModule, UserTextMessageAnswerModule, SubscriptionModule],
   controllers: [ProgressTrackerChatController],
   providers: [ProgressTrackerChatService]
 })
-export class ProgressTrackerChatModule {}
+export class ProgressTrackerChatModule {
+}

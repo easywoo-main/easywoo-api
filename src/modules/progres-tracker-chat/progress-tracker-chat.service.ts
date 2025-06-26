@@ -9,6 +9,7 @@ import { StepChatMessageService } from './modules/step-chat-message/step-chat-me
 import { UserTextMessageAnswerService } from './modules/user-text-message-answer/user-text-message-answer.service';
 import { MessageType } from '@prisma/client';
 import { CreateAnswerDto } from '../chat-message/dto/createUserAnswer.dto';
+import { SubscriptionService } from '../subscription/subscription.service';
 @Injectable()
 export class ProgressTrackerChatService {
   constructor(
@@ -16,12 +17,16 @@ export class ProgressTrackerChatService {
     private readonly resultMessageChoiceService: ResultMessageChoiceService,
     private readonly resultSliderPropService: ResultSliderPropService,
     private readonly stepChatMessageService: StepChatMessageService,
-    private readonly userTextMessageAnswerService: UserTextMessageAnswerService
+    private readonly userTextMessageAnswerService: UserTextMessageAnswerService,
+    private readonly subscriptionService: SubscriptionService,
   ) {
   }
 
   public async createUserAnswerAndGetNextMessage(createAnswerDto: CreateUserStepDto, userId: string){
     const chatMessage = await this.chatMessageService.findChatMessageWithRelationById(createAnswerDto.chatMessageId);
+
+    await this.subscriptionService.checkExists(chatMessage.chatId, userId);
+
     let nextChatMessageId: string = chatMessage.nextMessageId;
 
 
@@ -49,7 +54,7 @@ export class ProgressTrackerChatService {
     }
 
     if (chatMessage.isCourseEnd || !nextChatMessageId){
-      return new Success("Сhat ended")
+      return new Success("Chat ended")
     }
     return this.chatMessageService.findChatMessagesWithPropsById(nextChatMessageId);
   }

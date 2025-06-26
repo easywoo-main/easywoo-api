@@ -8,13 +8,6 @@ import { UpdateChatMessageWithAnswersDto } from './dto/updateChatMessageWithAnsw
 import { UpdateChatMessageWithRelationDto } from './dto/updateChatMessageWithRelation.dto';
 import { MessageChoiceService } from '../message-choice/message-choice.service';
 import { ChatMessageUniqueFieldsDto } from './dto/chatMessageUniqueFields.dto';
-import { CreateAnswerDto } from './dto/createUserAnswer.dto';
-import { ResultMessageChoiceService } from '../progres-tracker-chat/modules/result-message-choice/result-message-choice.service';
-import { StepChatMessageService } from '../progres-tracker-chat/modules/step-chat-message/step-chat-message.service';
-import { ResultSliderPropService } from '../progres-tracker-chat/modules/result-slider-prop/result-slider-prop.service';
-import {
-  UserTextMessageAnswerService
-} from '../progres-tracker-chat/modules/user-text-message-answer/user-text-message-answer.service';
 
 @Injectable()
 export class ChatMessageService {

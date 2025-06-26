@@ -8,7 +8,6 @@ import { ChatModule } from '../chat/chat.module';
 @Module({
   controllers: [SubscriptionController],
   providers: [SubscriptionService, SubscriptionRepository],
-  imports:[UserModule, ChatModule],
   exports: [SubscriptionService]
 })
 export class SubscriptionModule {}

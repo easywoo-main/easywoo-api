@@ -38,7 +38,8 @@ export class ChatMessageController {
     return this.chatMessageService.findChatMessageWithRelationById(id);
   }
 
-  @Get() @ApiOperation({ summary: 'Fetch all chat message' }) public async findAllChatMessages(@Query() filterChatMessage: FilterChatMessage) {
+  @Get() @ApiOperation({ summary: 'Fetch all chat message' })
+  public async findAllChatMessages(@Query() filterChatMessage: FilterChatMessage) {
     return this.chatMessageService.findAllByChatMessageId(filterChatMessage);
   }
 
