@@ -1,32 +1,42 @@
 import { Injectable } from '@nestjs/common';
-import { SubscriptionStatus } from '@prisma/client';
 import { UserService } from '../user/user.service';
-import { SubscriptionEvent } from './dto/subscription.dto';
 import { SubscriptionRepository } from './subscription.repository';
+import { CreateSubscriptionDto } from './dtos/createSubscription.dto';
+import { SubscriptionEntity } from './subscription.entity';
+import { ChatService } from '../chat/chat.service';
+import { SubscriptionStatus } from '@prisma/client';
+import { CheckExists } from '../../decorators';
 
 @Injectable()
 export class SubscriptionService {
-  constructor(
-    private readonly subscriptionRepository: SubscriptionRepository,
-    private readonly userService: UserService,
-  ) {}
-
-  public async create(subscription: SubscriptionEvent) {
-    const { app_user_id: userId, product_id: plan, expiration_at_ms: expiration_date, price } = subscription;
-    const user = await this.userService.findUserById(userId);
-    // await this.subscriptionRepository.createSubscription(user.id, plan, expiration_date); // todo
+  constructor(private readonly subscriptionRepository: SubscriptionRepository,
+              private readonly userService: UserService,
+              private readonly chatService: ChatService) {
   }
 
-  public async getSubscriptionByUserId(userId: string) {
-    return this.subscriptionRepository.getSubscriptionByUserId(userId);
+  public async createSubscription(subscription: CreateSubscriptionDto): Promise<SubscriptionEntity> {
+    await Promise.all([
+      this.userService.findUserById(subscription.userId),
+      this.chatService.findChatById(subscription.chatId)
+    ])
+    return this.subscriptionRepository.createSubscription(subscription);
   }
 
-  public async cancelSubscription(userId: string) {
-    await this.userService.findUserById(userId);
-    return this.subscriptionRepository.updateSubscription(userId, SubscriptionStatus.CANCELLED);
+  public async cancelSubscription(userId: string, chatId: string): Promise<SubscriptionEntity>  {
+    return this.subscriptionRepository.updateSubscription(userId, chatId, { status: SubscriptionStatus.CANCELLED });
   }
 
-  public async paymentIssue(userId: string) {
-    const user = await this.userService.findUserByEmail(userId);
+  public async paymentIssue(userId: string, chatId: string): Promise<SubscriptionEntity>  {
+    return this.subscriptionRepository.updateSubscription(userId, chatId, { status: SubscriptionStatus.INACTIVE });
   }
+
+  @CheckExists("Subscription not found")
+  public async getSubscriptionByChatIdAndUserId(chatId: string, userId: string): Promise<SubscriptionEntity> {
+    return this.subscriptionRepository.getSubscriptionByChatIdAndUserId(chatId, userId)
+  }
+
+  public async getSubscriptionById(subscriptionId: string): Promise<SubscriptionEntity> {
+    return this.subscriptionRepository.getSubscriptionById(subscriptionId);
+  }
+
 }

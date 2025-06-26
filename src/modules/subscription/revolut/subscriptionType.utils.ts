@@ -1,0 +1,19 @@
+import { OrderEventType } from './dtos/order.event';
+
+const CREATE_SUBSCRIPTION_TYPES = [
+  OrderEventType.ORDER_COMPLETED,
+  OrderEventType.PAYOUT_COMPLETED,
+];
+
+const CANCEL_SUBSCRIPTION_TYPES = [
+  OrderEventType.ORDER_CANCELLED,
+  OrderEventType.PAYOUT_FAILED,
+];
+
+const PAYMENT_ISSUE_TYPES = [OrderEventType.ORDER_PAYMENT_FAILED, OrderEventType.ORDER_PAYMENT_DECLINED];
+
+export {
+  CREATE_SUBSCRIPTION_TYPES,
+  CANCEL_SUBSCRIPTION_TYPES,
+  PAYMENT_ISSUE_TYPES,
+};

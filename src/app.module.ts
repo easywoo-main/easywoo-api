@@ -22,6 +22,8 @@ import { AdminModule } from './modules/admin/admin.module';
 import { RoleModule } from './modules/role/role.module';
 import { EmailModule } from './modules/email/email.module';
 import { PasswordResetModule } from './modules/password-reset/password-reset.module';
+import { RevolutModule } from './modules/subscription/revolut/revolut.module';
+import { RevenueCatModule } from './modules/subscription/revenue-cat/revenue-cat.module';
 
 @Module({
   imports: [
@@ -50,6 +52,8 @@ import { PasswordResetModule } from './modules/password-reset/password-reset.mod
     RoleModule,
     EmailModule,
     PasswordResetModule,
+    RevolutModule,
+    RevenueCatModule
   ],
   controllers: [],
   providers: [],

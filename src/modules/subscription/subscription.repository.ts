@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from '../../database/repository.service';
 import { Prisma } from '.prisma/client';
+import { CreateSubscriptionDto } from './dtos/createSubscription.dto';
+import { SubscriptionEntity } from './subscription.entity';
+import { UpdateSubscriptionDto } from './dtos/updateSubscription.dto';
 //todo: subscription feature not yet implemented
 @Injectable()
 export class SubscriptionRepository {
@@ -10,35 +13,24 @@ export class SubscriptionRepository {
     this.subscriptionRepository = repository.subscription
   }
 
-  async getSubscriptionById(id: string) {
+  async getSubscriptionById(id: string): Promise<SubscriptionEntity> {
     return this.subscriptionRepository.findUnique({
       where: { id },
     });
   }
-  async getSubscriptions() {
-    return this.subscriptionRepository.findMany();
+
+  async getSubscriptionByChatIdAndUserId(chatId: string, userId: string): Promise<SubscriptionEntity> {
+    return this.subscriptionRepository.findUnique({where: {userId_chatId:{chatId, userId}}})
   }
-  async createSubscription(data: any) {
+  async createSubscription(data: CreateSubscriptionDto): Promise<SubscriptionEntity> {
     return this.subscriptionRepository.create({
       data,
     });
   }
-  async updateSubscription(id: string, data: any) {
+  async updateSubscription(userId: string, chatId: string, data: UpdateSubscriptionDto): Promise<SubscriptionEntity> {
     return this.subscriptionRepository.update({
-      where: { id },
+      where: { userId_chatId:{userId, chatId}  },
       data,
     });
   }
-  async deleteSubscription(id: string) {
-    return this.subscriptionRepository.delete({
-      where: { id },
-    });
-  }
-  async getSubscriptionByUserId(userId: string) {
-    return this.subscriptionRepository.findMany({
-      where: { userId },
-    });
-  }
-
-
 }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { SubscriptionType } from '../subscriptionType.enum';
 
 class SubscriberAttribute {
 
@@ -80,7 +81,7 @@ class SubscriptionEvent {
   offer_code: string | null;
 
   @ApiProperty({ description: 'Type of subscription event', type: String })
-  type: string;
+  type: SubscriptionType;
 
   @ApiProperty({ description: 'Unique ID of the subscription event', type: String })
   id: string;

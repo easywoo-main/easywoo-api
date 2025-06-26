@@ -29,6 +29,7 @@ model User {
   appleUser              AppleUser?              @relation(fields: [appleUserId], references: [id])
   chats                  Chat[]                  @relation("user_chats")
   subscription           Subscription[]
+  revolutOrders RevolutOrder[]
   resultSliderProp       ResultSliderProp[]
   resultMessageChoice    ResultMessageChoice[]
   stepChatMessage        StepChatMessage[]
@@ -40,12 +41,12 @@ model User {
 }
 
 model Role {
-  id        String   @id @default(uuid())
-  name      String  @unique
-  isEditChat Boolean @default(false) @map("is_edit_chat")
-  isEditAdmin Boolean @default(false) @map("is_edit_admin")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String   @id @default(uuid())
+  name        String   @unique
+  isEditChat  Boolean  @default(false) @map("is_edit_chat")
+  isEditAdmin Boolean  @default(false) @map("is_edit_admin")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   admins Admin[]
 
@@ -53,10 +54,10 @@ model Role {
 }
 
 model Admin {
-  id        String   @id @default(uuid())
-  userName  String   @map("user_name") @unique()
-  password  String
-  roleId    String
+  id       String @id @default(uuid())
+  userName String @unique() @map("user_name")
+  password String
+  roleId   String
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -73,9 +74,9 @@ enum PasswordResetStatus {
 }
 
 model PasswordReset {
-  id  String @id@default(uuid())
-  userId  String
-  status    PasswordResetStatus
+  id     String              @id @default(uuid())
+  userId String
+  status PasswordResetStatus
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -123,28 +124,61 @@ enum SubscriptionStatus {
   ACTIVE    @map("active")
   INACTIVE  @map("inactive")
   CANCELLED @map("cancelled")
+  PENDING   @map("pending")
 
   @@map("subscription_status")
 }
 
-model Subscription {
-  id        String             @id @default(uuid())
-  userId    String             @map("user_id")
-  chatId    String             @map("chat_id")
-  plan      String
-  status    SubscriptionStatus @default(ACTIVE)
-  startDate DateTime           @default(now()) @map("start_date")
-  endDate   DateTime           @map("end_date")
+enum PaymentPlatform {
+  REVENUE_CAT
+  REVOLUT
+}
 
+model Subscription {
+  id              String             @id @default(uuid())
+  userId          String             @map("user_id")
+  chatId          String             @map("chat_id")
+  plan            String?
+  status          SubscriptionStatus @default(PENDING)
+  paymentPlatform PaymentPlatform    @map("payment_platform")
+  startDate       DateTime           @default(now()) @map("start_date")
+  endDate         DateTime           @map("end_date")
+
+  revolutOrderId  String?             @unique
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revolutOrder    RevolutOrder?       @relation(fields: [revolutOrderId], references: [id], onDelete: Cascade)
 
-  @@index([chatId])
-  @@index([userId])
+  @@unique([userId, chatId])
   @@map("subscriptions")
+}
+
+enum RevolutOrderType {
+  PENDING
+  PROCESSING
+  AUTHORISED
+  COMPLITED
+  CANCELLED
+  FAILED
+}
+
+model RevolutOrder {
+  id String @id
+  userId String
+  chatId String
+  amount Float
+  currency String
+  type RevolutOrderType? @default(PENDING)
+
+  subscription Subscription?
+
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, chatId])
+  @@map("revolut_orders")
 }
 
 model Report {
@@ -314,19 +348,19 @@ model ChatMessage {
   chatId           String  @map("chat_id")
   nextMessageId    String? @map("next_message_id")
   restartMessageId String? @map("restart_message_id")
-  sliderPropId      String?  @map("slider_prop_id")
+  sliderPropId     String? @map("slider_prop_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  restartMessage  ChatMessage?  @relation("MessageToRestart", fields: [restartMessageId], references: [id], onDelete: Cascade)
-  nextMessage     ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
-  prevMessages    ChatMessage[] @relation("MessageToNext")
+  restartMessage    ChatMessage?  @relation("MessageToRestart", fields: [restartMessageId], references: [id], onDelete: Cascade)
+  nextMessage       ChatMessage?  @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
+  prevMessages      ChatMessage[] @relation("MessageToNext")
   checkpointMessage ChatMessage[] @relation("MessageToRestart")
 
   chat                   Chat                    @relation("ChatMessages", fields: [chatId], references: [id], onDelete: Cascade)
   startingChat           Chat?                   @relation("StartMessage")
-  sliderProps             SliderProp[]            @relation("slider_prop_chat_message")
+  sliderProps            SliderProp[]            @relation("slider_prop_chat_message")
   nextChoices            MessageChoice[]         @relation("MessageToPrev")
   prevChoices            MessageChoice[]         @relation("MessageToNext")
   userTextMessageAnswers UserTextMessageAnswer[]
@@ -360,7 +394,7 @@ model SliderProp {
   chatId           String
   chat             Chat               @relation(fields: [chatId], references: [id], onDelete: Cascade)
   resultSliderProp ResultSliderProp[]
-  chatMessages ChatMessage[] @relation("slider_prop_chat_message")
+  chatMessages     ChatMessage[]      @relation("slider_prop_chat_message")
 
   @@index([chatId])
   @@map("slider_props")
@@ -368,19 +402,19 @@ model SliderProp {
 
 model MessageChoice {
   id       String  @id @default(uuid())
-  text String?
+  text     String?
   infoText String  @map("info_text")
-  file String?
-  goToStep          Int?
+  file     String?
+  goToStep Int?
 
-  prevMessageId String?  @map("prev_message_id")
+  prevMessageId String? @map("prev_message_id")
   nextMessageId String? @map("next_message_id")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   nextMessage         ChatMessage?          @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
-  prevMessage         ChatMessage?           @relation("MessageToPrev", fields: [prevMessageId], references: [id])
+  prevMessage         ChatMessage?          @relation("MessageToPrev", fields: [prevMessageId], references: [id])
   resultMessageChoice ResultMessageChoice[]
 
   @@map("message_choices")
@@ -398,17 +432,17 @@ enum GraphType {
 }
 
 model Chat {
-  id                        String    @id @default(uuid())
+  id                        String   @id @default(uuid())
   name                      String
-  freeSteps                 Int       @map("free_steps")
+  freeSteps                 Int      @map("free_steps")
   price                     Float
-  landingUrl                String?   @map("landing_url")
-  hasIndividualConsultation Boolean   @default(false) @map("has_individual_consultation")
-  isDisabled                Boolean   @default(false) @map("is_disabled")
-  startMessageId            String?   @unique @map("start_message_id")
+  landingUrl                String?  @map("landing_url")
+  hasIndividualConsultation Boolean  @default(false) @map("has_individual_consultation")
+  isDisabled                Boolean  @default(false) @map("is_disabled")
+  startMessageId            String?  @unique @map("start_message_id")
   formula                   String
-  paintPoints               String[]  @map("paint_points")
-  masterGraph               String    @map("master_graph")
+  paintPoints               String[] @map("paint_points")
+  masterGraph               String   @map("master_graph")
 
   therapistAvatar String? @map("therapist_avatar")
   therapistName   String  @map("therapist_name")
@@ -420,13 +454,13 @@ model Chat {
   messages     ChatMessage[] @relation("ChatMessages")
 
   subscriptions Subscription[]
+  revolutOrders RevolutOrder[]
   users         User[]         @relation("user_chats")
   sliderProp    SliderProp[]
 
   @@index([startMessageId])
   @@map("chats")
 }
-
 
 // model InfoPopUp {
 //   id          String  @id @default(uuid())

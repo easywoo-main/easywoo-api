@@ -9,15 +9,15 @@ export function CheckExists(error?: string | HttpException) {
     descriptor.value = async function (...args: any[]) {
       const result = originalMethod.apply(this, args);
 
-      const createException = () => {
-        if (!error) return new NotFoundException('Record not found');
+      const createException = (className: string = "Record") => {
+        if (!error) return new NotFoundException(`${className} not found`);
         if (typeof error === 'string') return new NotFoundException(error);
         return error;
       };
 
       if (result instanceof Promise) {
         return result.then((data) => {
-          if (!data) throw createException();
+          if (!data) throw createException(result.constructor.name);
           return data;
         });
       }
@@ -25,13 +25,13 @@ export function CheckExists(error?: string | HttpException) {
       if (result instanceof Observable) {
         return result.pipe(
           map((data) => {
-            if (!data) throw createException();
+            if (!data) throw createException(result.constructor.name);
             return data;
           }),
         );
       }
 
-      if (!result) throw createException();
+      if (!result) throw createException(result.constructor.name);
       return result;
     };
 
