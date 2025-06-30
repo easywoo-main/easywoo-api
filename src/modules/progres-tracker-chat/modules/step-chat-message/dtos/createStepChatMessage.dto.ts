@@ -8,6 +8,7 @@ export class CreateStepChatMessageDto {
   @ApiProperty({ description: "Identifier of the user associated with the StepChatMessage", format: 'uuid' })
   userId: string;
 
+  @ApiProperty({ description: "Identifier of the chat associated with the StepChatMessage", format: 'uuid' })
   chatId: string;
 
   @ApiProperty({ description: "Identifier of the message choice associated with the StepChatMessage", required: false, type: String, format: 'uuid' })

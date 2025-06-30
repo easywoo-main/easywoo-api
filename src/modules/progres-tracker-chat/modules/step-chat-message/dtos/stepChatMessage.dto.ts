@@ -6,6 +6,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class StepChatMessageDto extends StepChatMessageEntity {
   @ApiProperty({ type: MessageChoiceEntity })
   messageChoice: MessageChoiceEntity;
+
   @ApiProperty({ type: ChatMessageEntity })
   chatMessage: ChatMessageEntity
 }
