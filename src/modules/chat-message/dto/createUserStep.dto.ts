@@ -37,4 +37,9 @@ export class CreateUserStepDto {
   })
   restartMessageId?: string;
 
+  @ApiProperty({ description: "Challenge time associated with the StepChatMessage", required: false })
+  challengeTime?: number;
+
+  @ApiProperty({ description: "Time spent associated with the StepChatMessage", required: false })
+  timeSpent?: number;
 }

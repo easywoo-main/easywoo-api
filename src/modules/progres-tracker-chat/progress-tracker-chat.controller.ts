@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { ProgressTrackerChatService } from './progress-tracker-chat.service';
 import { CreateUserStepDto } from '../chat-message/dto/createUserStep.dto';
 import { AuthGuard } from '../../guard';
@@ -8,6 +8,8 @@ import { ErrorResponse } from '../../errorHandler/errorResponse.dto';
 import { ChatMessageWithChoicesDto } from '../chat-message/dto/messageWithChoices.dto';
 import { UserPayload } from '../token/payloads/userPayload.interface';
 import { Success } from '../../utils/success.utils';
+import { FilterChatMessage } from '../chat-message/dto/filterChatMessageQuery.dto';
+import { StepChatMessageDto } from './modules/step-chat-message/dtos/stepChatMessage.dto';
 
 @Controller('progress-tracker-chat')
 export class ProgressTrackerChatController {
@@ -52,5 +54,31 @@ export class ProgressTrackerChatController {
     @UserDetails() user: UserPayload
   ) {
     return this.progressTrackerChatService.createUserAnswerAndGetNextMessage(createUserStepDto, user.id);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get chat message history for the user' })
+  @ApiOkResponse({
+    description: 'Chat message history retrieved successfully',
+    type: StepChatMessageDto,
+    isArray: true
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Invalid query parameters',
+    type: ErrorResponse
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized access',
+    type: ErrorResponse
+  })
+  public async getChatMessageHistory(
+    @Query() filterChatMessage: FilterChatMessage,
+    @UserDetails() user: UserPayload
+  ){
+    return this.progressTrackerChatService.getChatMessageHistory(filterChatMessage, user.id);
   }
 }

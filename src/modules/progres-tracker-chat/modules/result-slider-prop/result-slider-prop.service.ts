@@ -13,12 +13,9 @@ export class ResultSliderPropService {
   constructor(private readonly resultSliderPropRepository: ResultSliderPropRepository, private readonly chatService: ChatService, private readonly sliderPropService: SliderPropService) {
   }
 
-  public async createResultSliderProp(data: CreateResultSliderPropDto, userId: string) {
-    return this.resultSliderPropRepository.createResultSliderProp({ userId, ...data });
-  }
 
-  public async createManyResultSliderProp(data: CreateResultSliderPropDto[], userId: string) {
-    return await this.resultSliderPropRepository.createManyResultSliderProp(data.map((item) => ({ userId, ...item })));
+  public async createManyResultSliderProp(data: CreateResultSliderPropDto[], userId: string, stepChatMessageId: string) {
+    return await this.resultSliderPropRepository.createManyResultSliderProp(data.map((item) => ({ userId, ...item, stepChatMessageId })));
   }
 
   private async getSliderChartChat(sliderPropsFilterDto: ChartFilter, userId: string): Promise<ChartDataDto[]> {

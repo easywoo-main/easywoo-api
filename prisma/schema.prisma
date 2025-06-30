@@ -31,10 +31,8 @@ model User {
   subscription           Subscription[]
   revolutOrders RevolutOrder[]
   resultSliderProp       ResultSliderProp[]
-  resultMessageChoice    ResultMessageChoice[]
   stepChatMessage        StepChatMessage[]
   report                 Report[]
-  userTextMessageAnswers UserTextMessageAnswer[]
   passwordReset          PasswordReset[]
 
   @@map("users")
@@ -363,7 +361,6 @@ model ChatMessage {
   sliderProps            SliderProp[]            @relation("slider_prop_chat_message")
   nextChoices            MessageChoice[]         @relation("MessageToPrev")
   prevChoices            MessageChoice[]         @relation("MessageToNext")
-  userTextMessageAnswers UserTextMessageAnswer[]
   stepChatMessages       StepChatMessage[]
 
   @@unique([stepName, chatId])
@@ -415,8 +412,7 @@ model MessageChoice {
 
   nextMessage         ChatMessage?          @relation("MessageToNext", fields: [nextMessageId], references: [id], onDelete: Cascade)
   prevMessage         ChatMessage?          @relation("MessageToPrev", fields: [prevMessageId], references: [id])
-  resultMessageChoice ResultMessageChoice[]
-
+  stepChatMessage StepChatMessage[]
   @@map("message_choices")
 }
 
@@ -457,88 +453,57 @@ model Chat {
   revolutOrders RevolutOrder[]
   users         User[]         @relation("user_chats")
   sliderProp    SliderProp[]
+  stepChatMessage StepChatMessage[]
 
   @@index([startMessageId])
   @@map("chats")
 }
-
-// model InfoPopUp {
-//   id          String  @id @default(uuid())
-//   title       String
-//   description String? @map("description")
-//
-//   chatMessageId String      @map("chat_message_id")
-//   chatMessage   ChatMessage @relation(fields: [chatMessageId], references: [id])
-//
-//   createdAt DateTime @default(now()) @map("created_at")
-//   updatedAt DateTime @updatedAt @map("updated_at")
-//
-//   @@index([chatMessageId])
-//   @@map("info_pop_ups")
-// }
 
 model ResultSliderProp {
   id           String @id @default(uuid())
   result       String
   userId       String @map("user_id")
   sliderPropId String @map("slider_prop_id")
+  stepChatMessageId String
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   sliderProp SliderProp @relation(fields: [sliderPropId], references: [id])
   user       User       @relation(fields: [userId], references: [id])
+  stepChatMessage StepChatMessage @relation(fields: [stepChatMessageId], references: [id])
 
   @@index([userId])
   @@index([sliderPropId])
   @@map("result_slider_props")
 }
 
-model ResultMessageChoice {
-  id              String @id @default(uuid())
-  userId          String @map("user_id")
-  messageChoiceId String @map("message_choice_id")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  messageChoice MessageChoice @relation(fields: [messageChoiceId], references: [id])
-  user          User          @relation(fields: [userId], references: [id])
-
-  @@index([userId])
-  @@index([messageChoiceId])
-  @@map("result_message_choices")
-}
-
 model StepChatMessage {
   id            String @id @default(uuid())
   userId        String @map("user_id")
+  chatId        String
   chatMessageId String @map("chat_message_id")
 
+
+  messageChoiceId String? @map("message_choice_id")
+  answer        String?
+  challengeTime String?
+  timeSpent     String?
+
+
+  chat      Chat @relation(fields: [chatId], references: [id])
   user        User        @relation(fields: [userId], references: [id])
   chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
+  messageChoice MessageChoice? @relation(fields: [messageChoiceId], references: [id])
+  resultSliderProp ResultSliderProp[]
+
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@index([userId])
   @@index([chatMessageId])
+  @@index([messageChoiceId])
   @@map("step_chat_messages")
 }
 
-model UserTextMessageAnswer {
-  id            String @id @default(uuid())
-  userId        String @map("user_id")
-  chatMessageId String @map("chat_message_id")
-  answer        String
-
-  user        User        @relation(fields: [userId], references: [id])
-  chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  @@index(userId)
-  @@index(chatMessageId)
-  @@map("user_text_message_answers")
-}

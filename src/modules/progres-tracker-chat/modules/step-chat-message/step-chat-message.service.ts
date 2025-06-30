@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { StepChatMessageRepository } from './step-chat-message.repository';
+import { CreateStepChatMessageDto } from './dtos/createStepChatMessage.dto';
+import { FilterChatMessageWithUserId } from '../../dtos/filterChatMessageQuery.dto';
 import { StepChatMessageDto } from './dtos/stepChatMessage.dto';
-import { PageRequest } from '../../../../utils/page-request.utils';
 
 @Injectable()
 export class StepChatMessageService {
@@ -9,16 +10,16 @@ export class StepChatMessageService {
     private readonly stepChatMessageRepository: StepChatMessageRepository,
   ) {}
 
-  public async createStepChatMessage(chatMessageId: string, userId: string) {
-    return await this.stepChatMessageRepository.createStepChatMessage({ userId, chatMessageId });
+  public async createStepChatMessage(createStepChatMessageDto: CreateStepChatMessageDto) {
+    return await this.stepChatMessageRepository.createStepChatMessage(createStepChatMessageDto);
   }
 
-  public async getStepChatMessagesByChatMessageId(chatMessageId: string, pageRequest: PageRequest) {
-    const [stepChatMessages, count] = await Promise.all([
-      this.stepChatMessageRepository.getAllStepChatMessageByChatMessageId(chatMessageId, pageRequest),
-      this.stepChatMessageRepository.getCountStepChatMessage(chatMessageId, pageRequest)
+  public async getChatMessageHistory(filterChatMessageWithUserId: FilterChatMessageWithUserId)  {
+    const [chatMessages, count] = await Promise.all([
+      this.stepChatMessageRepository.findMessagesWithoutNextId(filterChatMessageWithUserId),
+      this.stepChatMessageRepository.countMessagesWithoutNextId(filterChatMessageWithUserId)
     ]);
 
-    return pageRequest.toPageResponse<StepChatMessageDto>(stepChatMessages, count);
+    return filterChatMessageWithUserId.toPageResponse(chatMessages, count);
   }
 }

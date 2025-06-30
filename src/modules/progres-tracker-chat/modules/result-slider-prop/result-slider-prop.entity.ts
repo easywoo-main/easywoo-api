@@ -2,6 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ResultSliderProp } from '@prisma/client';
 
 export class ResultSliderPropEntity implements ResultSliderProp {
+    @ApiProperty({ format: 'uuid' })
+    stepChatMessageId: string;
     @ApiProperty({ description: 'The unique identifier of the result slider prop', format: 'uuid' })
     id: string;
 

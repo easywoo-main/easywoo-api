@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from '../../../../database/repository.service';
 import { StepChatMessageEntity } from './step-chat-message.entity';
-import { CreateStepChatMessageDtoWithUserId } from './dtos/createStepChatMessageWithUserId.dto';
 import { Prisma } from '.prisma/client';
+import { CreateStepChatMessageDto } from './dtos/createStepChatMessage.dto';
+import { FilterChatMessageWithUserId } from '../../dtos/filterChatMessageQuery.dto';
 import { StepChatMessageDto } from './dtos/stepChatMessage.dto';
-import { PageRequest } from '../../../../utils/page-request.utils';
 
 @Injectable()
 export class StepChatMessageRepository {
@@ -13,61 +13,30 @@ export class StepChatMessageRepository {
     this.stepChatMessageRepository = repository.stepChatMessage
   }
 
-  public async createStepChatMessage(data: CreateStepChatMessageDtoWithUserId): Promise<StepChatMessageEntity> {
-    return this.stepChatMessageRepository.create({data});
+  public async createStepChatMessage(data: CreateStepChatMessageDto): Promise<StepChatMessageEntity> {
+    return this.stepChatMessageRepository.create({data: data as unknown as Prisma.StepChatMessageUncheckedCreateInput});
   }
 
-  public async getStepChatMessagesByUserId(userId: string): Promise<StepChatMessageEntity[]> {
-    return this.stepChatMessageRepository.findMany({where: {userId}});
-  }
-
-  public async getAllStepChatMessageByChatMessageId(chatMessageId: string, pageRequest: PageRequest): Promise<StepChatMessageDto[]> {
+  public async findMessagesWithoutNextId(filterChatMessageWithUserId: FilterChatMessageWithUserId): Promise<StepChatMessageDto[]> {
     return this.stepChatMessageRepository.findMany({
       where: {
-        chatMessageId: chatMessageId,
-        ...this.getWhereProp(pageRequest)
+        chatId: filterChatMessageWithUserId.chatId,
+        userId: filterChatMessageWithUserId.userId,
       },
-      ...pageRequest.getFilter(),
-      include: { user: true }
-    });
-  }
-
-  public async getCountStepChatMessage(chatMessageId: string, pageRequest: PageRequest) {
-    return this.stepChatMessageRepository.count({
-      where: {
-        chatMessageId: chatMessageId,
-        ...this.getWhereProp(pageRequest)
+      ...filterChatMessageWithUserId.getFilter(),
+      include: {
+        chatMessage: true,
+        messageChoice: true,
       }
     });
   }
-  private getWhereProp(pageRequest: PageRequest): Prisma.StepChatMessageWhereInput {
-    return {
-      ...(pageRequest.search && {
-        user: {
-          is: {
-            OR: [
-              {
-                name: {
-                  contains: pageRequest.search,
-                  mode: 'insensitive'
-                }
-              },
-              {
-                email: {
-                  contains: pageRequest.search,
-                  mode: 'insensitive'
-                }
-              },
-              {
-                id: {
-                  contains: pageRequest.search,
-                  mode: 'insensitive'
-                }
-              }
-            ]
-          }
-        }
-      })
-    };
+
+  public async countMessagesWithoutNextId(filterChatMessageWithUserId: FilterChatMessageWithUserId) {
+    return this.stepChatMessageRepository.count({
+      where: {
+        chatId: filterChatMessageWithUserId.chatId,
+        userId: filterChatMessageWithUserId.userId,
+      }
+    });
   }
 }

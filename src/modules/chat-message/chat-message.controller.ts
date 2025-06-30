@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards, Version } from '@nestjs/common';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ChatMessageService } from './chat-message.service';
 import { UpdateChatMessageDto } from './dto/updateChatMessage.dto';
@@ -69,4 +69,5 @@ export class ChatMessageController {
   }) public async deleteChatMessage(@Param('id') id: string) {
     return this.chatMessageService.deleteChatMessageById(id);
   }
+
 }
