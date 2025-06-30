@@ -12,19 +12,16 @@ import { PaymentPlatform, RevolutOrderType, SubscriptionStatus } from '@prisma/c
 import { SubscriptionService } from '../subscription.service';
 import { CheckExists } from '../../../decorators';
 import * as process from 'node:process';
+import { RedirectUrlDto } from './dtos/redirectUrl.dto';
 
 @Injectable()
-export class RevolutService implements OnModuleInit {
+export class RevolutService {
   constructor(@Inject('REVOLUT_CLIENT') private readonly revolutClient: AxiosInstance,
               private readonly revolutOrderRepository: RevolutOrderRepository,
               private readonly chatService: ChatService,
               private readonly subscriptionService: SubscriptionService,) {}
 
-  async onModuleInit() {
-    console.log([...CANCEL_SUBSCRIPTION_TYPES, ...CREATE_SUBSCRIPTION_TYPES, ...PAYMENT_ISSUE_TYPES])
-  }
-
-  public async createOrder(createOrderDto: CreateOrderRequestDto, userId: string){
+  public async createOrder(createOrderDto: CreateOrderRequestDto, userId: string): Promise<RedirectUrlDto> {
     const chat = await this.chatService.findChatById(createOrderDto.chatId);
 
     const {data: revolutCreateOrderResponseDto} = await this.revolutClient.post<RevolutCreateOrderResponseDto>('/orders', {

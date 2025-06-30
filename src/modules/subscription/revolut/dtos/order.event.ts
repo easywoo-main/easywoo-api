@@ -1,8 +1,4 @@
-export class OrderEventDto {
-  event: OrderEventType;
-  order_id: string;
-  merchant_order_ext_ref: string;
-}
+import { ApiProperty } from '@nestjs/swagger';
 
 export enum OrderEventType {
   ORDER_COMPLETED = 'ORDER_COMPLETED',
@@ -18,4 +14,15 @@ export enum OrderEventType {
   DISPUTE_UNDER_REVIEW = 'DISPUTE_UNDER_REVIEW',
   DISPUTE_WON = 'DISPUTE_WON',
   DISPUTE_LOST = 'DISPUTE_LOST',
+}
+
+export class OrderEventDto {
+  @ApiProperty({ enum: OrderEventType })
+  event: OrderEventType;
+
+  @ApiProperty()
+  order_id: string;
+
+  @ApiProperty()
+  merchant_order_ext_ref: string;
 }
