@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards, Req, Res } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Res, Post, Body, UnauthorizedException } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -27,13 +27,13 @@ export class AppleController {
     // Apple authentication
   }
 
-  @Get('callback')
+  @Post('/callback')
   @UseGuards(AuthGuard('apple'))
   @ApiOperation({ summary: 'Handle Apple authentication callback' })
   @ApiOkResponse({ type: UserAuthDto, description: 'Successful login' })
   @ApiUnauthorizedResponse({ description: 'Unauthorized' })
-  async appleAuthRedirect(@UserDetails() user: any, @Req() req: Request) {
-    console.log(req);
-    return this.appleService.appleLogin(user)
+  async redirect(@Body() body: any, @UserDetails() user: ApplePayload): Promise<any> {
+    console.log("apple-body", body, user);
+    return this.appleService.appleLogin(user);
   }
 }

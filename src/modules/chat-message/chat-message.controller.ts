@@ -13,7 +13,9 @@ export class ChatMessageController {
   constructor(private readonly chatMessageService: ChatMessageService) {
   }
 
-  @Post() @ApiOperation({ summary: 'Create a new chat message' }) @ApiResponse({
+  @Post()
+  @ApiOperation({ summary: 'Create a new chat message' })
+  @ApiResponse({
     status: 201,
     description: 'Chat message successfully created',
     type: ChatMessageEntity

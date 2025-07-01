@@ -14,33 +14,38 @@ export class AppleService {
     private readonly tokenService: TokenService,
   ) {
   }
-  public async appleLogin(payload: any) {
+  public async appleLogin(payload: ApplePayload) {
 
     let existingAppleUser = await this.findAppleUserByEmail(payload.email!);
     let existingUser = await this.userService.findUserByEmail(payload.email!);
+
     const googleUserDto = {
-      appleId: '',  // You can store the apple ID if you want
+      appleId: payload.id,
       email: payload.email,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-      middleName: '', // Optional
+      firstName: payload?.name?.firstName || '',
+      lastName: payload?.name?.lastName || "",
+      middleName: payload?.name?.middleName || "",
     };
 
     const userDto: UserCreateDto = {
-      name: payload.name,
+      name: payload?.name?.firstName || "",
       email: payload.email,
     };
 
     if (!existingUser && !existingAppleUser) {
-      existingAppleUser = await this.createAppleUser(googleUserDto);
       userDto.email = googleUserDto.email;
       existingUser = await this.userService.createUser(userDto);
+      existingAppleUser = await this.createAppleUser(existingUser.id,  googleUserDto);
     }
     if (!existingUser && existingAppleUser) {
-      existingAppleUser = await this.updateGoogleUser(existingAppleUser.id, googleUserDto);
+      existingUser = await this.userService.createUser({
+        email: existingAppleUser.email,
+        name: existingAppleUser.firstName,
+        appleUserId: existingAppleUser.id
+      });
     }
     if (existingUser && !existingAppleUser) {
-      await this.createAppleUser(googleUserDto);
+      await this.createAppleUser(existingUser.id,  googleUserDto);
     }
     const accessTokens = this.tokenService.generateAccessTokens(existingUser);
 
@@ -54,11 +59,16 @@ export class AppleService {
     return this.appleUserRepository.findAppleUserByEmail(email);
   }
 
-  public async createAppleUser(appleUserDto: CreateAppleUserDto): Promise<AppleUserEntity> {
-    return this.appleUserRepository.createAppleUser(appleUserDto);
+  public async createAppleUser(userId: string, appleUserDto: CreateAppleUserDto): Promise<AppleUserEntity> {
+    const newAppleUser = await this.appleUserRepository.createAppleUser(appleUserDto);
+    await this.userService.updateUser(userId, {appleUserId: newAppleUser.id});
+    return newAppleUser;
   }
 
-  public async updateGoogleUser(appleUserId: string, appleUserDto: CreateAppleUserDto): Promise<AppleUserEntity> {
+  public async updateAppleUser(appleUserId: string, appleUserDto: CreateAppleUserDto): Promise<AppleUserEntity> {
+    delete appleUserDto.firstName
+    delete appleUserDto.lastName
+    delete appleUserDto.middleName
     return this.appleUserRepository.updateAppleUser(appleUserId, appleUserDto);
   }
 
