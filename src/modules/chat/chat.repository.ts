@@ -45,13 +45,15 @@ export class ChatRepository {
 
   public async deleteChat(chatId: string): Promise<ChatEntity> {
     return this.chatRepository.delete({
-      where: { id: chatId }
+      where: { id: chatId },
     });
   }
 
   public async createRelationWithUser(chatId: string, userId: string): Promise<ChatWithMessageDto> {
     return this.chatRepository.update({
-      where: { id: chatId }, data: { users: { connect: { id: userId } } }, include: {
+      where: { id: chatId },
+      data: { users: { connect: { id: userId } } },
+      include: {
         startMessage: {
           include: {
             nextMessage: true, nextChoices: true

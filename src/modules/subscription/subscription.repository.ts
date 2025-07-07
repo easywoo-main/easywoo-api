@@ -23,9 +23,14 @@ export class SubscriptionRepository {
     return this.subscriptionRepository.findUnique({where: {userId_chatId:{chatId, userId}}})
   }
   async createSubscription(data: CreateSubscriptionDto): Promise<SubscriptionEntity> {
-    return this.subscriptionRepository.create({
-      data,
-    });
+    return this.subscriptionRepository.upsert(
+      {
+        where: {
+          userId_chatId: { userId: data.userId, chatId: data.chatId },
+        },
+        create: data,
+        update: data,
+      });
   }
   async updateSubscription(userId: string, chatId: string, data: UpdateSubscriptionDto): Promise<SubscriptionEntity> {
     return this.subscriptionRepository.update({

@@ -19,10 +19,7 @@ export class StepChatMessageRepository {
 
   public async findMessagesWithoutNextId(filterChatMessageWithUserId: FilterChatMessageWithUserId): Promise<StepChatMessageDto[]> {
     return this.stepChatMessageRepository.findMany({
-      where: {
-        chatId: filterChatMessageWithUserId.chatId,
-        userId: filterChatMessageWithUserId.userId,
-      },
+      where: this.getFilterMessage(filterChatMessageWithUserId),
       ...filterChatMessageWithUserId.getFilter(),
       include: {
         chatMessage: true,
@@ -31,12 +28,32 @@ export class StepChatMessageRepository {
     });
   }
 
+  private getFilterMessage(filter: FilterChatMessageWithUserId): Prisma.StepChatMessageWhereInput {
+    const where: Prisma.StepChatMessageWhereInput = {
+      userId: filter.userId,
+      chatId: filter.chatId,
+    };
+
+    if (filter.startDate || filter.endDate) {
+      where.createdAt = {};
+      if (filter.startDate) {
+        where.createdAt.gte = filter.startDate;
+      }
+      if (filter.endDate) {
+        where.createdAt.lte = filter.endDate;
+      }
+    }
+
+    return where;
+  }
+
   public async countMessagesWithoutNextId(filterChatMessageWithUserId: FilterChatMessageWithUserId) {
     return this.stepChatMessageRepository.count({
-      where: {
-        chatId: filterChatMessageWithUserId.chatId,
-        userId: filterChatMessageWithUserId.userId,
-      }
-    });
+      where: this.getFilterMessage(filterChatMessageWithUserId),
+  });
+  }
+
+  public async findLastStepChatMessageByChatIdAndUserId(chatId: string, userId: string): Promise<StepChatMessageEntity> {
+    return this.stepChatMessageRepository.findFirst({where: {chatId, userId}, orderBy: {updatedAt: Prisma.SortOrder.asc}});
   }
 }

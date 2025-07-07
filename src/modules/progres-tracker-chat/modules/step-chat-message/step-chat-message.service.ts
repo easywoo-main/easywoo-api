@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { StepChatMessageRepository } from './step-chat-message.repository';
 import { CreateStepChatMessageDto } from './dtos/createStepChatMessage.dto';
 import { FilterChatMessageWithUserId } from '../../dtos/filterChatMessageQuery.dto';
-import { StepChatMessageDto } from './dtos/stepChatMessage.dto';
+import { StepChatMessageEntity } from './step-chat-message.entity';
 
 @Injectable()
 export class StepChatMessageService {
@@ -21,5 +21,9 @@ export class StepChatMessageService {
     ]);
 
     return filterChatMessageWithUserId.toPageResponse(chatMessages, count);
+  }
+
+  public async findStepChatMessageById(chatId: string, userId: string): Promise<StepChatMessageEntity | null>  {
+    return this.stepChatMessageRepository.findLastStepChatMessageByChatIdAndUserId(chatId, userId);
   }
 }

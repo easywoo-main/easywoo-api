@@ -361,7 +361,9 @@ model ChatMessage {
   sliderProps            SliderProp[]            @relation("slider_prop_chat_message")
   nextChoices            MessageChoice[]         @relation("MessageToPrev")
   prevChoices            MessageChoice[]         @relation("MessageToNext")
-  stepChatMessages       StepChatMessage[]
+  stepChatMessages       StepChatMessage[]       @relation("StepToCurrent")
+  nextStepChatMessages       StepChatMessage[]   @relation("StepToNext")
+
 
   @@unique([stepName, chatId])
   @@unique([stepId, chatId])
@@ -483,7 +485,7 @@ model StepChatMessage {
   userId        String @map("user_id")
   chatId        String
   chatMessageId String @map("chat_message_id")
-
+  nextChatMessageId String? @map("next_message_id")
 
   messageChoiceId String? @map("message_choice_id")
   answer        String?
@@ -493,7 +495,8 @@ model StepChatMessage {
 
   chat      Chat @relation(fields: [chatId], references: [id])
   user        User        @relation(fields: [userId], references: [id])
-  chatMessage ChatMessage @relation(fields: [chatMessageId], references: [id])
+  chatMessage ChatMessage @relation("StepToCurrent",fields: [chatMessageId], references: [id])
+  nextMessage ChatMessage? @relation("StepToNext",fields: [nextChatMessageId], references: [id])
   messageChoice MessageChoice? @relation(fields: [messageChoiceId], references: [id])
   resultSliderProp ResultSliderProp[]
 

@@ -22,4 +22,6 @@ export class CreateStepChatMessageDto {
 
   @ApiProperty({ description: "Time spent associated with the StepChatMessage", required: false, type: String })
   timeSpent?: number;
+
+  nextChatMessageId?: string | null
 }

@@ -29,25 +29,25 @@ services:
     networks:
       - api
 
-  app:
-    build:
-      context: ../
-      dockerfile: ./docker/Dockerfile
-    container_name: nest_app
-    restart: always
-    depends_on:
-      pg_db:
-        condition: service_healthy
-    ports:
-      - ${PORT}:${PORT}
-    environment:
-      DATABASE_HOST: pg_db
-      DATABASE_PORT: 5432
-      DATABASE_URL: postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@pg_db:5432/${DATABASE_NAME}?schema=public
-    env_file:
-      - ../.env
-    networks:
-      - api
+#  app:
+#    build:
+#      context: ../
+#      dockerfile: ./docker/Dockerfile
+#    container_name: nest_app
+#    restart: always
+#    depends_on:
+#      pg_db:
+#        condition: service_healthy
+#    ports:
+#      - ${PORT}:${PORT}
+#    environment:
+#      DATABASE_HOST: pg_db
+#      DATABASE_PORT: 5432
+#      DATABASE_URL: postgresql://${DATABASE_USERNAME}:${DATABASE_PASSWORD}@pg_db:5432/${DATABASE_NAME}?schema=public
+#    env_file:
+#      - ../.env
+#    networks:
+#      - api
 networks:
   api:
 

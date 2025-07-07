@@ -26,12 +26,11 @@ export class RevenueCatService {
   }
 
   public async create(subscription: SubscriptionEvent) {
-    const { app_user_id: userId, product_id: plan, expiration_at_ms: expiration_date, price } = subscription;
-    const chatId = "1"  //todo
-
+    const { app_user_id: userId, product_id: plan, expiration_at_ms: expiration_date, price, subscriber_attributes } = subscription;
+    const { chatId } = subscriber_attributes  //todo: Check for correctness
     return this.subscriptionService.createSubscription({
       userId,
-      chatId,
+      chatId: chatId.value,
       plan,
       startDate: new Date(),
       endDate: new Date(expiration_date),
@@ -41,14 +40,14 @@ export class RevenueCatService {
   }
 
   public async cancelSubscription(subscriptionEvent: SubscriptionEvent) {
-    const { app_user_id: userId } = subscriptionEvent;
-    const chatId = "1"  //todo
-    return this.subscriptionService.cancelSubscription(userId, chatId);
+    const { app_user_id: userId, subscriber_attributes } = subscriptionEvent;
+    const { chatId } = subscriber_attributes  //todo: Check for correctness
+    return this.subscriptionService.cancelSubscription(userId, chatId.value);
   }
 
   public async paymentIssue(subscriptionEvent: SubscriptionEvent) {
-    const { app_user_id: userId } = subscriptionEvent;
-    const chatId = "1"  //todo
-    return this.subscriptionService.paymentIssue(userId, chatId)
+    const { app_user_id: userId, subscriber_attributes } = subscriptionEvent;
+    const { chatId } = subscriber_attributes  //todo: Check for correctness
+    return this.subscriptionService.paymentIssue(userId, chatId.value)
   }
 }

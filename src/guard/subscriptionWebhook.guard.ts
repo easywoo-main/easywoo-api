@@ -1,6 +1,7 @@
-import { CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+@Injectable()
 export class SubscriptionWebhookGuard implements CanActivate {
   constructor(private readonly configService: ConfigService) {}
 

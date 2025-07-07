@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ChatRepository } from './chat.repository';
 import { CheckExists } from '../../decorators';
 import { CreateChatDto } from './dto/createChat.dto';
@@ -70,6 +70,9 @@ export class ChatService {
 
     const chat = await this.findChatById(chatId);
     await this.chatRepository.createRelationWithUser(chatId, userId);
+    if (!chat.startMessageId){
+      throw new BadRequestException("The chat has no messages.")
+    }
     return this.chatMessageService.findChatMessageWithRelationById(chat.startMessageId);
   }
 }

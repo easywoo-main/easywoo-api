@@ -56,6 +56,19 @@ export class ProgressTrackerChatController {
     return this.progressTrackerChatService.createUserAnswerAndGetNextMessage(createUserStepDto, user.id);
   }
 
+
+  @Get("last")
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get the last chat message' })
+  @ApiOkResponse({type: ChatMessageWithChoicesDto})
+  public async findCurrentChatMessage(
+    @Query("chatId") chatId: string,
+    @UserDetails() user: UserPayload
+  ): Promise<ChatMessageWithChoicesDto> {
+      return this.progressTrackerChatService.findCurrentChatMessage(chatId, user.id);
+  }
+
   @Get()
   @UseGuards(AuthGuard)
   @ApiBearerAuth()

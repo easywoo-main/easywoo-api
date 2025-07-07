@@ -8,6 +8,7 @@ import { UpdateChatMessageWithAnswersDto } from './dto/updateChatMessageWithAnsw
 import { UpdateChatMessageWithRelationDto } from './dto/updateChatMessageWithRelation.dto';
 import { MessageChoiceService } from '../message-choice/message-choice.service';
 import { ChatMessageUniqueFieldsDto } from './dto/chatMessageUniqueFields.dto';
+import { ChatMessageWithChoicesDto } from './dto/messageWithChoices.dto';
 
 @Injectable()
 export class ChatMessageService {
@@ -54,7 +55,7 @@ export class ChatMessageService {
   }
 
   @CheckExists('Chat Message Not Found')
-  public async findChatMessagesWithPropsById(chatMessageId: string) {
+  public async findChatMessagesWithPropsById(chatMessageId: string): Promise<ChatMessageWithChoicesDto> {
     return this.chatMessageRepository.findChatMessagesWithPropsById(chatMessageId);
   }
 

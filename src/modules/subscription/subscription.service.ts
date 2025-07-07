@@ -3,7 +3,6 @@ import { UserService } from '../user/user.service';
 import { SubscriptionRepository } from './subscription.repository';
 import { CreateSubscriptionDto } from './dtos/createSubscription.dto';
 import { SubscriptionEntity } from './subscription.entity';
-import { ChatService } from '../chat/chat.service';
 import { SubscriptionStatus } from '@prisma/client';
 import { CheckExists } from '../../decorators';
 
@@ -35,7 +34,7 @@ export class SubscriptionService {
   }
 
   public async checkExists(chatId: string, userId: string): Promise<SubscriptionEntity> {
-    const subscription = await this.subscriptionRepository.getSubscriptionByChatIdAndUserId(chatId, userId);
+    const subscription = await this.getSubscriptionByChatIdAndUserId(chatId, userId);
 
     if (subscription.endDate && subscription.endDate < new Date()) {
       throw new ForbiddenException('Subscription has expired.');
